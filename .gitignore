@@ -1,0 +1,8 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+.netlify/
+netlify-drop/
+portfolio-netlify.zip
+portfolio_v*.html
