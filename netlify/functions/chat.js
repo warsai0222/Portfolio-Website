@@ -40,9 +40,16 @@ const KNOWLEDGE = [
   {
     id: "hybridrag",
     title: "HybridRAG Classifier",
-    keywords: ["hybridrag", "rag", "retrieval", "bge", "bm25", "rrf", "fda", "compliance", "pgvector", "ragas"],
+    keywords: ["hybridrag", "rag", "retrieval", "bge", "bm25", "rrf", "fda", "compliance", "pgvector", "ragas", "best", "strongest", "top", "work", "project", "impressive", "flagship"],
     text:
       "HybridRAG is Varshith's strongest public AI project: a live FDA/pharma compliance classifier using BGE dense embeddings plus BM25 sparse retrieval, Reciprocal Rank Fusion, pgvector/HNSW retrieval, human review routing for low-confidence outputs, prompt-injection guardrails, and RAGAS evaluation. Live site: https://hybridrag.netlify.app/."
+  },
+  {
+    id: "hiring-strengths",
+    title: "Hiring strengths",
+    keywords: ["hire", "why hire", "recruiter", "candidate", "strength", "different", "standout", "advantage", "interview"],
+    text:
+      "Why hire Varshith: he combines solution architecture, machine-learning judgment, product sense, and stakeholder delivery. He ships live systems rather than only notebooks, has a 4.0 M.S. in Statistics for model evaluation and failure-mode thinking, and has delivered enterprise tools used by VP/Sr. Director audiences with top-5% company-wide adoption."
   },
   {
     id: "prism",
@@ -140,6 +147,17 @@ function cleanAnswer(answer) {
     .trim();
 }
 
+function cleanHistory(history) {
+  if (!Array.isArray(history)) return [];
+  return history
+    .slice(-10)
+    .map(item => ({
+      role: item?.role === "assistant" ? "assistant" : "user",
+      content: cleanAnswer(item?.content).slice(0, 900)
+    }))
+    .filter(item => item.content);
+}
+
 exports.handler = async event => {
   if (event.httpMethod === "OPTIONS") return json(200, {});
   if (event.httpMethod !== "POST") return json(405, { answer: FALLBACK });
@@ -154,7 +172,10 @@ exports.handler = async event => {
   const question = String(payload.question || "").trim();
   if (!question) return json(200, { answer: "Ask me anything about Varshith's work, projects, skills, or background." });
 
-  const matches = retrieve(question);
+  const history = cleanHistory(payload.history);
+  const historyText = history.map(item => `${item.role}: ${item.content}`).join("\n");
+  const retrievalQuery = `${historyText}\nuser: ${question}`;
+  const matches = retrieve(retrievalQuery);
   const context = matches.map((chunk, index) => `[${index + 1}] ${chunk.title}\n${chunk.text}`).join("\n\n");
 
   if (!matches.length) {
@@ -183,11 +204,12 @@ exports.handler = async event => {
             content:
               `You are AskVarshith, the portfolio assistant for Varshith Tipirneni.\n` +
               `Answer only from the provided context. If the answer is not clearly present, reply exactly: "${FALLBACK}"\n` +
+              `Use the conversation history only to understand follow-up references, never as factual source material.\n` +
               `Be concise, warm, and recruiter-friendly. Use plain text only. No markdown. No invented facts.`
           },
           {
             role: "user",
-            content: `Context:\n${context}\n\nQuestion: ${question}`
+            content: `Context:\n${context}\n\nConversation history:\n${historyText || "None"}\n\nCurrent question: ${question}`
           }
         ]
       })
