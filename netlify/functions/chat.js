@@ -3,26 +3,30 @@ const FALLBACK =
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX_REQUESTS = 18;
 const QUESTION_MAX_CHARS = 700;
+const MIN_RETRIEVAL_SCORE = 2;
 const rateBuckets = new Map();
 
 const KNOWLEDGE = [
   {
     id: "profile",
     title: "Profile and role positioning",
-    keywords: ["who", "about", "summary", "profile", "role", "ai", "ml", "solutions"],
+    category: "profile",
+    keywords: ["who", "about", "summary", "profile", "role", "ai", "ml", "solutions", "recruiter summary", "introduce"],
     text:
       "Varshith Tipirneni is an AI/ML engineer and solutions builder focused on production RAG systems, agentic workflows, healthcare ML, forecasting, and enterprise decision systems. Target roles: AI/ML Engineer, Machine Learning Engineer, Solutions Engineer, Solutions Architect, Applied ML Engineer, and Forward-Deployed Engineer."
   },
   {
     id: "contact-location",
     title: "Contact, location, availability",
+    category: "contact",
     keywords: ["email", "contact", "phone", "linkedin", "where", "location", "from", "based", "availability", "start"],
     text:
-      "Varshith is based in Chapel Hill, NC and is originally from Bangalore, India. Email: tipirnenivarshith@gmail.com. LinkedIn: linkedin.com/in/varshith-t/. Phone: 984-356-3633. He can start full-time from June 15, 2026 after graduating in May 2026. He is open to remote, hybrid, onsite, and relocation for the right AI/ML or solutions role."
+      "Varshith is based in Chapel Hill, NC. Email: tipirnenivarshith@gmail.com. LinkedIn: linkedin.com/in/varshith-t/. Phone: 984-356-3633. He can start full-time from June 15, 2026 after graduating in May 2026. He is open to remote, hybrid, onsite, and relocation for the right AI/ML or solutions role."
   },
   {
     id: "education",
     title: "Education",
+    category: "education",
     keywords: ["education", "school", "university", "degree", "gpa", "unc", "bmsce", "bangalore", "statistics"],
     text:
       "Education: M.S. Statistics, Analytics & Data Science at UNC Chapel Hill, Aug 2024-May 2026, GPA 4.0/4.0. B.E. Chemical Engineering at BMSCE Bangalore, 2019-2023, GPA 8.95/10. His background combines statistics, machine learning, and engineering systems thinking."
@@ -30,6 +34,7 @@ const KNOWLEDGE = [
   {
     id: "viatris",
     title: "Viatris Data Analyst experience",
+    category: "experience",
     keywords: ["viatris", "data analyst", "supply", "chain", "pharma", "power bi", "alteryx", "dashboard", "po", "markets"],
     text:
       "At Viatris, Varshith is a Data Analyst working on enterprise decision systems across a $15B pharmaceutical supply-chain portfolio and 165+ markets. He built 5+ production-facing tools used by 100+ leaders, ranked top 5% company-wide for adoption, helped reduce inactive purchase orders by 88%, supported a 24-25% supply-gap value reduction, and built repeatable Alteryx + SQL + Power BI workflows."
@@ -37,6 +42,7 @@ const KNOWLEDGE = [
   {
     id: "nmss",
     title: "National MS Society healthcare ML",
+    category: "experience",
     keywords: ["nmss", "ms", "multiple sclerosis", "healthcare", "claims", "patient", "therapy", "switch", "dmt", "auc"],
     text:
       "At the National MS Society, Varshith works on healthcare claims ML and longitudinal patient journeys. The work covers 1M+ MS patients and 10+ years of claims data. He engineered diagnosis, pharmacy, and procedure datasets; found 50-60% of treatment switches tied to generic substitution; and built a 3-stage ML pipeline for therapy initiation, switch probability, and next-line treatment decisions. The switch model achieved AUC 0.95 with 8x top-decile lift."
@@ -44,6 +50,7 @@ const KNOWLEDGE = [
   {
     id: "hybridrag",
     title: "HybridRAG Classifier",
+    category: "project",
     keywords: ["hybridrag", "rag", "retrieval", "bge", "bm25", "rrf", "fda", "compliance", "pgvector", "ragas", "best project", "strongest project", "top project", "best work", "strongest work", "impressive project", "flagship project"],
     text:
       "HybridRAG is Varshith's strongest public AI project: a live FDA/pharma compliance classifier using BGE dense embeddings plus BM25 sparse retrieval, Reciprocal Rank Fusion, pgvector/HNSW retrieval, human review routing for low-confidence outputs, prompt-injection guardrails, and RAGAS evaluation. Live site: https://hybridrag.netlify.app/."
@@ -51,6 +58,7 @@ const KNOWLEDGE = [
   {
     id: "best-skill",
     title: "Strongest skill",
+    category: "skill",
     keywords: ["best skill", "strongest skill", "top skill", "main skill", "primary skill", "sharpest skill", "superpower", "expertise", "good at", "does he do best"],
     text:
       "Varshith's strongest skill is building AI/ML solutions end to end: problem framing, solution architecture, data pipelines, retrieval or ML logic, evaluation, API/UX, and stakeholder adoption. His edge is combining statistical depth with product-minded engineering and stakeholder delivery."
@@ -58,6 +66,7 @@ const KNOWLEDGE = [
   {
     id: "hiring-strengths",
     title: "Hiring strengths",
+    category: "hiring",
     keywords: ["hire", "why hire", "recruiter", "candidate", "strength", "different", "standout", "advantage", "interview"],
     text:
       "Why hire Varshith: he combines solution architecture, machine-learning judgment, product sense, and stakeholder delivery. He ships live systems rather than only notebooks, has a 4.0 M.S. in Statistics for model evaluation and failure-mode thinking, and has delivered enterprise tools used by VP/Sr. Director audiences with top-5% company-wide adoption."
@@ -65,6 +74,7 @@ const KNOWLEDGE = [
   {
     id: "prism",
     title: "PRISM",
+    category: "project",
     keywords: ["prism", "research", "intelligence", "multimodal", "qdrant", "langgraph", "retrieval", "documents"],
     text:
       "PRISM is a multimodal research-intelligence pipeline for multi-document analysis. It combines BM25 plus dense retrieval, RRF fusion, Qdrant vector storage, structured LLM briefs, cross-document conflict detection, and LangGraph-style orchestration."
@@ -72,6 +82,7 @@ const KNOWLEDGE = [
   {
     id: "pulse",
     title: "PULSE",
+    category: "project",
     keywords: ["pulse", "agentic", "search", "agents", "sse", "fastapi", "sentiment", "trends", "tavily"],
     text:
       "PULSE is an agentic search and intelligence pipeline. It routes a query into parallel research agents for news, sentiment, and trends, then synthesizes the result. The FastAPI backend streams progress with Server-Sent Events and includes input/output guardrails plus an LLM self-correction retry loop."
@@ -79,6 +90,7 @@ const KNOWLEDGE = [
   {
     id: "skills",
     title: "Technical skills",
+    category: "skill",
     keywords: ["skills", "stack", "tools", "python", "sql", "langchain", "langgraph", "fastapi", "docker", "mlops"],
     text:
       "Core stack: Python, SQL, DAX/M, R, LangGraph, LangChain, pgvector, Qdrant, BM25, BGE embeddings, HuggingFace, RAGAS, scikit-learn, XGBoost, Pandas, NumPy, time series, forecasting, classification, calibration, FastAPI, Docker, GitHub Actions, API design, SSE streaming, Alteryx, Power BI, Tableau, Plotly, Matplotlib. Currently deepening MLOps, MLflow, LangSmith, Airflow, dbt, Spark, and Databricks."
@@ -86,11 +98,45 @@ const KNOWLEDGE = [
   {
     id: "writing-personal",
     title: "Writing and personal interests",
+    category: "personal",
     keywords: ["medium", "writing", "articles", "hobby", "personal", "football", "anime", "gym", "music", "two sides"],
     text:
       "Varshith has 5 Medium pieces on MCP, HybridRAG, data pipelines, LLM context limits, and production model drift. Outside work, he is into gym, running, football, music, Manchester United, Ronaldo 7, anime, and learning to cook. The Two Sides page has the more human version."
   }
 ];
+
+const INTENT_BOOSTS = {
+  profile: ["profile", "hiring", "skill", "experience"],
+  role: ["profile", "hiring", "skill", "experience"],
+  contact: ["contact"],
+  education: ["education", "profile"],
+  experience: ["experience", "hiring", "profile"],
+  project: ["project", "skill"],
+  hybridrag: ["project"],
+  viatris: ["experience"],
+  nmss: ["experience"],
+  prism: ["project"],
+  pulse: ["project"],
+  skill: ["skill", "hiring", "project"],
+  hiring: ["hiring", "skill", "experience", "profile"],
+  personal: ["personal", "profile"],
+  writing: ["personal", "project"]
+};
+
+const SOURCE_LABELS = {
+  profile: "Profile",
+  "contact-location": "Contact",
+  education: "Education",
+  viatris: "Viatris",
+  nmss: "NMSS",
+  hybridrag: "HybridRAG",
+  "best-skill": "Strongest skill",
+  "hiring-strengths": "Hiring strengths",
+  prism: "PRISM",
+  pulse: "PULSE",
+  skills: "Technical skills",
+  "writing-personal": "Writing / personal"
+};
 
 const STOPWORDS = new Set([
   "a", "an", "and", "are", "as", "at", "be", "but", "can", "do", "for", "from", "he",
@@ -172,23 +218,54 @@ function scoreChunk(question, chunk) {
 
 function queryIntent(question) {
   const q = normalize(question);
+  if (/\b(hybridrag|hybrid rag|fda|compliance classifier)\b/.test(q)) return "hybridrag";
+  if (/\b(viatris|supply chain|pharma|purchase order|power bi|alteryx)\b/.test(q)) return "viatris";
+  if (/\b(nmss|national ms|multiple sclerosis|dmt|therapy switch|claims)\b/.test(q)) return "nmss";
+  if (/\b(prism|qdrant|research intelligence|multi doc|multidoc)\b/.test(q)) return "prism";
+  if (/\b(pulse|agentic search|multi agent|sse|tavily)\b/.test(q)) return "pulse";
   if (/\b(best|strongest|top|main|primary|sharpest)\s+skills?\b/.test(q)) return "best-skill";
   if (/\b(skill|expertise|superpower)\b/.test(q) && /\b(best|strongest|top|main|primary|sharpest)\b/.test(q)) return "best-skill";
   if (/\bwhat\s+(is|are|does)\s+.*\b(good at|do best)\b/.test(q)) return "best-skill";
   if (/\b(best|strongest|top|flagship|most impressive)\s+(project|work)\b/.test(q)) return "hybridrag";
+  if (/\b(why hire|hire him|why varshith|stand out|different|candidate|recruiter)\b/.test(q)) return "hiring";
+  if (/\b(role|fit|position|solutions engineer|solutions architect|machine learning engineer|ai engineer|ml engineer|forward deployed)\b/.test(q)) return "role";
+  if (/\b(experience|work history|jobs|career|worked|viatris|nmss|national ms)\b/.test(q)) return "experience";
+  if (/\b(projects?|portfolio|built|demo|case study|prism|pulse|hybridrag)\b/.test(q)) return "project";
+  if (/\b(skills?|stack|tools|python|sql|langchain|fastapi|docker)\b/.test(q)) return "skill";
+  if (/\b(email|contact|phone|linkedin|where|location|based|available|availability|start|open to work|relocate)\b/.test(q)) return "contact";
+  if (/\b(education|degree|gpa|school|university|unc|masters|statistics)\b/.test(q)) return "education";
+  if (/\b(medium|writing|article|blog|personal|hobby|outside|football|anime|gym|music|two sides)\b/.test(q)) return "personal";
+  if (/\b(who|about|summary|profile|introduce|overview)\b/.test(q)) return "profile";
   return "";
 }
 
-function retrieve(question) {
+function isFollowUpQuestion(question) {
+  const q = normalize(question);
+  return q.split(" ").length <= 5 && /^(more|details|expand|why|how|what about|tell me more|go deeper)/.test(q);
+}
+
+function retrieve(question, history = []) {
   const intent = queryIntent(question);
+  const recentHistory = isFollowUpQuestion(question)
+    ? history.slice(-2).map(item => item.content).join(" ")
+    : "";
+  const retrievalText = `${question} ${recentHistory}`.trim();
+  const boostedCategories = INTENT_BOOSTS[intent] || [];
   return KNOWLEDGE
     .map(chunk => ({
       ...chunk,
-      score: scoreChunk(question, chunk) + (intent && chunk.id === intent ? 100 : 0)
+      score:
+        scoreChunk(retrievalText, chunk) +
+        (intent && chunk.id === intent ? 100 : 0) +
+        (boostedCategories.includes(chunk.category) ? 8 : 0)
     }))
-    .filter(chunk => chunk.score > 0)
+    .filter(chunk => chunk.score >= MIN_RETRIEVAL_SCORE)
     .sort((a, b) => b.score - a.score)
     .slice(0, 5);
+}
+
+function sourceLabels(matches) {
+  return matches.map(chunk => SOURCE_LABELS[chunk.id] || chunk.title);
 }
 
 function cleanAnswer(answer) {
@@ -266,8 +343,7 @@ exports.handler = async event => {
 
   const history = cleanHistory(payload.history);
   const historyText = history.map(item => `${item.role}: ${item.content}`).join("\n");
-  const retrievalQuery = `${historyText}\nuser: ${question}`;
-  const matches = retrieve(retrievalQuery);
+  const matches = retrieve(question, history);
   const context = matches.map((chunk, index) => `[${index + 1}] ${chunk.title}\n${chunk.text}`).join("\n\n");
 
   if (!matches.length) {
@@ -276,7 +352,7 @@ exports.handler = async event => {
 
   const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) {
-    return json(event, 200, { answer: FALLBACK, sourceIds: matches.map(chunk => chunk.id), missingKey: true });
+    return json(event, 200, { answer: FALLBACK, sourceIds: matches.map(chunk => chunk.id), sourceLabels: sourceLabels(matches), missingKey: true });
   }
 
   try {
@@ -314,12 +390,15 @@ exports.handler = async event => {
     const answer = cleanAnswer(data?.choices?.[0]?.message?.content);
     return json(event, 200, {
       answer: answer || FALLBACK,
-      sourceIds: matches.map(chunk => chunk.id)
+      sourceIds: matches.map(chunk => chunk.id),
+      sourceLabels: sourceLabels(matches),
+      confidence: matches[0]?.score >= 12 ? "high" : "medium"
     });
   } catch (error) {
     return json(event, 200, {
       answer: FALLBACK,
       sourceIds: matches.map(chunk => chunk.id),
+      sourceLabels: sourceLabels(matches),
       error: "rag_unavailable"
     });
   }
