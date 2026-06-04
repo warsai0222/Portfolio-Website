@@ -91,14 +91,41 @@ const STOPWORDS = new Set([
   "this", "to", "varshith", "what", "where", "who", "why", "with", "you"
 ]);
 
-function json(statusCode, body) {
+function headersOf(event) {
+  return event.headers || {};
+}
+
+function allowedOrigin(event) {
+  const headers = headersOf(event);
+  const origin = headers.origin || headers.Origin || "";
+  if (!origin) return "";
+
+  const host = headers.host || headers.Host || "";
+  try {
+    const originHost = new URL(origin).host;
+    if (originHost === host || originHost === "localhost:8888" || originHost.startsWith("localhost:")) return origin;
+  } catch {
+    return "";
+  }
+
+  return "";
+}
+
+function isOriginAllowed(event) {
+  const origin = headersOf(event).origin || headersOf(event).Origin || "";
+  return !origin || !!allowedOrigin(event);
+}
+
+function json(event, statusCode, body) {
+  const origin = allowedOrigin(event);
   return {
     statusCode,
     headers: {
       "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Origin": origin || "null",
       "Access-Control-Allow-Headers": "Content-Type",
-      "Access-Control-Allow-Methods": "POST, OPTIONS"
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Vary": "Origin"
     },
     body: JSON.stringify(body)
   };
@@ -163,7 +190,7 @@ function cleanHistory(history) {
 }
 
 function clientId(event) {
-  const headers = event.headers || {};
+  const headers = headersOf(event);
   return String(
     headers["x-nf-client-connection-ip"] ||
       headers["x-forwarded-for"] ||
@@ -195,11 +222,12 @@ function isRateLimited(event) {
 }
 
 exports.handler = async event => {
-  if (event.httpMethod === "OPTIONS") return json(200, {});
-  if (event.httpMethod !== "POST") return json(405, { answer: FALLBACK });
+  if (!isOriginAllowed(event)) return json(event, 403, { answer: FALLBACK });
+  if (event.httpMethod === "OPTIONS") return json(event, 200, {});
+  if (event.httpMethod !== "POST") return json(event, 405, { answer: FALLBACK });
 
   if (isRateLimited(event)) {
-    return json(429, {
+    return json(event, 429, {
       answer: "AskVarshith is getting a lot of questions right now. Please try again in about a minute.",
       sourceIds: [],
       rateLimited: true
@@ -210,11 +238,11 @@ exports.handler = async event => {
   try {
     payload = JSON.parse(event.body || "{}");
   } catch {
-    return json(400, { answer: FALLBACK });
+    return json(event, 400, { answer: FALLBACK });
   }
 
   const question = String(payload.question || "").trim().slice(0, QUESTION_MAX_CHARS);
-  if (!question) return json(200, { answer: "Ask me anything about Varshith's work, projects, skills, or background." });
+  if (!question) return json(event, 200, { answer: "Ask me anything about Varshith's work, projects, skills, or background." });
 
   const history = cleanHistory(payload.history);
   const historyText = history.map(item => `${item.role}: ${item.content}`).join("\n");
@@ -223,12 +251,12 @@ exports.handler = async event => {
   const context = matches.map((chunk, index) => `[${index + 1}] ${chunk.title}\n${chunk.text}`).join("\n\n");
 
   if (!matches.length) {
-    return json(200, { answer: FALLBACK, sourceIds: [] });
+    return json(event, 200, { answer: FALLBACK, sourceIds: [] });
   }
 
   const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) {
-    return json(200, { answer: FALLBACK, sourceIds: matches.map(chunk => chunk.id), missingKey: true });
+    return json(event, 200, { answer: FALLBACK, sourceIds: matches.map(chunk => chunk.id), missingKey: true });
   }
 
   try {
@@ -263,12 +291,12 @@ exports.handler = async event => {
 
     const data = await response.json();
     const answer = cleanAnswer(data?.choices?.[0]?.message?.content);
-    return json(200, {
+    return json(event, 200, {
       answer: answer || FALLBACK,
       sourceIds: matches.map(chunk => chunk.id)
     });
   } catch (error) {
-    return json(200, {
+    return json(event, 200, {
       answer: FALLBACK,
       sourceIds: matches.map(chunk => chunk.id),
       error: "rag_unavailable"
