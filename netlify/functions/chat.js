@@ -44,9 +44,16 @@ const KNOWLEDGE = [
   {
     id: "hybridrag",
     title: "HybridRAG Classifier",
-    keywords: ["hybridrag", "rag", "retrieval", "bge", "bm25", "rrf", "fda", "compliance", "pgvector", "ragas", "best", "strongest", "top", "work", "project", "impressive", "flagship"],
+    keywords: ["hybridrag", "rag", "retrieval", "bge", "bm25", "rrf", "fda", "compliance", "pgvector", "ragas", "best project", "strongest project", "top project", "best work", "strongest work", "impressive project", "flagship project"],
     text:
       "HybridRAG is Varshith's strongest public AI project: a live FDA/pharma compliance classifier using BGE dense embeddings plus BM25 sparse retrieval, Reciprocal Rank Fusion, pgvector/HNSW retrieval, human review routing for low-confidence outputs, prompt-injection guardrails, and RAGAS evaluation. Live site: https://hybridrag.netlify.app/."
+  },
+  {
+    id: "best-skill",
+    title: "Strongest skill",
+    keywords: ["best skill", "strongest skill", "top skill", "main skill", "primary skill", "sharpest skill", "superpower", "expertise", "good at", "does he do best"],
+    text:
+      "Varshith's strongest skill is building AI/ML solutions end to end: problem framing, solution architecture, data pipelines, retrieval or ML logic, evaluation, API/UX, and stakeholder adoption. His edge is combining statistical depth with product-minded engineering and stakeholder delivery."
   },
   {
     id: "hiring-strengths",
@@ -163,9 +170,22 @@ function scoreChunk(question, chunk) {
   return score;
 }
 
+function queryIntent(question) {
+  const q = normalize(question);
+  if (/\b(best|strongest|top|main|primary|sharpest)\s+skills?\b/.test(q)) return "best-skill";
+  if (/\b(skill|expertise|superpower)\b/.test(q) && /\b(best|strongest|top|main|primary|sharpest)\b/.test(q)) return "best-skill";
+  if (/\bwhat\s+(is|are|does)\s+.*\b(good at|do best)\b/.test(q)) return "best-skill";
+  if (/\b(best|strongest|top|flagship|most impressive)\s+(project|work)\b/.test(q)) return "hybridrag";
+  return "";
+}
+
 function retrieve(question) {
+  const intent = queryIntent(question);
   return KNOWLEDGE
-    .map(chunk => ({ ...chunk, score: scoreChunk(question, chunk) }))
+    .map(chunk => ({
+      ...chunk,
+      score: scoreChunk(question, chunk) + (intent && chunk.id === intent ? 100 : 0)
+    }))
     .filter(chunk => chunk.score > 0)
     .sort((a, b) => b.score - a.score)
     .slice(0, 5);
@@ -276,6 +296,7 @@ exports.handler = async event => {
             content:
               `You are AskVarshith, the portfolio assistant for Varshith Tipirneni.\n` +
               `Answer only from the provided context. If the answer is not clearly present, reply exactly: "${FALLBACK}"\n` +
+              `If the user asks for Varshith's best skill, answer the skill directly; do not answer with his best project. If the user asks for best project or best work, answer HybridRAG.\n` +
               `Use the conversation history only to understand follow-up references, never as factual source material.\n` +
               `Be concise, warm, and recruiter-friendly. Use plain text only. No markdown. No invented facts.`
           },

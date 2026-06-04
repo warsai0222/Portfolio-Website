@@ -2009,8 +2009,8 @@ function directIntent(text){
   if(/\b(pulse|agentic search|multi agent|sse|tavily)\b/.test(text)) return 'pulse';
   const rules = [
     [/^(hi|hey|hello|sup|hiya|howdy|yo|greetings)$/,'greeting'],
-    [/^(what\s+is\s+)?(his\s+|varshith'?s\s+)?(best|top|strongest)\s+(work|project)$/,'bestWork'],
-    [/^(what\s+is\s+)?(his\s+|varshith'?s\s+)?(best|top|strongest|main)\s+skill$/,'bestSkill'],
+    [/^(what\s+is\s+)?(his\s+|varshith'?s\s+)?(best|top|strongest)\s+(work|projects?)$/,'bestWork'],
+    [/^(what\s+is\s+)?(his\s+|varshith'?s\s+)?(best|top|strongest|main|primary|sharpest)\s+skills?$/,'bestSkill'],
     [/^why\s+(hire|him|varshith)/,'whyHire'],
     [/^(open|available)\s+(to\s+)?work\??$/,'availability'],
     [/^(skills?|tech stack|technical stack|stack)$/,'skills'],
