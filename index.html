@@ -1806,6 +1806,7 @@ window.addEventListener('DOMContentLoaded',()=>{
 
 // ── CHAT AVAILABILITY CHECK ──
 const RAG_ENDPOINT = '/api/chat';
+const UNKNOWN_ANSWER = "I can't answer that right now. You can reach out to Varshith regarding the same.";
 document.addEventListener('DOMContentLoaded',()=>{
   const fb=document.getElementById('ask-fallback');
   if(fb){ fb.style.display='none'; }
@@ -1987,9 +1988,27 @@ function scoreFaq(text,item){
 function responseForIntent(intent){
   return ASK_FAQ.find(item=>item.intent===intent) || ASK_FAQ[0];
 }
+function directIntent(text){
+  const rules = [
+    [/^(hi|hey|hello|sup|hiya|howdy|yo|greetings)$/,'greeting'],
+    [/^(best|top|strongest)\s+(work|project)$/,'bestWork'],
+    [/^(best|top|strongest|main)\s+skill$/,'bestSkill'],
+    [/^why\s+(hire|him|varshith)/,'whyHire'],
+    [/^(open|available)\s+(to\s+)?work\??$/,'availability'],
+    [/^(skills?|tech stack|technical stack|stack)$/,'skills'],
+    [/^(contact|email|linkedin|resume|cv|links)$/,'contact'],
+    [/^(experience|work experience|work history)$/,'experience'],
+    [/^(projects?|portfolio)$/,'projects'],
+    [/^(where|location|where is he|where is varshith)$/,'location']
+  ];
+  const match = rules.find(([pattern])=>pattern.test(text));
+  return match ? match[1] : '';
+}
 function faqAnswer(q){
   const text = normText(q);
   if(!text) return responseForIntent('greeting');
+  const direct = directIntent(text);
+  if(direct) return responseForIntent(direct);
   if(/^(thanks|thank you|thx|cool|nice|great|awesome)$/.test(text)){
     return { intent:'thanks', a:"Anytime. Want the sharpest next click? Ask <b>Best work</b>, <b>Why hire him?</b>, or <b>Open to work?</b>." };
   }
@@ -2005,7 +2024,7 @@ function faqAnswer(q){
   if(best && bestScore > 0) return best;
   return {
     intent:'fallback',
-    a:"I can't answer that right now. You can reach out to Varshith regarding the same."
+    a:UNKNOWN_ANSWER
   };
 }
 function getQuickPrompts(intent){
@@ -2046,11 +2065,15 @@ async function askRag(question){
   return { intent:data.sourceIds && data.sourceIds.length ? 'rag' : 'fallback', a:data.answer, html:false };
 }
 async function botAnswer(question){
+  const local=faqAnswer(question);
   try{
-    return await askRag(question);
+    const rag=await askRag(question);
+    if(rag.intent==='fallback' && local.intent!=='fallback'){
+      return { intent:local.intent, a:local.a, html:true };
+    }
+    return rag;
   }catch{
-    const ans=faqAnswer(question);
-    return { intent:ans.intent, a:ans.a, html:true };
+    return { intent:local.intent, a:local.a, html:true };
   }
 }
 
