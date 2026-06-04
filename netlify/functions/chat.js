@@ -1,5 +1,9 @@
 const FALLBACK =
   "I can't answer that right now. You can reach out to Varshith regarding the same.";
+const RATE_LIMIT_WINDOW_MS = 60_000;
+const RATE_LIMIT_MAX_REQUESTS = 18;
+const QUESTION_MAX_CHARS = 700;
+const rateBuckets = new Map();
 
 const KNOWLEDGE = [
   {
@@ -158,9 +162,49 @@ function cleanHistory(history) {
     .filter(item => item.content);
 }
 
+function clientId(event) {
+  const headers = event.headers || {};
+  return String(
+    headers["x-nf-client-connection-ip"] ||
+      headers["x-forwarded-for"] ||
+      headers["client-ip"] ||
+      "unknown"
+  )
+    .split(",")[0]
+    .trim();
+}
+
+function isRateLimited(event) {
+  const now = Date.now();
+  const id = clientId(event);
+  const bucket = rateBuckets.get(id) || { count: 0, resetAt: now + RATE_LIMIT_WINDOW_MS };
+
+  if (now > bucket.resetAt) {
+    bucket.count = 0;
+    bucket.resetAt = now + RATE_LIMIT_WINDOW_MS;
+  }
+
+  bucket.count += 1;
+  rateBuckets.set(id, bucket);
+
+  for (const [key, value] of rateBuckets.entries()) {
+    if (now > value.resetAt + RATE_LIMIT_WINDOW_MS) rateBuckets.delete(key);
+  }
+
+  return bucket.count > RATE_LIMIT_MAX_REQUESTS;
+}
+
 exports.handler = async event => {
   if (event.httpMethod === "OPTIONS") return json(200, {});
   if (event.httpMethod !== "POST") return json(405, { answer: FALLBACK });
+
+  if (isRateLimited(event)) {
+    return json(429, {
+      answer: "AskVarshith is getting a lot of questions right now. Please try again in about a minute.",
+      sourceIds: [],
+      rateLimited: true
+    });
+  }
 
   let payload;
   try {
@@ -169,7 +213,7 @@ exports.handler = async event => {
     return json(400, { answer: FALLBACK });
   }
 
-  const question = String(payload.question || "").trim();
+  const question = String(payload.question || "").trim().slice(0, QUESTION_MAX_CHARS);
   if (!question) return json(200, { answer: "Ask me anything about Varshith's work, projects, skills, or background." });
 
   const history = cleanHistory(payload.history);

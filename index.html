@@ -94,6 +94,9 @@
 :root[data-theme="light"] .ai-inp::placeholder,:root[data-theme="light"] .ask-win-inp::placeholder{ color:#7d7253 }
 :root[data-theme="light"] .ai-snd,:root[data-theme="light"] .ask-win-snd{ background:#3E5F44; color:#fff }
 :root[data-theme="light"] .ai-snd:hover,:root[data-theme="light"] .ask-win-snd:hover{ background:#2d4832 }
+:root[data-theme="light"] .chat-feedback{ border-top-color:#c8bdab }
+:root[data-theme="light"] .chat-feedback button{ background:#e8e3d8; border-color:#9e9480; color:#2c3d30 }
+:root[data-theme="light"] .chat-feedback button:hover{ border-color:#3E5F44; color:#3E5F44 }
 /* Filter buttons */
 :root[data-theme="light"] .fb{ color:#2c3d30; border-color:#9e9480; background:rgba(255,255,255,.4) }
 :root[data-theme="light"] .fb.on{ background:#3E5F44; color:#fff; border-color:#3E5F44 }
@@ -481,6 +484,11 @@ html{scroll-padding-top:64px}
 .m-user{background:rgba(212,170,125,.08);border:1px solid rgba(212,170,125,.2);border-radius:6px 0 6px 6px;align-self:flex-end;max-width:92%;color:var(--text)}
 .m-bot a,.aw.bot a{color:var(--amber);text-decoration:none;border-bottom:1px solid rgba(212,170,125,.25)}
 .m-bot a:hover,.aw.bot a:hover{border-bottom-color:var(--amber)}
+.chat-feedback{margin-top:.55rem;padding-top:.48rem;border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:.35rem;flex-wrap:wrap;font-size:.55rem;color:var(--muted)}
+.chat-feedback span{margin-right:.1rem}
+.chat-feedback button{background:rgba(255,255,255,.025);border:1px solid var(--border2);color:var(--muted2);border-radius:999px;padding:.15rem .46rem;font-family:var(--mono);font-size:.55rem;cursor:pointer;transition:border-color .15s,color .15s,opacity .15s}
+.chat-feedback button:hover{border-color:var(--amber3);color:var(--amber)}
+.chat-feedback button:disabled{cursor:default;opacity:.6}
 .typing{display:inline-flex;align-items:center;gap:.26rem;min-width:42px}
 .typing span{width:5px;height:5px;border-radius:50%;background:var(--amber);opacity:.42;animation:tdot 1s ease-in-out infinite}
 .typing span:nth-child(2){animation-delay:.14s}
@@ -1809,6 +1817,7 @@ window.addEventListener('DOMContentLoaded',()=>{
 
 // ── CHAT AVAILABILITY CHECK ──
 const RAG_ENDPOINT = '/api/chat';
+const FEEDBACK_ENDPOINT = '/api/feedback';
 const UNKNOWN_ANSWER = "I can't answer that right now. You can reach out to Varshith regarding the same.";
 document.addEventListener('DOMContentLoaded',()=>{
   const fb=document.getElementById('ask-fallback');
@@ -2068,10 +2077,14 @@ async function askRag(question){
       history:chatLog.slice(-CONTEXT_WINDOW_TURNS).map(m=>({role:m.isUser?'user':'assistant', content:m.text.replace(/<[^>]+>/g,'').slice(0,900)}))
     })
   });
+  if(response.status===429){
+    const limited = await response.json().catch(()=>({}));
+    return { intent:'rateLimited', a:limited.answer || 'AskVarshith is getting a lot of questions right now. Please try again in about a minute.', html:false, sourceIds:[], rateLimited:true };
+  }
   if(!response.ok) throw new Error('rag_unavailable');
   const data = await response.json();
   if(!data || !data.answer) throw new Error('rag_unavailable');
-  return { intent:data.sourceIds && data.sourceIds.length ? 'rag' : 'fallback', a:data.answer, html:false };
+  return { intent:data.sourceIds && data.sourceIds.length ? 'rag' : 'fallback', a:data.answer, html:false, sourceIds:data.sourceIds || [], rateLimited:!!data.rateLimited };
 }
 async function botAnswer(question){
   const local=faqAnswer(question);
@@ -2096,6 +2109,52 @@ function setChatBusy(busy){
     el.style.cursor=busy ? 'wait' : '';
   });
 }
+function plainText(text){
+  return String(text || "").replace(/<[^>]+>/g,'').replace(/\s+/g,' ').trim();
+}
+function rememberFeedback(payload){
+  try{
+    const key='askVarshithFeedback';
+    const existing=JSON.parse(localStorage.getItem(key) || '[]');
+    existing.push(payload);
+    localStorage.setItem(key, JSON.stringify(existing.slice(-50)));
+  }catch{}
+}
+async function sendFeedback(payload){
+  rememberFeedback(payload);
+  if(window.location.protocol === 'file:') return;
+  try{
+    await fetch(FEEDBACK_ENDPOINT,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(payload)
+    });
+  }catch{}
+}
+function attachFeedback(bubble, question, answer){
+  if(!bubble || !question || !answer) return;
+  const row=document.createElement('div');
+  row.className='chat-feedback';
+  row.innerHTML='<span>Was this useful?</span><button type="button" data-rating="up">Yes</button><button type="button" data-rating="down">Needs work</button>';
+  row.querySelectorAll('button').forEach(btn=>{
+    btn.addEventListener('click',async()=>{
+      const payload={
+        rating:btn.dataset.rating,
+        question:plainText(question).slice(0,800),
+        answer:plainText(answer.a).slice(0,1200),
+        intent:answer.intent || '',
+        sourceIds:answer.sourceIds || [],
+        path:location.pathname || '/'
+      };
+      row.querySelectorAll('button').forEach(b=>b.disabled=true);
+      await sendFeedback(payload);
+      row.innerHTML='<span>Feedback saved. Thank you.</span>';
+    });
+  });
+  bubble.appendChild(row);
+  const scroller=bubble.parentElement;
+  if(scroller) scroller.scrollTop=scroller.scrollHeight;
+}
 
 // ── HOME MINI CHAT ──
 async function hSend(){
@@ -2109,7 +2168,8 @@ async function hSend(){
   try{
     const [ans]=await Promise.all([botAnswer(t),sleep(360)]);
     th.remove();
-    addMsg('home-msgs',ans.a,false,ans.html);
+    const botBubble=addMsg('home-msgs',ans.a,false,ans.html);
+    attachFeedback(botBubble,t,ans);
     chatLog.push({text:ans.a,isUser:false,html:ans.html,intent:ans.intent});
     rememberIntent(ans.intent);
   }finally{
@@ -2156,7 +2216,8 @@ async function aFull(){
   try{
     const [ans]=await Promise.all([botAnswer(t),sleep(390)]);
     th.remove();
-    addAw(ans.a,false,false,ans.html);
+    const botBubble=addAw(ans.a,false,false,ans.html);
+    attachFeedback(botBubble,t,ans);
     chatLog.push({text:ans.a,isUser:false,html:ans.html,intent:ans.intent});
     rememberIntent(ans.intent);
   }finally{
