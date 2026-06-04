@@ -1911,7 +1911,7 @@ MANAGER QUOTE (Lead Specialist Supply Chain Analytics, Viatris):
 
 // ── ASKVARSHITH — FAQ keyword matcher (offline-friendly) ──
 const USE_LLM = true;
-let chatHist=[], chatLog=[], apiErr=false;
+let chatHist=[], chatLog=[], apiErr=false, chatBusy=false;
 function stripMd(t){ return t.replace(/\*\*(.*?)\*\*/g,'$1').replace(/\*(.*?)\*/g,'$1'); }
 
 const ASK_FAQ = [
@@ -1991,8 +1991,8 @@ function responseForIntent(intent){
 function directIntent(text){
   const rules = [
     [/^(hi|hey|hello|sup|hiya|howdy|yo|greetings)$/,'greeting'],
-    [/^(best|top|strongest)\s+(work|project)$/,'bestWork'],
-    [/^(best|top|strongest|main)\s+skill$/,'bestSkill'],
+    [/^(what\s+is\s+)?(his\s+|varshith'?s\s+)?(best|top|strongest)\s+(work|project)$/,'bestWork'],
+    [/^(what\s+is\s+)?(his\s+|varshith'?s\s+)?(best|top|strongest|main)\s+skill$/,'bestSkill'],
     [/^why\s+(hire|him|varshith)/,'whyHire'],
     [/^(open|available)\s+(to\s+)?work\??$/,'availability'],
     [/^(skills?|tech stack|technical stack|stack)$/,'skills'],
@@ -2066,29 +2066,43 @@ async function askRag(question){
 }
 async function botAnswer(question){
   const local=faqAnswer(question);
+  if(local.intent!=='fallback'){
+    return { intent:local.intent, a:local.a, html:true };
+  }
   try{
     const rag=await askRag(question);
-    if(rag.intent==='fallback' && local.intent!=='fallback'){
-      return { intent:local.intent, a:local.a, html:true };
-    }
     return rag;
   }catch{
     return { intent:local.intent, a:local.a, html:true };
   }
 }
+function setChatBusy(busy){
+  chatBusy=busy;
+  document.querySelectorAll('#home-inp,#ask-inp,.ai-snd,.ask-win-snd').forEach(el=>{
+    el.disabled=busy;
+    el.style.opacity=busy ? '.55' : '';
+    el.style.cursor=busy ? 'wait' : '';
+  });
+}
 
 // ── HOME MINI CHAT ──
 async function hSend(){
+  if(chatBusy) return;
   const inp=document.getElementById('home-inp');
   const t=(inp.value||'').trim(); if(!t)return; inp.value='';
+  setChatBusy(true);
   chatLog.push({text:t,isUser:true,html:false});
   addMsg('home-msgs',t,true,false);
   const th=typingBubble('home-msgs');
-  const [ans]=await Promise.all([botAnswer(t),sleep(360)]);
-  th.remove();
-  addMsg('home-msgs',ans.a,false,ans.html);
-  chatLog.push({text:ans.a,isUser:false,html:ans.html,intent:ans.intent});
-  rememberIntent(ans.intent);
+  try{
+    const [ans]=await Promise.all([botAnswer(t),sleep(360)]);
+    th.remove();
+    addMsg('home-msgs',ans.a,false,ans.html);
+    chatLog.push({text:ans.a,isUser:false,html:ans.html,intent:ans.intent});
+    rememberIntent(ans.intent);
+  }finally{
+    setChatBusy(false);
+  }
 }
 function hAsk(t){document.getElementById('home-inp').value=t;hSend();}
 function addMsg(cid,text,isUser,asHtml){
@@ -2120,16 +2134,22 @@ function syncAskMsgs(){
 
 // ── FULL ASK PAGE ──
 async function aFull(){
+  if(chatBusy) return;
   const inp=document.getElementById('ask-inp');
   const t=(inp.value||'').trim(); if(!t)return; inp.value='';
+  setChatBusy(true);
   chatLog.push({text:t,isUser:true,html:false});
   addAw(t,true,false);
   const th=typingBubble('ask-msgs');
-  const [ans]=await Promise.all([botAnswer(t),sleep(390)]);
-  th.remove();
-  addAw(ans.a,false,false,ans.html);
-  chatLog.push({text:ans.a,isUser:false,html:ans.html,intent:ans.intent});
-  rememberIntent(ans.intent);
+  try{
+    const [ans]=await Promise.all([botAnswer(t),sleep(390)]);
+    th.remove();
+    addAw(ans.a,false,false,ans.html);
+    chatLog.push({text:ans.a,isUser:false,html:ans.html,intent:ans.intent});
+    rememberIntent(ans.intent);
+  }finally{
+    setChatBusy(false);
+  }
 }
 function qa(t){document.getElementById('ask-inp').value=t;aFull();}
 function addAw(text,isUser,dim,asHtml){
