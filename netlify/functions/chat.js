@@ -35,9 +35,17 @@ const KNOWLEDGE = [
     id: "viatris",
     title: "Viatris Data Analyst experience",
     category: "experience",
-    keywords: ["viatris", "data analyst", "supply", "chain", "pharma", "power bi", "alteryx", "dashboard", "po", "markets"],
+    keywords: ["viatris", "data analyst", "supply", "chain", "pharma", "alteryx", "po", "markets", "stockout"],
     text:
       "At Viatris, Varshith is a Data Analyst working on enterprise decision systems across a $15B pharmaceutical supply-chain portfolio and 165+ markets. He built 5+ production-facing tools used by 100+ leaders, ranked top 5% company-wide for adoption, helped reduce inactive purchase orders by 88%, supported a 24-25% supply-gap value reduction, and built repeatable Alteryx + SQL + Power BI workflows."
+  },
+  {
+    id: "dashboards-bi",
+    title: "Dashboards and BI solution delivery",
+    category: "project",
+    keywords: ["dashboard", "dashboards", "power bi", "business intelligence", "bi", "blinkit", "kpi", "reporting", "figma", "regional marketing", "case study"],
+    text:
+      "Varshith's dashboard work is framed as decision-system design rather than static reporting. At Viatris, he built stakeholder-facing Power BI, Alteryx, and SQL workflows used by 100+ global leaders across supply-chain decisions. The Blinkit Business Insights Dashboard paired complex SQL extraction with Figma-designed UI/UX and Power BI dashboards for non-technical stakeholders, tracking KPIs and enabling regional marketing decisions."
   },
   {
     id: "nmss",
@@ -114,6 +122,7 @@ const INTENT_BOOSTS = {
   project: ["project", "skill"],
   hybridrag: ["project"],
   viatris: ["experience"],
+  dashboard: ["project", "experience", "skill"],
   nmss: ["experience"],
   prism: ["project"],
   pulse: ["project"],
@@ -128,6 +137,7 @@ const SOURCE_LABELS = {
   "contact-location": "Contact",
   education: "Education",
   viatris: "Viatris",
+  "dashboards-bi": "Dashboards / BI solutions",
   nmss: "NMSS",
   hybridrag: "HybridRAG",
   "best-skill": "Strongest skill",
@@ -219,7 +229,8 @@ function scoreChunk(question, chunk) {
 function queryIntent(question) {
   const q = normalize(question);
   if (/\b(hybridrag|hybrid rag|fda|compliance classifier)\b/.test(q)) return "hybridrag";
-  if (/\b(viatris|supply chain|pharma|purchase order|power bi|alteryx)\b/.test(q)) return "viatris";
+  if (/\b(viatris|supply chain|pharma|purchase order|alteryx|stockout)\b/.test(q)) return "viatris";
+  if (/\b(dashboards?|power bi|business intelligence|blinkit|kpi|reporting|figma)\b/.test(q)) return "dashboard";
   if (/\b(nmss|national ms|multiple sclerosis|dmt|therapy switch|claims)\b/.test(q)) return "nmss";
   if (/\b(prism|qdrant|research intelligence|multi doc|multidoc)\b/.test(q)) return "prism";
   if (/\b(pulse|agentic search|multi agent|sse|tavily)\b/.test(q)) return "pulse";
