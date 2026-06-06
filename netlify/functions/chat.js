@@ -13,7 +13,7 @@ const KNOWLEDGE = [
     category: "profile",
     keywords: ["who", "about", "summary", "profile", "role", "ai", "ml", "solutions", "recruiter summary", "introduce"],
     text:
-      "Varshith Tipirneni is an AI/ML engineer and solutions builder focused on production RAG systems, agentic workflows, healthcare ML, forecasting, and enterprise decision systems. Target roles: AI/ML Engineer, Machine Learning Engineer, Solutions Engineer, Solutions Architect, Applied ML Engineer, and Forward-Deployed Engineer."
+      "Varshith Tipirneni is an AI/ML engineer and solutions builder focused on production RAG systems, agentic workflows, hallucination evaluation, healthcare ML, forecasting, and enterprise decision systems. Target roles: AI/ML Engineer, Machine Learning Engineer, Solutions Engineer, Solutions Architect, Applied ML Engineer, and Forward-Deployed Engineer."
   },
   {
     id: "contact-location",
@@ -96,12 +96,20 @@ const KNOWLEDGE = [
       "PULSE is an agentic search and intelligence pipeline. It routes a query into parallel research agents for news, sentiment, and trends, then synthesizes the result. The FastAPI backend streams progress with Server-Sent Events and includes input/output guardrails plus an LLM self-correction retry loop."
   },
   {
+    id: "hallucinationbenchmark",
+    title: "HallucinationBenchmark",
+    category: "project",
+    keywords: ["hallucination", "hallucinationbenchmark", "truthfulqa", "deepeval", "prompt engineering", "system prompt", "claude haiku", "claude sonnet", "mlflow", "benchmark", "evaluation"],
+    text:
+      "HallucinationBenchmark is a hallucination detection and prompt-evaluation pipeline benchmarking Claude Haiku versus Sonnet on TruthfulQA across 817 questions and 38 categories. It compares 7 prompt engineering experiments: zero-shot, few-shot, chain-of-thought, structured output, system prompt v1, system prompt v2, and temperature tuning. System Prompt v2 achieved a -60.3 percentage-point hallucination-rate improvement. The project includes MLflow experiment tracking, an interactive results dashboard, and per-technique detail pages."
+  },
+  {
     id: "skills",
     title: "Technical skills",
     category: "skill",
     keywords: ["skills", "stack", "tools", "python", "sql", "langchain", "langgraph", "fastapi", "docker", "mlops"],
     text:
-      "Core stack: Python, SQL, DAX/M, R, LangGraph, LangChain, pgvector, Qdrant, BM25, BGE embeddings, HuggingFace, RAGAS, scikit-learn, XGBoost, Pandas, NumPy, time series, forecasting, classification, calibration, FastAPI, Docker, GitHub Actions, API design, SSE streaming, Alteryx, Power BI, Tableau, Plotly, Matplotlib. Currently deepening MLOps, MLflow, LangSmith, Airflow, dbt, Spark, and Databricks."
+      "Core stack: Python, SQL, DAX/M, R, LangGraph, LangChain, pgvector, Qdrant, BM25, BGE embeddings, HuggingFace, RAGAS, DeepEval, scikit-learn, XGBoost, Pandas, NumPy, time series, forecasting, classification, calibration, FastAPI, Docker, GitHub Actions, API design, SSE streaming, Alteryx, Power BI, Tableau, Plotly, Matplotlib. Currently deepening MLOps, MLflow, LangSmith, Airflow, dbt, Spark, and Databricks."
   },
   {
     id: "writing-personal",
@@ -126,6 +134,7 @@ const INTENT_BOOSTS = {
   nmss: ["experience"],
   prism: ["project"],
   pulse: ["project"],
+  hallucinationbenchmark: ["project", "skill"],
   skill: ["skill", "hiring", "project"],
   hiring: ["hiring", "skill", "experience", "profile"],
   personal: ["personal", "profile"],
@@ -144,6 +153,7 @@ const SOURCE_LABELS = {
   "hiring-strengths": "Hiring strengths",
   prism: "PRISM",
   pulse: "PULSE",
+  hallucinationbenchmark: "HallucinationBenchmark",
   skills: "Technical skills",
   "writing-personal": "Writing / personal"
 };
@@ -229,6 +239,7 @@ function scoreChunk(question, chunk) {
 function queryIntent(question) {
   const q = normalize(question);
   if (/\b(hybridrag|hybrid rag|fda|compliance classifier)\b/.test(q)) return "hybridrag";
+  if (/\b(hallucinationbenchmark|hallucination|truthfulqa|deepeval|prompt engineering|system prompt|claude haiku|claude sonnet|mlflow)\b/.test(q)) return "hallucinationbenchmark";
   if (/\b(viatris|supply chain|pharma|purchase order|alteryx|stockout)\b/.test(q)) return "viatris";
   if (/\b(dashboards?|power bi|business intelligence|blinkit|kpi|reporting|figma)\b/.test(q)) return "dashboard";
   if (/\b(nmss|national ms|multiple sclerosis|dmt|therapy switch|claims)\b/.test(q)) return "nmss";

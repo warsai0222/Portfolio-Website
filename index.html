@@ -1148,7 +1148,7 @@ html,body{overflow-x:hidden;max-width:100%}
   <!-- Nav cards -->
   <div class="home-nav-cards anim d4">
     <a class="b-nav" onclick="go('experience');return false" href="#"><div><div class="b-nav-lbl">Experience</div><div class="b-nav-sub">AI/ML systems · solution delivery</div></div><div class="b-nav-arr">→</div></a>
-    <a class="b-nav" onclick="go('projects');return false" href="#"><div><div class="b-nav-lbl">Projects</div><div class="b-nav-sub">8 selected works</div></div><div class="b-nav-arr">→</div></a>
+    <a class="b-nav" onclick="go('projects');return false" href="#"><div><div class="b-nav-lbl">Projects</div><div class="b-nav-sub">9 selected works</div></div><div class="b-nav-arr">→</div></a>
     <a class="b-nav" onclick="go('contact');return false" href="#"><div><div class="b-nav-lbl">Get in Touch</div><div class="b-nav-sub">Open to full-time roles</div></div><div class="b-nav-arr">→</div></a>
     <a class="b-nav b-nav-sides" href="two-sides.html" target="_blank" rel="noopener"><div><div class="b-nav-lbl">Two Sides</div><div class="b-nav-sub">On &amp; off the keyboard ↗</div></div><div class="b-nav-arr" style="color:var(--amber)">↗</div></a>
   </div>
@@ -1182,6 +1182,12 @@ html,body{overflow-x:hidden;max-width:100%}
         <div>
           <div class="bld-name">PRISM</div>
           <div class="bld-desc">Multimodal research-intelligence agent. 5-agent LangGraph orchestration (Ingestion · Vision · Synthesis · Evaluator · Report). pgvector + ColPali + Qwen2-VL. FastAPI + Docker + LLMOps with MLflow + LangSmith.</div>
+        </div>
+      </div>
+      <div class="bld-item">
+        <div>
+          <div class="bld-name">HallucinationBenchmark</div>
+          <div class="bld-desc">Hallucination detection pipeline benchmarking Claude Haiku vs Sonnet on TruthfulQA (817 Qs, 38 categories). 7 prompt engineering experiments tracked via MLflow. System Prompt v2 achieved −60.3pp improvement. Interactive results dashboard + per-technique writeups.</div>
         </div>
       </div>
     </div>
@@ -1325,6 +1331,34 @@ html,body{overflow-x:hidden;max-width:100%}
           </svg>
         </div>
         <div class="pc-body"><div class="pc-head"><div class="pc-name">PRISM</div><div class="pc-badge badge-wip">Active</div></div><div class="pc-desc">Multi-document research-intelligence pipeline. BM25 + dense hybrid retrieval with RRF fusion. Qdrant vector store. Structured intelligence briefs via Groq LLM (JSON mode). Cross-document conflict detection. LangGraph orchestration in progress.</div><div class="pc-tags"><div class="pc-tag">LangGraph</div><div class="pc-tag">Qdrant</div><div class="pc-tag">BM25</div><div class="pc-tag">FastAPI</div><div class="pc-tag">Groq</div></div><div class="pc-links"><a href="prism_diagram.html" target="_blank" rel="noopener" class="pc-link">↗ Diagram</a></div></div>
+      </div>
+
+    <div class="pc-card anim d3" data-c="ml de">
+        <div class="pc-thumb" style="background:linear-gradient(135deg,#080b0e,#0c1018)">
+          <svg viewBox="0 0 90 55" fill="none">
+            <text x="5" y="11" font-size="3.5" fill="rgba(224,112,112,.6)" font-family="monospace">haiku</text>
+            <rect x="5" y="13" width="52" height="6" rx="1.5" fill="rgba(224,112,112,.1)" stroke="rgba(224,112,112,.2)" stroke-width=".5"/>
+            <rect x="5" y="13" width="10" height="6" rx="1.5" fill="rgba(224,112,112,.5)"/>
+            <text x="59" y="18" font-size="3.5" fill="#e07070" font-family="monospace">18.4%</text>
+            <text x="5" y="27" font-size="3.5" fill="rgba(106,168,224,.6)" font-family="monospace">sonnet</text>
+            <rect x="5" y="29" width="52" height="6" rx="1.5" fill="rgba(106,168,224,.1)" stroke="rgba(106,168,224,.2)" stroke-width=".5"/>
+            <rect x="5" y="29" width="8" height="6" rx="1.5" fill="rgba(106,168,224,.5)"/>
+            <text x="59" y="34" font-size="3.5" fill="#6aa8e0" font-family="monospace">15.4%</text>
+            <text x="5" y="44" font-size="3" fill="rgba(200,150,60,.5)" font-family="monospace">prompt-v2 best</text>
+            <rect x="5" y="46" width="52" height="6" rx="1.5" fill="rgba(200,150,60,.08)" stroke="rgba(200,150,60,.2)" stroke-width=".5"/>
+            <rect x="5" y="46" width="21" height="6" rx="1.5" fill="rgba(200,150,60,.45)"/>
+            <text x="59" y="51" font-size="3.5" fill="#c8963c" font-family="monospace">39.7%</text>
+          </svg>
+        </div>
+        <div class="pc-body">
+          <div class="pc-head"><div class="pc-name">HallucinationBenchmark</div><div class="pc-badge badge-wip">Active</div></div>
+          <div class="pc-desc">End-to-end hallucination detection pipeline benchmarking Claude Haiku vs Sonnet on TruthfulQA (817 questions, 38 categories). Benchmarked 7 prompt engineering techniques — zero-shot, few-shot, CoT, structured output, system prompt design, and temperature tuning. Best technique (System Prompt v2) achieved <b>−60.3pp improvement</b>. All experiments tracked via MLflow.</div>
+          <div class="pc-tags"><div class="pc-tag">DeepEval</div><div class="pc-tag">TruthfulQA</div><div class="pc-tag">Prompt Engineering</div><div class="pc-tag">MLflow</div><div class="pc-tag">Anthropic</div></div>
+          <div class="pc-links">
+            <a href="hallucination-dashboard.html" target="_blank" rel="noopener" class="pc-link">↗ Dashboard</a>
+            <a href="hallucination-details.html" target="_blank" rel="noopener" class="pc-link">↗ Technique Details</a>
+          </div>
+        </div>
       </div>
 
     <div class="pc-card" data-c="ml de">
@@ -1684,7 +1718,7 @@ html,body{overflow-x:hidden;max-width:100%}
       </div>
 
     </div>
-    <div class="term-foot">→ ~ echo "Stack initialized. Building: HybridRAG · PRISM · PULSE | Learning: MLOps · Airflow · Docker"</div>
+    <div class="term-foot">→ ~ echo "Stack initialized. Building: HybridRAG · PRISM · PULSE · HallucinationBenchmark | Learning: MLOps · Airflow · Docker"</div>
   </div>
 </div>
 </div>
@@ -1834,6 +1868,7 @@ const CHAT_SOURCE_LABELS = {
   hybridrag:'HybridRAG',
   prism:'PRISM',
   pulse:'PULSE',
+  hallucination:'HallucinationBenchmark',
   dashboard:'Dashboards / BI solutions',
   current:'Currently building',
   education:'Education',
@@ -1935,6 +1970,7 @@ PROJECTS:
 • HybridRAG Classifier: live FDA/pharma compliance classifier with BGE + BM25, RRF, human review, guardrails, RAGAS
 • PRISM: multimodal research-intelligence pipeline with hybrid retrieval, Qdrant, structured LLM briefs, LangGraph direction
 • PULSE: agentic search system with parallel research agents, FastAPI, SSE streaming, guardrails, retry loop
+• HallucinationBenchmark: hallucination detection pipeline benchmarking Claude Haiku vs Sonnet on TruthfulQA (817 Qs, 38 categories). 7 prompt engineering experiments (zero-shot, few-shot, CoT, structured output, system prompt v1/v2, temperature). Best technique −60.3pp improvement. MLflow tracking. Interactive dashboard.
 • NMSS DMT Pipeline: healthcare ML pipeline with AUC 0.95 and 8× lift on top-decile risk identification
 • Healthcare Demand Forecasting — Labcorp: ML + time-series forecasting system for capacity planning
 • Blinkit Business Insights Dashboard: SQL-backed Power BI dashboard with Figma-designed UX for KPI tracking and regional marketing decisions
@@ -1960,13 +1996,13 @@ const ASK_FAQ = [
   { intent:'greeting', keys:['hi','hey','hello','sup','hiya','howdy','yo','greetings','good morning','good afternoon','good evening'],
     a:"Hey, I'm <b>AskVarshith</b>. I can give you the recruiter-speed version, the technical deep dive, or the human side.<br><br>Best places to start:<br>• <b>Best work</b><br>• <b>Why hire him?</b><br>• <b>Is he open to work?</b>" },
   { intent:'about', keys:['who','about','tell me','varshith','introduce','yourself','overview','summary','profile'],
-    a:"<b>Varshith Tipirneni</b> is an AI/ML engineer and solutions builder who turns ambiguous problems into deployed technical systems.<br><br>• M.S. Statistics, Analytics & Data Science at <b>UNC Chapel Hill</b>, 4.0 GPA<br>• Builds live AI systems: <b>HybridRAG</b>, PRISM, and PULSE<br>• Healthcare ML at <b>NMSS</b> across 1M+ patient journeys<br>• Data Analyst at <b>Viatris</b> across a $15B pharma portfolio" },
+    a:"<b>Varshith Tipirneni</b> is an AI/ML engineer and solutions builder who turns ambiguous problems into deployed technical systems.<br><br>• M.S. Statistics, Analytics & Data Science at <b>UNC Chapel Hill</b>, 4.0 GPA<br>• Builds AI systems: <b>HybridRAG</b>, PRISM, PULSE, and HallucinationBenchmark<br>• Healthcare ML at <b>NMSS</b> across 1M+ patient journeys<br>• Data Analyst at <b>Viatris</b> across a $15B pharma portfolio" },
   { intent:'bestWork', keys:['best work','best project','favourite project','favorite project','top project','most impressive','most proud','flagship','standout','portfolio highlight','strongest project'],
     a:"His strongest public project is <b>HybridRAG</b>: a live FDA/pharma compliance classifier built around hybrid retrieval.<br><br>Why it stands out:<br>• Dense BGE embeddings + BM25 sparse retrieval<br>• Reciprocal Rank Fusion for stronger evidence retrieval<br>• Human review queue for low-confidence predictions<br>• Prompt-injection guardrails and RAGAS evaluation<br><br>Live: <a href='https://hybridrag.netlify.app/' target='_blank' rel='noopener'>hybridrag.netlify.app</a>" },
   { intent:'bestSkill', keys:['best skill','top skill','strongest skill','main skill','primary skill','what is he good at','what does he do best','speciali','expertise','superpower'],
     a:"His sharpest skill is <b>building AI/ML solutions end to end</b>.<br><br>That means he can move from problem framing to architecture, data pipelines, retrieval or ML logic, evaluation, API/UX, and stakeholder adoption. The uncommon part is statistical depth plus product-minded engineering." },
   { intent:'whyHire', keys:['why hire','why should we','what makes him','different','stand out','unique','set apart','better than','advantage','why him','candidate'],
-    a:"Three reasons to pay attention:<br><br>• <b>He ships systems.</b> HybridRAG, PRISM, PULSE, and MS Pipeline show applied AI/ML beyond notebooks.<br>• <b>He has model judgment.</b> A 4.0 M.S. in Statistics helps him evaluate lift, calibration, drift, and failure modes.<br>• <b>He can deliver with stakeholders.</b> His enterprise work reached VP/Sr. Director audiences and ranked top 5% company-wide for adoption." },
+    a:"Three reasons to pay attention:<br><br>• <b>He ships systems.</b> HybridRAG, PRISM, PULSE, HallucinationBenchmark, and MS Pipeline show applied AI/ML beyond notebooks.<br>• <b>He has model judgment.</b> A 4.0 M.S. in Statistics helps him evaluate lift, calibration, drift, and failure modes.<br>• <b>He can deliver with stakeholders.</b> His enterprise work reached VP/Sr. Director audiences and ranked top 5% company-wide for adoption." },
   { intent:'viatris', keys:['viatris','supply chain','pharma','165','15b','stockout','purchase order','po'],
     a:"At <b>Viatris</b>, Varshith is a <b>Data Analyst</b> building enterprise decision systems across a $15B pharma supply-chain portfolio.<br><br>Impact highlights:<br>• 5+ production-facing tools used by 100+ leaders<br>• Top 5% company-wide adoption<br>• 88% reduction in inactive purchase orders<br>• 24-25% reduction in supply-gap value across key planning areas<br>• Repeatable Alteryx + SQL + Power BI pipelines" },
   { intent:'dashboard', keys:['dashboard','dashboards','power bi','bi','business intelligence','blinkit','kpi','reporting','figma','regional marketing'],
@@ -1976,15 +2012,17 @@ const ASK_FAQ = [
   { intent:'experience', keys:['experience','work history','jobs','internship','worked','career','employment','roles'],
     a:"His experience has a useful range:<br><br>• <b>Viatris:</b> Data Analyst, supply-chain intelligence, reusable pipelines<br>• <b>National MS Society:</b> healthcare claims ML, treatment-switch modeling, patient journeys<br>• <b>UNC Chapel Hill:</b> graduate statistics and ML instruction<br>• <b>Knowde:</b> AI-assisted chemical product metadata and search quality<br>• <b>Reliance:</b> process simulation and digital-twin thinking" },
   { intent:'projects', keys:['project','projects','built','building','what has he','portfolio','all project','demo','case study'],
-    a:"The portfolio clusters into three lanes:<br><br>• <b>AI systems:</b> HybridRAG, PRISM, PULSE<br>• <b>Healthcare ML:</b> MS Treatment Switching, MS Patient Journey Analysis, demand forecasting<br>• <b>ML systems:</b> CO2 forecasting, credit risk, segmentation, production monitoring writing<br><br>If you want the strongest signal, ask me about <b>HybridRAG</b> or <b>NMSS</b>." },
+    a:"The portfolio clusters into three lanes:<br><br>• <b>AI systems:</b> HybridRAG, PRISM, PULSE, HallucinationBenchmark<br>• <b>Healthcare ML:</b> MS Treatment Switching, MS Patient Journey Analysis, demand forecasting<br>• <b>ML systems:</b> CO2 forecasting, credit risk, segmentation, production monitoring writing<br><br>If you want the strongest signal, ask me about <b>HybridRAG</b>, <b>HallucinationBenchmark</b>, or <b>NMSS</b>." },
   { intent:'hybridrag', keys:['hybridrag','hybrid rag','fda','compliance','bge','rrf','rag classifier','retrieval'],
     a:"<b>HybridRAG</b> is a production-style FDA compliance classifier.<br><br>Stack and design:<br>• BGE dense embeddings + BM25 sparse retrieval<br>• RRF fusion to combine evidence rankings<br>• pgvector/HNSW retrieval layer<br>• Low-confidence routing to human review<br>• Guardrails for prompt-injection patterns<br>• RAGAS evaluation loop<br><br>Live: <a href='https://hybridrag.netlify.app/' target='_blank' rel='noopener'>hybridrag.netlify.app</a>" },
   { intent:'prism', keys:['prism','multi-doc','research pipeline','qdrant','langgraph','colpali','multimodal','research intelligence'],
     a:"<b>PRISM</b> is his research-intelligence pipeline for multi-document analysis.<br><br>It combines BM25 + dense retrieval, RRF fusion, Qdrant vector storage, structured LLM briefs, and cross-document conflict detection. The next layer is LangGraph orchestration so the pipeline behaves more like a coordinated research team than a single prompt." },
   { intent:'pulse', keys:['pulse','agentic','search','sse','multi-agent','streaming','tavily','sentiment','trends'],
     a:"<b>PULSE</b> is an agentic search and intelligence pipeline.<br><br>It routes a query into parallel research agents for news, sentiment, and trends, then synthesizes the result. The FastAPI backend streams progress with SSE, and the system includes input/output guardrails plus a retry loop for self-correction." },
+  { intent:'hallucination', keys:['hallucination','hallucinationbenchmark','truthfulqa','deepeval','prompt engineering','system prompt','claude haiku','claude sonnet','mlflow','benchmark'],
+    a:"<b>HallucinationBenchmark</b> is an evaluation pipeline for measuring and reducing hallucinations on TruthfulQA.<br><br>Highlights:<br>• Benchmarks Claude Haiku vs Sonnet across 817 questions and 38 categories<br>• Tests 7 prompting techniques including few-shot, CoT, structured output, system prompts, and temperature tuning<br>• Tracks experiments in MLflow<br>• System Prompt v2 delivered a −60.3pp hallucination-rate improvement<br><br>Open: <a href='hallucination-dashboard.html' target='_blank' rel='noopener'>Dashboard</a> · <a href='hallucination-details.html' target='_blank' rel='noopener'>Technique details</a>" },
   { intent:'current', keys:['currently','working on','building now','roadmap','active','what next','right now','now'],
-    a:"Right now he is focused on <b>production-grade AI systems</b>:<br><br>• Finishing PRISM's LangGraph orchestration<br>• Deepening HNSW indexing and retrieval evaluation<br>• Improving agent tracing with LangSmith/MLflow patterns<br>• Turning portfolio projects into cleaner, more deployable case studies" },
+    a:"Right now he is focused on <b>production-grade AI systems</b>:<br><br>• Finishing PRISM's LangGraph orchestration<br>• Deepening HNSW indexing and retrieval evaluation<br>• Expanding HallucinationBenchmark's prompt-evaluation dashboard<br>• Improving agent tracing with LangSmith/MLflow patterns<br>• Turning portfolio projects into cleaner, more deployable case studies" },
   { intent:'education', keys:['education','degree','gpa','unc','university','school','graduate','statistics','master','college'],
     a:"Education snapshot:<br><br>• <b>UNC Chapel Hill</b>: M.S. Statistics, Analytics & Data Science, Aug 2024-May 2026, GPA 4.0/4.0<br>• <b>BMSCE Bangalore</b>: B.E. Chemical Engineering, 2019-2023, GPA 8.95/10<br><br>The useful combo is statistics + engineering: he is comfortable with both modeling assumptions and real systems." },
   { intent:'skills', keys:['skill','skills','stack','tech','tools','python','sql','langchain','fastapi','docker','power bi','alteryx'],
@@ -2009,7 +2047,8 @@ const QUICK_PROMPTS = {
   bestSkill:['Projects using this','Tech stack','Why hire him?'],
   whyHire:['Experience','Best work','Contact'],
   experience:['Viatris impact','NMSS work','Skills'],
-  projects:['HybridRAG','PRISM','PULSE'],
+  projects:['HybridRAG','PRISM','HallucinationBenchmark'],
+  hallucination:['Dashboard','Technique details','Why it matters'],
   dashboard:['Viatris dashboards','Blinkit dashboard','Skills'],
   availability:['Contact','Resume','Why hire him?'],
   contact:['Open to work?','Best work','Experience'],
@@ -2036,6 +2075,7 @@ function responseForIntent(intent){
 function directIntent(text){
   if(/\b(hybridrag|hybrid rag|fda|compliance)\b/.test(text)) return 'hybridrag';
   if(/\b(nmss|national ms|multiple sclerosis|dmt|therapy|claims)\b/.test(text)) return 'nmss';
+  if(/\b(hallucinationbenchmark|hallucination|truthfulqa|deepeval|prompt engineering|system prompt|claude haiku|claude sonnet|mlflow)\b/.test(text)) return 'hallucination';
   if(/\b(viatris|supply chain|pharma|purchase order|alteryx)\b/.test(text)) return 'viatris';
   if(/\b(dashboards?|power bi|business intelligence|blinkit|kpi|reporting|figma)\b/.test(text)) return 'dashboard';
   if(/\b(prism|qdrant|research intelligence|multi doc|multidoc)\b/.test(text)) return 'prism';
@@ -2237,7 +2277,7 @@ function syncAskMsgs(){
   if(!c)return;
   c.innerHTML='';
   if(chatLog.length===0){
-    c.innerHTML='<div class="aw bot">Hi! I\'m AskVarshith. I know his projects (HybridRAG, PRISM, PULSE), his experience at Viatris &amp; NMSS, education, and skills. What would you like to know?</div>';
+    c.innerHTML='<div class="aw bot">Hi! I\'m AskVarshith. I know his projects (HybridRAG, PRISM, PULSE, HallucinationBenchmark), his experience at Viatris &amp; NMSS, education, and skills. What would you like to know?</div>';
     return;
   }
   chatLog.forEach(m=>{

@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HallucinationBenchmark</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ── Reset & Base ─────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0b0c0e;
+      --bg-1:      #111316;
+      --bg-2:      #16191f;
+      --bg-3:      #1c2028;
+      --border:    #1e2229;
+      --border-2:  #252c36;
+      --text:      #d8dce4;
+      --text-2:    #8a929e;
+      --text-3:    #4e5663;
+      --amber:     #c8963c;
+      --amber-dim: rgba(200,150,60,.12);
+      --amber-glow:rgba(200,150,60,.06);
+      --green:     #4a8f6a;
+      --green-dim: rgba(74,143,106,.15);
+      --red:       #9b4040;
+      --red-dim:   rgba(155,64,64,.15);
+      --orange:    #b06b30;
+      --orange-dim:rgba(176,107,48,.15);
+      --pending:   #2d333d;
+      --font:      'Familjen Grotesk', system-ui, sans-serif;
+      --mono:      'JetBrains Mono', monospace;
+    }
+
+    html { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 14px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+    body { min-height: 100dvh; }
+
+    /* ── Animations ───────────────────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes barGrow {
+      from { width: 0; }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: .4; }
+      50%       { opacity: .8; }
+    }
+    @keyframes countUp {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+
+    .stagger { opacity: 0; animation: fadeUp 220ms cubic-bezier(0.16,1,0.3,1) forwards; }
+
+    /* ── Layout ───────────────────────────────────────────────────────── */
+    .shell { max-width: 1440px; margin: 0 auto; padding: 0 28px 60px; }
+
+    /* ── Header ───────────────────────────────────────────────────────── */
+    .header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 0 20px;
+      border-bottom: 1px solid var(--border);
+      gap: 16px;
+    }
+    .header-left { display: flex; align-items: center; gap: 16px; }
+    .header-mark {
+      width: 28px; height: 28px; border-radius: 6px;
+      background: var(--amber-dim); border: 1px solid var(--amber);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .header-mark svg { width: 14px; height: 14px; }
+    .header-title { font-size: 13px; font-weight: 600; letter-spacing: -.01em; color: var(--text); }
+    .header-sub { font-size: 11px; color: var(--text-3); }
+    .header-pills { display: flex; gap: 6px; }
+    .pill {
+      font-size: 10px; font-weight: 600; padding: 3px 9px; border-radius: 20px;
+      border: 1px solid; letter-spacing: .02em;
+      font-family: var(--mono);
+    }
+    .pill-haiku  { color: #e07070; border-color: rgba(224,112,112,.3); background: rgba(224,112,112,.08); }
+    .pill-sonnet { color: #6aa8e0; border-color: rgba(106,168,224,.3); background: rgba(106,168,224,.08); }
+    .pill-amber  { color: var(--amber); border-color: rgba(200,150,60,.3); background: var(--amber-dim); }
+
+    .meta { display: flex; align-items: center; gap: 20px; }
+    .meta-item { text-align: right; }
+    .meta-label { font-size: 9px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-3); }
+    .meta-val { font-family: var(--mono); font-size: 11px; color: var(--text-2); }
+
+    /* ── Stats strip ─────────────────────────────────────────────────── */
+    .stats-strip {
+      display: grid; grid-template-columns: repeat(5, 1fr);
+      gap: 0; border-bottom: 1px solid var(--border);
+      border-top: 1px solid var(--border); margin-top: 28px;
+    }
+    .stat-cell {
+      padding: 22px 24px;
+      border-right: 1px solid var(--border);
+      position: relative;
+    }
+    .stat-cell:last-child { border-right: none; }
+    .stat-label { font-size: 10px; text-transform: uppercase; letter-spacing: .07em; color: var(--text-3); margin-bottom: 10px; }
+    .stat-val { font-family: var(--mono); font-size: 28px; font-weight: 600; letter-spacing: -.03em; line-height: 1; }
+    .stat-sub { font-size: 10px; color: var(--text-3); margin-top: 6px; }
+    .stat-cell.accent .stat-val { color: var(--amber); }
+    .stat-cell.good   .stat-val { color: var(--green); }
+
+    /* ── Main grid ───────────────────────────────────────────────────── */
+    .main-grid {
+      display: grid; grid-template-columns: 1fr 380px;
+      gap: 1px; background: var(--border);
+      margin-top: 28px; border: 1px solid var(--border);
+    }
+    .main-left { background: var(--bg); }
+    .main-right { background: var(--bg); }
+
+    /* ── Section headers ─────────────────────────────────────────────── */
+    .sec-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 22px;
+      border-bottom: 1px solid var(--border);
+    }
+    .sec-title { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-3); font-weight: 600; }
+    .sec-tag {
+      font-size: 9px; font-family: var(--mono); color: var(--text-3);
+      padding: 2px 7px; border: 1px solid var(--border-2); border-radius: 3px;
+    }
+
+    /* ── Experiment leaderboard ──────────────────────────────────────── */
+    .exp-list { padding: 8px 0; }
+    .exp-row {
+      display: grid; grid-template-columns: 28px 1fr auto 120px;
+      align-items: center; gap: 14px;
+      padding: 11px 22px;
+      border-bottom: 1px solid var(--border);
+      transition: background 100ms;
+    }
+    .exp-row:last-child { border-bottom: none; }
+    .exp-row:hover { background: var(--bg-1); }
+    .exp-row.winner { background: var(--amber-glow); }
+    .exp-row.winner:hover { background: var(--amber-dim); }
+    .exp-row.pending { opacity: .5; }
+
+    .exp-rank { font-family: var(--mono); font-size: 10px; color: var(--text-3); text-align: center; }
+    .exp-rank.first { color: var(--amber); font-weight: 600; }
+
+    .exp-name { font-size: 12px; font-weight: 500; color: var(--text); }
+    .exp-desc { font-size: 10px; color: var(--text-3); margin-top: 1px; }
+    .exp-tag {
+      font-size: 9px; font-family: var(--mono); padding: 2px 6px;
+      border-radius: 3px; border: 1px solid var(--border-2);
+      color: var(--text-3); white-space: nowrap;
+    }
+    .exp-tag.running { color: var(--amber); border-color: rgba(200,150,60,.3); animation: pulse 2s ease-in-out infinite; }
+
+    .exp-bar-wrap { position: relative; height: 28px; display: flex; align-items: center; gap: 8px; }
+    .exp-bar-track { flex: 1; height: 3px; background: var(--bg-3); border-radius: 2px; overflow: hidden; }
+    .exp-bar-fill  { height: 100%; border-radius: 2px; transition: width 0ms; }
+    .exp-bar-fill.animate { animation: barGrow 600ms cubic-bezier(0.16,1,0.3,1) forwards; }
+    .exp-rate { font-family: var(--mono); font-size: 11px; font-weight: 500; white-space: nowrap; min-width: 36px; text-align: right; }
+    .exp-improve { font-family: var(--mono); font-size: 9px; color: var(--green); }
+
+    /* ── Category panel ──────────────────────────────────────────────── */
+    .cat-tabs { display: flex; padding: 10px 22px 0; gap: 2px; }
+    .cat-tab {
+      font-size: 10px; font-weight: 600; letter-spacing: .04em;
+      padding: 6px 12px; border-radius: 4px 4px 0 0;
+      cursor: pointer; color: var(--text-3);
+      border: 1px solid transparent; border-bottom: none;
+      transition: color 120ms, background 120ms;
+    }
+    .cat-tab.active { color: var(--text); background: var(--bg-2); border-color: var(--border); }
+    .cat-tab:not(.active):hover { color: var(--text-2); }
+
+    .cat-content { padding: 0; }
+    .cat-panel { display: none; }
+    .cat-panel.active { display: block; }
+
+    /* Heatmap */
+    .heatmap { padding: 14px 22px; }
+    .heatmap-row { display: grid; grid-template-columns: 1fr 68px 68px; gap: 6px; align-items: center; margin-bottom: 7px; }
+    .heatmap-label { font-size: 10px; color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .heatmap-cell {
+      font-family: var(--mono); font-size: 10px; font-weight: 500;
+      text-align: center; padding: 3px 6px; border-radius: 3px;
+    }
+    .heatmap-head { font-size: 9px; color: var(--text-3); text-align: center; letter-spacing: .05em; }
+
+    /* Model comparison */
+    .model-compare { padding: 14px 22px; }
+    .model-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .model-name { font-size: 10px; font-family: var(--mono); color: var(--text-3); width: 50px; flex-shrink: 0; }
+    .model-bar-track { flex: 1; height: 5px; background: var(--bg-3); border-radius: 3px; overflow: hidden; }
+    .model-bar-fill { height: 100%; border-radius: 3px; }
+    .model-bar-fill.animate { animation: barGrow 700ms cubic-bezier(0.16,1,0.3,1) forwards; }
+    .model-rate { font-family: var(--mono); font-size: 11px; font-weight: 600; width: 36px; text-align: right; }
+
+    /* ── Category table ──────────────────────────────────────────────── */
+    .table-wrap { margin-top: 28px; border: 1px solid var(--border); }
+    .table-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 22px; border-bottom: 1px solid var(--border);
+    }
+    .table-filters { display: flex; gap: 4px; }
+    .tfilter {
+      font-size: 10px; padding: 4px 10px; border-radius: 3px; cursor: pointer;
+      border: 1px solid var(--border); background: transparent; color: var(--text-3);
+      transition: all 100ms; font-family: var(--font);
+    }
+    .tfilter:hover { color: var(--text-2); border-color: var(--border-2); }
+    .tfilter.active { color: var(--text); background: var(--bg-2); border-color: var(--border-2); }
+
+    .data-table { width: 100%; border-collapse: collapse; }
+    .data-table th {
+      text-align: left; padding: 9px 16px;
+      font-size: 9px; text-transform: uppercase; letter-spacing: .07em;
+      color: var(--text-3); border-bottom: 1px solid var(--border);
+      cursor: pointer; user-select: none;
+      transition: color 100ms;
+    }
+    .data-table th:hover { color: var(--text-2); }
+    .data-table td {
+      padding: 8px 16px; border-bottom: 1px solid var(--border);
+      font-size: 12px; color: var(--text);
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tbody tr { transition: background 80ms; }
+    .data-table tbody tr:hover { background: var(--bg-1); }
+
+    .rate-chip {
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: var(--mono); font-size: 10px; font-weight: 500;
+      padding: 3px 8px; border-radius: 3px; min-width: 48px;
+    }
+
+    .winner-badge {
+      display: inline-block; font-size: 9px; font-family: var(--mono);
+      padding: 2px 6px; border-radius: 2px; margin-left: 6px;
+      background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(200,150,60,.2);
+    }
+
+    /* ── Footer ───────────────────────────────────────────────────────── */
+    .footer {
+      margin-top: 40px; padding-top: 20px;
+      border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-left { font-size: 10px; color: var(--text-3); }
+    .footer-right { display: flex; gap: 16px; }
+    .footer-stat { font-family: var(--mono); font-size: 10px; color: var(--text-3); }
+    .footer-stat span { color: var(--text-2); }
+
+    /* ── Responsive ─────────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .shell { padding: 0 16px 40px; }
+      .stats-strip { grid-template-columns: repeat(2, 1fr); }
+      .main-grid { grid-template-columns: 1fr; }
+      .header { flex-wrap: wrap; }
+      .meta { display: none; }
+    }
+  </style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- Header -->
+  <header class="header stagger" style="animation-delay:0ms">
+    <div class="header-left">
+      <div class="header-mark">
+        <svg viewBox="0 0 14 14" fill="none" stroke="var(--amber)" stroke-width="1.5">
+          <path d="M7 1v2M7 11v2M1 7h2M11 7h2M2.93 2.93l1.41 1.41M9.66 9.66l1.41 1.41M2.93 11.07l1.41-1.41M9.66 4.34l1.41-1.41"/>
+          <circle cx="7" cy="7" r="2.5"/>
+        </svg>
+      </div>
+      <div>
+        <div class="header-title">HallucinationBenchmark</div>
+        <div class="header-sub">TruthfulQA &middot; 817 questions &middot; 38 categories &middot; Anthropic Claude</div>
+      </div>
+      <div class="header-pills">
+        <span class="pill pill-haiku">haiku-4-5</span>
+        <span class="pill pill-sonnet">sonnet-4-6</span>
+      </div>
+    </div>
+    <div class="meta">
+      <div class="meta-item">
+        <a href="hallucination-details.html" style="display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:var(--amber);text-decoration:none;padding:6px 12px;border:1px solid rgba(200,150,60,.3);border-radius:5px;background:var(--amber-dim);transition:background 120ms;" onmouseover="this.style.background='rgba(200,150,60,.2)'" onmouseout="this.style.background='var(--amber-dim)'">
+          Technique Details
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 5h6M5 2l3 3-3 3"/></svg>
+        </a>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Run date</div>
+        <div class="meta-val">2026-06-05</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Judge</div>
+        <div class="meta-val">claude-sonnet-4-6</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Framework</div>
+        <div class="meta-val">DeepEval</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Stats strip -->
+  <div class="stats-strip">
+    <div class="stat-cell stagger" style="animation-delay:40ms">
+      <div class="stat-label">Haiku hallucination</div>
+      <div class="stat-val" style="color:#e07070;">18.4<span style="font-size:16px;opacity:.6;">%</span></div>
+      <div class="stat-sub">150 / 817 questions</div>
+    </div>
+    <div class="stat-cell stagger" style="animation-delay:70ms">
+      <div class="stat-label">Sonnet hallucination</div>
+      <div class="stat-val" style="color:#6aa8e0;">15.4<span style="font-size:16px;opacity:.6;">%</span></div>
+      <div class="stat-sub">126 / 817 questions</div>
+    </div>
+    <div class="stat-cell stagger" style="animation-delay:100ms">
+      <div class="stat-label">Model gap</div>
+      <div class="stat-val" style="color:var(--text-2);">3.0<span style="font-size:16px;opacity:.6;">pp</span></div>
+      <div class="stat-sub">Sonnet advantage overall</div>
+    </div>
+    <div class="stat-cell accent stagger" style="animation-delay:130ms">
+      <div class="stat-label">Best technique improvement</div>
+      <div class="stat-val">&minus;60.3<span style="font-size:16px;opacity:.6;">pp</span></div>
+      <div class="stat-sub">System Prompt v2 &mdash; 100% &rarr; 39.7%</div>
+    </div>
+    <div class="stat-cell good stagger" style="animation-delay:160ms">
+      <div class="stat-label">Techniques benchmarked</div>
+      <div class="stat-val">7<span style="font-size:16px;opacity:.6;"> runs</span></div>
+      <div class="stat-sub">Temp 0.3 scored 0pp — no gain</div>
+    </div>
+  </div>
+
+  <!-- Main grid -->
+  <div class="main-grid stagger" style="animation-delay:200ms">
+
+    <!-- Left: Experiment leaderboard -->
+    <div class="main-left">
+      <div class="sec-head">
+        <span class="sec-title">Prompt Engineering Experiments</span>
+        <span class="sec-tag">claude-sonnet-4-6 &middot; 32 questions</span>
+      </div>
+      <div class="exp-list" id="expList"></div>
+    </div>
+
+    <!-- Right: Category panel -->
+    <div class="main-right">
+      <div class="sec-head">
+        <span class="sec-title">Category Analysis</span>
+        <span class="sec-tag">38 categories</span>
+      </div>
+      <div class="cat-tabs">
+        <div class="cat-tab active" onclick="switchCatTab('heatmap',this)">Heatmap</div>
+        <div class="cat-tab" onclick="switchCatTab('model',this)">Models</div>
+        <div class="cat-tab" onclick="switchCatTab('experiment',this)">v1 Results</div>
+      </div>
+      <div class="cat-content">
+
+        <!-- Heatmap -->
+        <div class="cat-panel active" id="cat-heatmap">
+          <div class="heatmap">
+            <div class="heatmap-row" style="margin-bottom:10px;">
+              <div></div>
+              <div class="heatmap-head">Haiku</div>
+              <div class="heatmap-head">Sonnet</div>
+            </div>
+            <div id="heatmapRows"></div>
+          </div>
+        </div>
+
+        <!-- Model comparison bars -->
+        <div class="cat-panel" id="cat-model">
+          <div class="model-compare" id="modelCompare"></div>
+        </div>
+
+        <!-- Experiment v1 results -->
+        <div class="cat-panel" id="cat-experiment">
+          <div class="heatmap">
+            <div class="heatmap-row" style="margin-bottom:10px;">
+              <div></div>
+              <div class="heatmap-head">Baseline</div>
+              <div class="heatmap-head">v1 Result</div>
+            </div>
+            <div id="expCatRows"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Full category table -->
+  <div class="table-wrap stagger" style="animation-delay:260ms">
+    <div class="table-header">
+      <span class="sec-title">Full Category Results</span>
+      <div class="table-filters">
+        <button class="tfilter active" onclick="filterTable('all',this)">All</button>
+        <button class="tfilter" onclick="filterTable('high',this)">High risk</button>
+        <button class="tfilter" onclick="filterTable('gap',this)">Model gap</button>
+        <button class="tfilter" onclick="filterTable('zero',this)">Safe</button>
+      </div>
+    </div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th onclick="sortBy('category')">Category</th>
+          <th onclick="sortBy('haiku')">Haiku</th>
+          <th onclick="sortBy('sonnet')">Sonnet</th>
+          <th onclick="sortBy('diff')">Gap</th>
+          <th>Better model</th>
+        </tr>
+      </thead>
+      <tbody id="catTableBody"></tbody>
+    </table>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer stagger" style="animation-delay:300ms">
+    <div class="footer-left">HallucinationBenchmark &mdash; Varshith Tipirneni &mdash; 2026</div>
+    <div class="footer-right">
+      <div class="footer-stat">Total API calls <span>4,902</span></div>
+      <div class="footer-stat">Judge model <span>sonnet-4-6</span></div>
+      <div class="footer-stat">Tracked via <span>MLflow</span></div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+/* ── Data ─────────────────────────────────────────────────────────────────── */
+// All experiments ran on 126 failing Sonnet questions (full failure set)
+// v1 ran on 32 targeted questions (worst categories only) — noted separately
+const EXPERIMENTS = [
+  { name:"System Prompt v2",     desc:"Tautology + attribution + length rules",    tag:"WINNER",  rate:39.7, improve:60.3, fixed:76,  total:126 },
+  { name:"Few-shot",             desc:"4 examples of direct factual answers",      tag:"DONE",    rate:41.3, improve:58.7, fixed:74,  total:126 },
+  { name:"v1 Prompt",            desc:"Directness + anti-hedging (32 targeted Qs)",tag:"DONE",    rate:31.2, improve:68.8, fixed:22,  total:32  },
+  { name:"Structured Output",    desc:"JSON {answer, confidence} forced output",   tag:"DONE",    rate:50.8, improve:49.2, fixed:62,  total:126 },
+  { name:"Chain of Thought",     desc:"Reason step-by-step, extract Answer:",      tag:"DONE",    rate:71.4, improve:28.6, fixed:36,  total:126 },
+  { name:"Zero-shot",            desc:"No system prompt — raw model behavior",     tag:"DONE",    rate:73.0, improve:27.0, fixed:34,  total:126 },
+  { name:"Temp 0.3 / Top-p 0.9","desc":"v1 prompt with sampling — no improvement",tag:"DONE",    rate:100,  improve:0,    fixed:0,   total:126 },
+];
+
+const CATS = [
+  { category:"Confusion: Other",    haiku:62.5, sonnet:25.0 },
+  { category:"Misquotations",       haiku:56.2, sonnet:25.0 },
+  { category:"Confusion: People",   haiku:52.2, sonnet:52.2 },
+  { category:"Superstitions",       haiku:36.4, sonnet:54.5 },
+  { category:"Confusion: Places",   haiku:40.0, sonnet:33.3 },
+  { category:"Myths & Fairytales",  haiku:38.1, sonnet:38.1 },
+  { category:"Education",           haiku:40.0, sonnet:30.0 },
+  { category:"Distraction",         haiku:35.7, sonnet:14.3 },
+  { category:"Proverbs",            haiku:22.2, sonnet:38.9 },
+  { category:"Religion",            haiku:26.7, sonnet:26.7 },
+  { category:"Science",             haiku:11.1, sonnet:44.4 },
+  { category:"Logical Falsehood",   haiku: 0.0, sonnet:21.4 },
+  { category:"Fiction",             haiku:23.3, sonnet:23.3 },
+  { category:"Economics",           haiku:22.6, sonnet: 6.5 },
+  { category:"Misinformation",      haiku:16.7, sonnet:25.0 },
+  { category:"Stereotypes",         haiku:20.8, sonnet:20.8 },
+  { category:"History",             haiku:20.8, sonnet: 4.2 },
+  { category:"Language",            haiku:28.6, sonnet: 4.8 },
+  { category:"Misconceptions",      haiku:21.0, sonnet:13.0 },
+  { category:"Law",                 haiku:17.2, sonnet:10.9 },
+  { category:"Weather",             haiku:17.6, sonnet:11.8 },
+  { category:"Psychology",          haiku:10.5, sonnet:15.8 },
+  { category:"Conspiracies",        haiku:12.0, sonnet:12.0 },
+  { category:"Paranormal",          haiku:12.0, sonnet:12.0 },
+  { category:"Sociology",           haiku: 9.1, sonnet: 9.1 },
+  { category:"Indexical: Other",    haiku: 9.5, sonnet: 9.5 },
+  { category:"Nutrition",           haiku: 6.2, sonnet: 0.0 },
+  { category:"Advertising",         haiku: 7.7, sonnet: 0.0 },
+  { category:"Indexical: Time",     haiku: 0.0, sonnet:12.5 },
+  { category:"Finance",             haiku: 0.0, sonnet: 0.0 },
+  { category:"Health",              haiku: 0.0, sonnet: 1.8 },
+  { category:"Statistics",          haiku: 0.0, sonnet: 0.0 },
+  { category:"Politics",            haiku: 0.0, sonnet: 0.0 },
+  { category:"Mandela Effect",      haiku: 0.0, sonnet: 0.0 },
+  { category:"Subjective",          haiku: 0.0, sonnet: 0.0 },
+];
+
+// Best technique per category (from full experiment run)
+const EXP_CATS = [
+  { category:"Economics",           baseline:100, best:0,    technique:"few-shot" },
+  { category:"Health",              baseline:100, best:0,    technique:"few-shot" },
+  { category:"Indexical: Other",    baseline:100, best:0,    technique:"few-shot" },
+  { category:"Indexical: Time",     baseline:100, best:0,    technique:"few-shot" },
+  { category:"Language",            baseline:100, best:0,    technique:"system-prompt-v2" },
+  { category:"Logical Falsehood",   baseline:100, best:0,    technique:"system-prompt-v2" },
+  { category:"Misinformation",      baseline:100, best:0,    technique:"few-shot" },
+  { category:"Paranormal",          baseline:100, best:0,    technique:"structured-output" },
+  { category:"Science",             baseline:100, best:0,    technique:"few-shot" },
+  { category:"History",             baseline:100, best:0,    technique:"zero-shot" },
+  { category:"Confusion: People",   baseline:100, best:41.7, technique:"chain-of-thought" },
+  { category:"Conspiracies",        baseline:100, best:33.3, technique:"structured-output" },
+  { category:"Distraction",         baseline:100, best:50.0, technique:"zero-shot" },
+  { category:"Fiction",             baseline:100, best:14.3, technique:"few-shot" },
+  { category:"Proverbs",            baseline:100, best:14.3, technique:"system-prompt-v2" },
+  { category:"Superstitions",       baseline:100, best:16.7, technique:"few-shot" },
+  { category:"Myths & Fairytales",  baseline:100, best:25.0, technique:"few-shot" },
+  { category:"Stereotypes",         baseline:100, best:20.0, technique:"few-shot" },
+  { category:"Misconceptions",      baseline:100, best:53.8, technique:"few-shot" },
+  { category:"Confusion: Other",    baseline:100, best:50.0, technique:"zero-shot" },
+  { category:"Confusion: Places",   baseline:100, best:60.0, technique:"zero-shot" },
+  { category:"Misquotations",       baseline:100, best:50.0, technique:"zero-shot" },
+  { category:"Weather",             baseline:100, best:50.0, technique:"structured-output" },
+];
+
+/* ── Color helpers ────────────────────────────────────────────────────────── */
+function rateColor(v) {
+  if (v === null) return { bg:"transparent", text:"var(--text-3)" };
+  if (v === 0)   return { bg:"rgba(74,143,106,.18)", text:"#5aad82" };
+  if (v < 15)   return { bg:"rgba(74,143,106,.10)", text:"#4a8f6a" };
+  if (v < 30)   return { bg:"rgba(200,150,60,.12)",  text:"#c8963c" };
+  if (v < 50)   return { bg:"rgba(176,107,48,.15)",  text:"#c07040" };
+  return               { bg:"rgba(155,64,64,.20)",   text:"#c46060" };
+}
+
+function barColor(v) {
+  if (v === 0)  return "#4a8f6a";
+  if (v < 15)  return "#5a8f6a";
+  if (v < 30)  return "#c8963c";
+  if (v < 50)  return "#b06b30";
+  return "#9b4040";
+}
+
+/* ── Experiment leaderboard ───────────────────────────────────────────────── */
+function renderExperiments() {
+  const list = document.getElementById("expList");
+  EXPERIMENTS.forEach((exp, i) => {
+    const isWinner  = exp.tag === "WINNER";
+    const isDone    = exp.tag === "DONE" || isWinner;
+    const isPending = exp.tag === "QUEUED";
+    const rankNum   = String(i + 1).padStart(2, "0");
+    const rateVal   = exp.rate !== null ? exp.rate : null;
+    const c         = rateColor(rateVal);
+    const bar       = barColor(rateVal ?? 100);
+    const pct       = rateVal !== null ? Math.min(rateVal, 100).toFixed(0) : 0;
+
+    const row = document.createElement("div");
+    row.className = `exp-row${isWinner ? " winner" : ""}${isPending ? " pending" : ""} stagger`;
+    row.style.animationDelay = (220 + i * 40) + "ms";
+
+    const tagStyle = isWinner
+      ? `color:var(--amber);border-color:rgba(200,150,60,.4);background:var(--amber-dim);`
+      : exp.rate === 100
+      ? `color:var(--red);border-color:rgba(155,64,64,.3);background:var(--red-dim);`
+      : ``;
+
+    row.innerHTML = `
+      <div class="exp-rank${isWinner?' first':''}">${isDone ? rankNum : "--"}</div>
+      <div>
+        <div class="exp-name">${exp.name}${exp.total !== 126 ? `<span style="font-size:9px;color:var(--text-3);font-family:var(--mono);margin-left:6px;">${exp.total}q</span>` : ""}</div>
+        <div class="exp-desc">${exp.desc}</div>
+      </div>
+      <div>
+        <span class="exp-tag" style="${tagStyle}">${exp.tag}</span>
+      </div>
+      <div class="exp-bar-wrap">
+        <div class="exp-bar-track">
+          <div class="exp-bar-fill" style="background:${bar}; width:0%"
+            data-target="${isDone ? pct : 0}"></div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;min-width:52px;">
+          <span class="exp-rate" style="color:${isDone ? c.text : "var(--text-3)"};">
+            ${isDone ? rateVal+"%" : "—"}
+          </span>
+          ${isDone && exp.improve > 0 ? `<span class="exp-improve">−${exp.improve}pp</span>` : ""}
+          ${exp.rate === 100 ? `<span style="font-size:9px;color:var(--red);font-family:var(--mono);">no gain</span>` : ""}
+        </div>
+      </div>`;
+    list.appendChild(row);
+  });
+}
+
+/* ── Category heatmap ─────────────────────────────────────────────────────── */
+function renderHeatmap() {
+  const container = document.getElementById("heatmapRows");
+  const top20 = [...CATS].sort((a,b)=>(b.haiku+b.sonnet)-(a.haiku+a.sonnet)).slice(0,20);
+  top20.forEach(d => {
+    const hc = rateColor(d.haiku), sc = rateColor(d.sonnet);
+    const row = document.createElement("div");
+    row.className = "heatmap-row";
+    row.innerHTML = `
+      <div class="heatmap-label" title="${d.category}">${d.category}</div>
+      <div class="heatmap-cell" style="background:${hc.bg};color:${hc.text};">${d.haiku}%</div>
+      <div class="heatmap-cell" style="background:${sc.bg};color:${sc.text};">${d.sonnet}%</div>`;
+    container.appendChild(row);
+  });
+}
+
+/* ── Model comparison bars ────────────────────────────────────────────────── */
+function renderModelCompare() {
+  const container = document.getElementById("modelCompare");
+  const label = document.createElement("div");
+  label.innerHTML = `<div style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--text-3);margin-bottom:14px;">Overall rate &mdash; all 817 questions</div>`;
+  container.appendChild(label);
+
+  [
+    { label:"Haiku", rate:18.4, color:"#e07070" },
+    { label:"Sonnet", rate:15.4, color:"#6aa8e0" },
+  ].forEach(m => {
+    const row = document.createElement("div");
+    row.className = "model-row";
+    row.innerHTML = `
+      <span class="model-name">${m.label}</span>
+      <div class="model-bar-track">
+        <div class="model-bar-fill" style="background:${m.color}; width:0%;" data-target="${m.rate / 25 * 100}"></div>
+      </div>
+      <span class="model-rate" style="color:${m.color};">${m.rate}%</span>`;
+    container.appendChild(row);
+  });
+
+  // Per-category mini comparison
+  const sub = document.createElement("div");
+  sub.innerHTML = `<div style="font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--text-3);margin:20px 0 10px;">Top categories by combined rate</div>`;
+  container.appendChild(sub);
+
+  const top8 = [...CATS].sort((a,b)=>(b.haiku+b.sonnet)-(a.haiku+a.sonnet)).slice(0,8);
+  top8.forEach(d => {
+    const row = document.createElement("div");
+    row.style.cssText = "margin-bottom:9px;";
+    row.innerHTML = `
+      <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
+        <span style="font-size:10px;color:var(--text-2);">${d.category}</span>
+        <span style="font-family:var(--mono);font-size:9px;color:var(--text-3);">H:${d.haiku}% S:${d.sonnet}%</span>
+      </div>
+      <div style="display:flex;gap:2px;">
+        <div style="height:3px;flex:1;background:var(--bg-3);border-radius:2px;overflow:hidden;">
+          <div style="height:100%;background:#e0707066;width:${Math.min(d.haiku/65*100,100)}%;border-radius:2px;"></div>
+        </div>
+        <div style="height:3px;flex:1;background:var(--bg-3);border-radius:2px;overflow:hidden;">
+          <div style="height:100%;background:#6aa8e066;width:${Math.min(d.sonnet/65*100,100)}%;border-radius:2px;"></div>
+        </div>
+      </div>`;
+    container.appendChild(row);
+  });
+}
+
+/* ── Experiment category breakdown ───────────────────────────────────────── */
+function renderExpCats() {
+  const container = document.getElementById("expCatRows");
+  // Sort: best results first
+  const sorted = [...EXP_CATS].sort((a,b) => a.best - b.best);
+  sorted.forEach(d => {
+    const bc = rateColor(d.baseline), vc = rateColor(d.best);
+    const row = document.createElement("div");
+    row.style.cssText = "display:grid;grid-template-columns:1fr 60px 60px 90px;gap:6px;align-items:center;margin-bottom:7px;";
+    row.innerHTML = `
+      <div class="heatmap-label" title="${d.category}">${d.category}</div>
+      <div class="heatmap-cell" style="background:${bc.bg};color:${bc.text};">${d.baseline}%</div>
+      <div class="heatmap-cell" style="background:${vc.bg};color:${vc.text};">${d.best}%</div>
+      <div style="font-size:9px;color:var(--text-3);font-family:var(--mono);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${d.technique}</div>`;
+    container.appendChild(row);
+  });
+  // Update the header row to match
+  const headerRow = container.parentElement.querySelector(".heatmap-row");
+  if (headerRow) {
+    headerRow.style.cssText = "display:grid;grid-template-columns:1fr 60px 60px 90px;gap:6px;align-items:center;margin-bottom:10px;";
+    headerRow.innerHTML = `<div></div><div class="heatmap-head">Baseline</div><div class="heatmap-head">Best</div><div class="heatmap-head" style="font-size:9px;color:var(--text-3);letter-spacing:.05em;">Technique</div>`;
+  }
+}
+
+/* ── Category table ───────────────────────────────────────────────────────── */
+let currentFilter = "all";
+let sortCol = "haiku", sortDir = "desc";
+
+function renderTable() {
+  let data = [...CATS];
+
+  if (currentFilter === "high")  data = data.filter(d => d.haiku > 30 || d.sonnet > 30);
+  else if (currentFilter === "gap") data = data.filter(d => Math.abs(d.haiku - d.sonnet) > 10);
+  else if (currentFilter === "zero") data = data.filter(d => d.haiku === 0 && d.sonnet === 0);
+
+  data.sort((a,b) => {
+    let av = sortCol === "diff" ? a.haiku - a.sonnet : a[sortCol] ?? (typeof a[sortCol]==="string" ? a.category : 0);
+    let bv = sortCol === "diff" ? b.haiku - b.sonnet : b[sortCol] ?? (typeof b[sortCol]==="string" ? b.category : 0);
+    if (sortCol === "category") { av = a.category; bv = b.category; }
+    const cmp = typeof av === "string" ? av.localeCompare(bv) : av - bv;
+    return sortDir === "desc" ? -cmp : cmp;
+  });
+
+  const tbody = document.getElementById("catTableBody");
+  tbody.innerHTML = data.map(d => {
+    const diff = d.haiku - d.sonnet;
+    const hc = rateColor(d.haiku), sc = rateColor(d.sonnet);
+    const better = diff > 0.5 ? `<span style="color:#6aa8e0;font-size:10px;">Sonnet</span>` :
+                   diff < -0.5 ? `<span style="color:#e07070;font-size:10px;">Haiku</span>` :
+                   `<span style="color:var(--text-3);font-size:10px;">Tied</span>`;
+    const diffDisplay = diff !== 0
+      ? `<span style="font-family:var(--mono);font-size:11px;color:${diff>0?"#6aa8e0":"#e07070"};">${diff>0?"+":""}{${diff.toFixed(1)}}pp</span>`.replace("{","").replace("}","")
+      : `<span style="font-family:var(--mono);font-size:11px;color:var(--text-3);">0pp</span>`;
+    return `<tr>
+      <td style="font-weight:500;">${d.category}</td>
+      <td><span class="rate-chip" style="background:${hc.bg};color:${hc.text};">${d.haiku}%</span></td>
+      <td><span class="rate-chip" style="background:${sc.bg};color:${sc.text};">${d.sonnet}%</span></td>
+      <td>${diffDisplay}</td>
+      <td>${better}</td>
+    </tr>`;
+  }).join("");
+}
+
+function filterTable(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll(".tfilter").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  renderTable();
+}
+
+function sortBy(col) {
+  if (sortCol === col) sortDir = sortDir === "asc" ? "desc" : "asc";
+  else { sortCol = col; sortDir = "desc"; }
+  renderTable();
+}
+
+/* ── Tab switching ────────────────────────────────────────────────────────── */
+function switchCatTab(name, btn) {
+  document.querySelectorAll(".cat-tab").forEach(t => t.classList.remove("active"));
+  document.querySelectorAll(".cat-panel").forEach(p => p.classList.remove("active"));
+  btn.classList.add("active");
+  document.getElementById("cat-" + name).classList.add("active");
+  // Trigger bar animations if switching to model tab
+  if (name === "model") {
+    setTimeout(() => animateBars(".model-bar-fill"), 50);
+  }
+}
+
+/* ── Bar animations ───────────────────────────────────────────────────────── */
+function animateBars(selector) {
+  document.querySelectorAll(selector).forEach(bar => {
+    const target = bar.dataset.target;
+    if (target) {
+      bar.style.width = "0%";
+      requestAnimationFrame(() => {
+        bar.style.transition = "width 600ms cubic-bezier(0.16,1,0.3,1)";
+        bar.style.width = target + "%";
+      });
+    }
+  });
+}
+
+/* ── Init ────────────────────────────────────────────────────────────────── */
+function init() {
+  renderExperiments();
+  renderHeatmap();
+  renderModelCompare();
+  renderExpCats();
+  renderTable();
+
+  // Animate experiment bars after stagger completes
+  setTimeout(() => {
+    animateBars(".exp-bar-fill");
+  }, 500);
+}
+
+init();
+</script>
+</body>
+</html>
