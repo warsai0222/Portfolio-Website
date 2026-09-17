@@ -29,7 +29,7 @@ const KNOWLEDGE = [
     category: "education",
     keywords: ["education", "school", "university", "degree", "gpa", "unc", "bmsce", "bangalore", "statistics"],
     text:
-      "Education: M.S. Statistics, Analytics & Data Science at UNC Chapel Hill, Aug 2024-May 2026, GPA 4.0/4.0. B.E. Chemical Engineering at BMSCE Bangalore, 2019-2023, GPA 8.95/10. His background combines statistics, machine learning, and engineering systems thinking."
+      "Education: M.S. Data Science, Analytics & Statistics at UNC Chapel Hill, Aug 2024-May 2026, GPA 4.0/4.0. B.E. Chemical Engineering at BMSCE Bangalore, 2019-2023, GPA 8.95/10. His background combines statistics, machine learning, and engineering systems thinking."
   },
   {
     id: "viatris",
@@ -104,6 +104,22 @@ const KNOWLEDGE = [
       "HallucinationBenchmark is a hallucination detection and prompt-evaluation pipeline benchmarking Claude Haiku versus Sonnet on TruthfulQA across 817 questions and 38 categories. It compares 7 prompt engineering experiments: zero-shot, few-shot, chain-of-thought, structured output, system prompt v1, system prompt v2, and temperature tuning. System Prompt v2 achieved a -60.3 percentage-point hallucination-rate improvement. The project includes MLflow experiment tracking, an interactive results dashboard, and per-technique detail pages."
   },
   {
+    id: "multi-agent-research",
+    title: "Multi-Agent Research System",
+    category: "project",
+    keywords: ["multi-agent", "multi agent", "research system", "langchain", "tavily", "streamlit", "groq", "search agent", "web scraper", "writer chain", "critic chain", "agentic ai"],
+    text:
+      "The Multi-Agent Research System is a live four-stage LangChain agent pipeline. A Search Agent finds candidate sources, a Web Scraper retrieves usable evidence, a Writer Chain synthesizes a structured cited report, and a Critic Chain scores grounding and attribution before the report is shown. It makes retrieval failures and model-knowledge fallback explicit. Live demo: https://multi-agent-research-system-z9ag.onrender.com. GitHub: https://github.com/warsai0222/Multi_Agent_Research_System."
+  },
+  {
+    id: "bike-demand",
+    title: "Bike Demand Prediction",
+    category: "project",
+    keywords: ["bike demand", "bike sharing", "bike-share", "hourly demand", "gradient boosting", "mlflow", "dvc", "drift", "retrain", "streamlit", "uci bike sharing"],
+    text:
+      "Bike Demand Prediction is an end-to-end ML system forecasting hourly bike-share demand on the UCI Bike Sharing dataset. It uses leakage-safe lag and rolling features, walk-forward validated Gradient Boosting, MLflow experiment tracking, a DVC-versioned pipeline, automated tests, and simulated drift monitoring with a retrain trigger. It ships as an interactive Streamlit dashboard for on-demand prediction and model-performance monitoring: https://bike-demand-prediction-project.streamlit.app/."
+  },
+  {
     id: "skills",
     title: "Technical skills",
     category: "skill",
@@ -135,6 +151,8 @@ const INTENT_BOOSTS = {
   "sales-forecast": ["project"],
   "home-depot-search": ["project"],
   hallucinationbenchmark: ["project", "skill"],
+  "multi-agent-research": ["project", "skill"],
+  "bike-demand": ["project", "skill"],
   skill: ["skill", "hiring", "project"],
   hiring: ["hiring", "skill", "experience", "profile"],
   personal: ["personal", "profile"],
@@ -154,6 +172,8 @@ const SOURCE_LABELS = {
   "sales-forecast": "Vehicle Sales Forecast",
   "home-depot-search": "Search Relevance",
   hallucinationbenchmark: "HallucinationBenchmark",
+  "multi-agent-research": "Multi-Agent Research System",
+  "bike-demand": "Bike Demand Prediction",
   skills: "Technical skills",
   "writing-personal": "Writing / personal"
 };
@@ -239,7 +259,9 @@ function scoreChunk(question, chunk) {
 function queryIntent(question) {
   const q = normalize(question);
   if (/\b(hybridrag|hybrid rag|fda|compliance classifier)\b/.test(q)) return "hybridrag";
-  if (/\b(hallucinationbenchmark|hallucination|truthfulqa|deepeval|prompt engineering|system prompt|claude haiku|claude sonnet|mlflow)\b/.test(q)) return "hallucinationbenchmark";
+  if (/\b(multi[-\s]?agent|research system|tavily|search agent|web scraper|writer chain|critic chain|agentic ai)\b/.test(q)) return "multi-agent-research";
+  if (/\b(bike demand|bike sharing|bike-share|hourly demand|gradient boosting|dvc|drift monitoring|retrain)\b/.test(q)) return "bike-demand";
+  if (/\b(hallucinationbenchmark|hallucination|truthfulqa|deepeval|prompt engineering|system prompt|claude haiku|claude sonnet)\b/.test(q)) return "hallucinationbenchmark";
   if (/\b(sales forecast|vehicle sales|wape|elasticnet)\b/.test(q)) return "sales-forecast";
   if (/\b(home depot|search relevance|product search|lightgbm|sentence transformer)\b/.test(q)) return "home-depot-search";
   if (/\b(viatris|supply chain|pharma|purchase order|alteryx|stockout)\b/.test(q)) return "viatris";
