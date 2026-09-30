@@ -4,7 +4,23 @@ const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX_REQUESTS = 18;
 const QUESTION_MAX_CHARS = 700;
 const MIN_RETRIEVAL_SCORE = 2;
+const RELEVANCE_GAP = 0.35;
+const CACHE_TTL_MS = 15 * 60_000;
+const CACHE_MAX = 200;
 const rateBuckets = new Map();
+const answerCache = new Map();
+
+function cacheGet(key) {
+  const hit = answerCache.get(key);
+  if (!hit) return null;
+  if (Date.now() > hit.expiresAt) { answerCache.delete(key); return null; }
+  return hit.value;
+}
+
+function cacheSet(key, value) {
+  if (answerCache.size >= CACHE_MAX) answerCache.delete(answerCache.keys().next().value);
+  answerCache.set(key, { value, expiresAt: Date.now() + CACHE_TTL_MS });
+}
 
 const KNOWLEDGE = [
   {
@@ -13,7 +29,7 @@ const KNOWLEDGE = [
     category: "profile",
     keywords: ["who", "about", "summary", "profile", "role", "data", "analytics", "solutions", "recruiter summary", "introduce"],
     text:
-      "Varshith Tipirneni is a data enthusiast - a statistics-trained data scientist and analyst who digs into messy real-world data (claims, sales, catalogs) and turns it into forecasts, rankings, and decisions people actually use. He also built and still maintains one live production AI system, HybridRAG. Target roles: Data Scientist, Data Analyst, Business/Data Analytics, and Applied Machine Learning."
+      "Varshith Tipirneni is a data scientist - a statistics-trained data scientist and analyst who digs into messy real-world data (claims, sales, catalogs) and turns it into forecasts, rankings, and decisions people actually use. He also built and still maintains one live production AI system, HybridRAG. Target roles: Data Scientist, Data Analyst, Business/Data Analytics, and Applied Machine Learning."
   },
   {
     id: "contact-location",
@@ -305,7 +321,9 @@ function retrieve(question, history = []) {
     }))
     .filter(chunk => chunk.score >= MIN_RETRIEVAL_SCORE)
     .sort((a, b) => b.score - a.score)
-    .slice(0, 5);
+    .slice(0, 3)
+    // drop trailing chunks far weaker than the best match: they add tokens, not answers
+    .filter((chunk, _i, kept) => chunk.score >= kept[0].score * RELEVANCE_GAP);
 }
 
 function sourceLabels(matches) {
@@ -322,10 +340,10 @@ function cleanAnswer(answer) {
 function cleanHistory(history) {
   if (!Array.isArray(history)) return [];
   return history
-    .slice(-10)
+    .slice(-4)
     .map(item => ({
       role: item?.role === "assistant" ? "assistant" : "user",
-      content: cleanAnswer(item?.content).slice(0, 900)
+      content: cleanAnswer(item?.content).slice(0, 260)
     }))
     .filter(item => item.content);
 }
@@ -394,6 +412,12 @@ exports.handler = async event => {
     return json(event, 200, { answer: FALLBACK, sourceIds: [] });
   }
 
+  const cacheKey = history.length ? null : normalize(question);
+  if (cacheKey) {
+    const cached = cacheGet(cacheKey);
+    if (cached) return json(event, 200, { ...cached, cached: true });
+  }
+
   const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) {
     return json(event, 200, { answer: FALLBACK, sourceIds: matches.map(chunk => chunk.id), sourceLabels: sourceLabels(matches), missingKey: true });
@@ -409,7 +433,7 @@ exports.handler = async event => {
       body: JSON.stringify({
         model: process.env.GROQ_MODEL || "llama-3.3-70b-versatile",
         temperature: 0.2,
-        max_tokens: 220,
+        max_tokens: 160,
         messages: [
           {
             role: "system",
@@ -418,7 +442,9 @@ exports.handler = async event => {
               `Answer only from the provided context. If the answer is not clearly present, reply exactly: "${FALLBACK}"\n` +
               `If the user asks for Varshith's best skill, answer the skill directly; do not answer with his best project. If the user asks for best project or best work, answer HybridRAG.\n` +
               `Use the conversation history only to understand follow-up references, never as factual source material.\n` +
-              `Be concise, warm, and recruiter-friendly. Use plain text only. No markdown. No invented facts.`
+              `Answer in at most 70 words. Lead with the answer itself, no preamble and no restating the question. ` +
+              `Use short plain-text lines; where you list things, one item per line prefixed with "- ". ` +
+              `No markdown, no invented facts. Warm but brief.`
           },
           {
             role: "user",
@@ -432,12 +458,14 @@ exports.handler = async event => {
 
     const data = await response.json();
     const answer = cleanAnswer(data?.choices?.[0]?.message?.content);
-    return json(event, 200, {
+    const result = {
       answer: answer || FALLBACK,
       sourceIds: matches.map(chunk => chunk.id),
       sourceLabels: sourceLabels(matches),
       confidence: matches[0]?.score >= 12 ? "high" : "medium"
-    });
+    };
+    if (cacheKey && answer) cacheSet(cacheKey, result);
+    return json(event, 200, result);
   } catch (error) {
     return json(event, 200, {
       answer: FALLBACK,
