@@ -61,7 +61,7 @@
 :root[data-theme="light"] .b-stat .stat-num{ color:#1a2015 }
 :root[data-theme="light"] .b-stat sup{ color:#3E5F44 }
 :root[data-theme="light"] .stat-bg{ color:rgba(62,95,68,.10) !important }
-/* AskVarshith mini chat */
+/* Duta mini chat */
 :root[data-theme="light"] .b-ask .m-bot,:root[data-theme="light"] .ask-win-msgs .aw.bot{ background:#e8e3d8 !important; border-color:#9e9480 !important; color:#1a2015 }
 :root[data-theme="light"] .b-ask .m-bot b,:root[data-theme="light"] .ask-win-msgs .aw.bot b,:root[data-theme="light"] .ask-win-msgs .aw.bot strong{ color:#1a2015; font-weight:700 }
 :root[data-theme="light"] .b-ask .m-bot a,:root[data-theme="light"] .ask-win-msgs .aw.bot a,:root[data-theme="light"] .ask-fallback a{ color:#3E5F44; text-decoration:underline }
@@ -83,8 +83,6 @@
 :root[data-theme="light"] .ask-win-inp-row{ border-top-color:#9e9480 !important }
 :root[data-theme="light"] .ask-win-inp{ background:#fbf6e9 !important; color:#1a2015 !important; border-color:#9e9480 !important }
 :root[data-theme="light"] .ask-win-inp::placeholder{ color:#7d7253 }
-:root[data-theme="light"] .ask-win-snd{ color:#3E5F44 !important; opacity:.9 }
-:root[data-theme="light"] .ask-win-snd:hover{ opacity:1 }
 :root[data-theme="light"] .ask-win-msgs{ background:#fbf6e9 }
 :root[data-theme="light"] .b-ask-title,:root[data-theme="light"] .ask-win-title{ color:#1a2015 }
 :root[data-theme="light"] .ask-win-clr{ color:#3E5F44 !important }
@@ -145,7 +143,7 @@
 /* Marquee chips on light */
 :root[data-theme="light"] .m-chip{ background:#e8e3d8 !important; color:#1a2015 !important; border-color:#9e9480 !important }
 /* Background canvas - soften in light mode so it's not visually noisy */
-:root[data-theme="light"] #bg-canvas{ opacity:.85 }
+:root[data-theme="light"] #bg-canvas{ opacity:.55 }
 :root[data-theme="light"] .blobs{ opacity:.55 }
 :root[data-theme="light"] .blob{ background:radial-gradient(circle, rgba(62,95,68,.45), transparent 70%) !important; mix-blend-mode:multiply; filter:blur(40px) }
 /* About flip dialog - light mode */
@@ -366,7 +364,7 @@ body::after{content:'';position:fixed;inset:0;background-image:radial-gradient(v
 @keyframes b4{0%,100%{transform:translate(0,0) scale(1);border-radius:56% 44% 62% 38%/38% 62% 44% 56%}45%{transform:translate(74px,-63px) scale(1.11);border-radius:38% 62% 50% 50%/62% 38% 56% 44%}80%{transform:translate(-44px,54px) scale(.91);border-radius:62% 38% 44% 56%/50% 50% 62% 38%}}
 @keyframes dp{0%,100%{width:48px;opacity:.7}50%{width:78px;opacity:1}}
 @keyframes mf{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
-#bg-canvas{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.7}
+#bg-canvas{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.6}
 
 .anim{opacity:0}
 .anim.played{animation:fadeUp .55s cubic-bezier(.22,1,.36,1) forwards}
@@ -432,6 +430,12 @@ html{scroll-padding-top:64px}
 .typed-line .cursor{display:inline-block;width:2px;height:.85em;background:var(--amber);vertical-align:middle;margin-left:2px;animation:blink 1s step-end infinite}
 .hero-bio{font-size:.73rem;color:var(--muted2);line-height:1.8;margin-bottom:1.75rem;max-width:400px;font-weight:300}
 .hero-socials{display:flex;gap:.5rem}
+.walk-link{display:inline-flex;align-items:center;gap:.55rem;margin-top:1rem;width:max-content;
+  padding:.65rem .8rem;border:1px solid var(--border2);border-radius:3px;color:var(--text);
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;text-decoration:none;
+  text-transform:uppercase;transition:all .2s;background:rgba(255,255,255,.12)}
+.walk-link:hover{border-color:var(--amber);color:var(--amber);transform:translateY(-2px)}
+.walk-link span{color:var(--amber)}
 .soc{width:34px;height:34px;border:1px solid var(--border2);background:var(--bg3);display:flex;align-items:center;justify-content:center;text-decoration:none;color:var(--muted2);border-radius:3px;transition:all .2s}
 .soc:hover{border-color:var(--amber3);color:var(--amber)}
 .soc svg{width:13px;height:13px}
@@ -629,8 +633,8 @@ html{scroll-padding-top:64px}
 .tl-card:hover{border-color:var(--border2)}
 .tl-top{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;margin-bottom:.8rem}
 .tl-left{display:flex;gap:.85rem;align-items:flex-start}
-.tl-logo{width:38px;height:38px;flex-shrink:0;background:var(--bg3);border:1px solid var(--border2);border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:var(--brig);font-size:.58rem;font-weight:800;color:var(--amber);overflow:hidden;padding:4px}
-.tl-logo img{width:100%;height:100%;object-fit:contain;border-radius:2px}
+.tl-logo{width:44px;height:44px;flex-shrink:0;background:var(--bg3);border:1px solid var(--border2);border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:var(--brig);font-size:.58rem;font-weight:800;color:var(--amber);overflow:hidden;padding:3px}
+.tl-logo img{width:100%;height:100%;object-fit:contain;border-radius:3px;background:#fff}
 .tl-role{font-family:var(--brig);font-size:.92rem;font-weight:700}
 .tl-co{font-size:.7rem;color:var(--amber2);margin-top:.12rem}
 .tl-badge{font-size:.56rem;padding:.15rem .48rem;border:1px solid var(--border2);border-radius:2px;color:var(--muted2);margin-top:.3rem;display:inline-block}
@@ -763,7 +767,7 @@ html{scroll-padding-top:64px}
 .ask-win-inp{flex:1;background:rgba(26,23,16,.95);border:1px solid var(--border2);color:var(--text);padding:.7rem 1rem;font-family:var(--mono);font-size:.72rem;outline:none;border-radius:2px;transition:border-color .2s}
 .ask-win-inp:focus{border-color:rgba(212,170,125,.35)}
 .ask-win-inp::placeholder{color:var(--muted)}
-.ask-win-snd{background:none;border:none;cursor:pointer;color:var(--amber);font-size:1.05rem;padding:.4rem .5rem;transition:transform .2s,opacity .2s;opacity:.8}
+.ask-win-snd{background:none;border:none;cursor:pointer;color:var(--amber);font-size:1.05rem;line-height:1;min-width:44px;min-height:40px;display:flex;align-items:center;justify-content:center;padding:.4rem .5rem;transition:transform .2s,opacity .2s;opacity:.85}
 .ask-win-snd:hover{transform:translateX(3px);opacity:1}
 .ask-quick{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:1rem;justify-content:center}
 .ask-back{margin-top:1.5rem;font-size:.66rem;color:var(--muted2);background:none;border:none;cursor:pointer;letter-spacing:.04em;transition:color .2s}
@@ -1176,9 +1180,174 @@ nav,.nav-links,.nav-logo,.btn-resume,.btn-ask,.theme-toggle,.fb,
   .pcm-h{ font-size:1.4rem }
   .pc-name{ font-size:1.08rem }
 }
+
+/* ═══ ported from the v5 build, in this site's own palette ═══ */
+
+/* ── baseline → result. Accent is reserved for the result row ── */
+.delta{display:flex;flex-direction:column;gap:.45rem;font-family:var(--mono);margin-bottom:.9rem}
+.drow{display:grid;grid-template-columns:62px 1fr auto;align-items:center;gap:.65rem}
+.dlabel{font-size:.56rem;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}
+.dbar{height:6px;border-radius:999px;background:var(--bg3);overflow:hidden;position:relative}
+.dbar i{position:absolute;inset:0 auto 0 0;border-radius:999px;background:var(--border2);
+  transform-origin:left center;transform:scaleX(0);transition:transform .9s cubic-bezier(.22,1,.36,1)}
+.delta.go .dbar i{transform:scaleX(1)}
+.drow.res .dbar i{background:var(--amber)}
+.dval{font-size:.72rem;color:var(--muted2)}
+.drow.res .dval{color:var(--amber);font-size:.82rem;font-weight:500}
+.pc-kicker{font-family:var(--mono);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:.5rem}
+
+/* ── About: ID card beside the bio ── */
+.about-top{display:grid;grid-template-columns:1.6fr .9fr;gap:2.6rem;align-items:start}
+.about-id{display:flex;flex-direction:column;align-items:center}
+.idcard{width:min(300px,84vw);aspect-ratio:1/1.42;position:relative;transform-style:preserve-3d;
+  transition:transform .8s cubic-bezier(.2,.8,.2,1);cursor:pointer}
+.idcard.flip{transform:rotateY(180deg)}
+.idface{position:absolute;inset:0;backface-visibility:hidden;border:1px solid var(--border2);
+  border-radius:14px;padding:1.15rem;display:flex;flex-direction:column;background:var(--bg2)}
+.idback{transform:rotateY(180deg);background:var(--text);color:var(--bg);border-color:var(--text)}
+.idlan{width:42px;height:5px;border-radius:999px;background:var(--border2);margin:0 auto .9rem}
+.idback .idlan{background:var(--bg);opacity:.45}
+.idph{width:84px;height:84px;border-radius:50%;overflow:hidden;margin:0 auto .7rem;border:1px solid var(--border)}
+.idph img{width:100%;height:100%;object-fit:cover;object-position:center 22%}
+.idname{text-align:center;font-family:var(--brig);font-size:1.05rem;font-weight:700;letter-spacing:-.025em}
+.idrole{text-align:center;font-family:var(--mono);font-size:.56rem;letter-spacing:.17em;
+  text-transform:uppercase;color:var(--muted2);margin-top:.3rem}
+.idrows{margin-top:auto;border-top:1px solid var(--border);padding-top:.7rem;display:grid;gap:.4rem;
+  font-family:var(--mono);font-size:.6rem}
+.idrow{display:flex;justify-content:space-between;gap:.6rem}
+.idrow span{color:var(--muted2)}
+.idbt{font-family:var(--mono);font-size:.56rem;letter-spacing:.17em;text-transform:uppercase;
+  opacity:.6;margin-bottom:.8rem}
+.idbl{display:grid;gap:.8rem}
+.idbl b{display:block;font-family:var(--mono);font-size:1.1rem;font-weight:500;letter-spacing:-.03em}
+.idbl em{font-style:normal;opacity:.65;font-size:.66rem}
+.idnote{font-family:var(--mono);font-size:.56rem;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--muted2);margin-top:.8rem}
+
+/* ── Philosophy as a horizontal rail ── */
+.philo-rail{display:flex !important;gap:1rem;overflow-x:auto;grid-template-columns:none !important;
+  padding:.2rem .2rem 1.2rem;scroll-snap-type:x proximity}
+.philo-rail::-webkit-scrollbar{height:3px}
+.philo-rail::-webkit-scrollbar-thumb{background:var(--border2);border-radius:999px}
+.philo-rail::-webkit-scrollbar-track{background:var(--bg3)}
+.philo-rail .pc{flex:0 0 320px;scroll-snap-align:start}
+.philo-note{font-family:var(--mono);font-size:.56rem;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--muted2);margin-top:-.4rem}
+
+/* ── Periodic table ── */
+.ptable{display:grid;grid-template-columns:repeat(8,1fr);gap:.5rem}
+.el{aspect-ratio:1;border:1px solid var(--border);border-radius:8px;padding:.5rem;background:var(--bg2);
+  display:flex;flex-direction:column;justify-content:space-between;
+  transition:transform .16s ease,background .16s ease,border-color .16s ease,color .16s ease}
+.el .n{font-family:var(--mono);font-size:.56rem;color:var(--muted2)}
+.el .s{font-family:var(--brig);font-size:clamp(.95rem,1.7vw,1.35rem);font-weight:700;
+  letter-spacing:-.035em;line-height:1}
+.el .f{font-family:var(--mono);font-size:.55rem;line-height:1.3;color:var(--muted2);overflow:hidden}
+.el.g2{background:var(--bg3)}
+@media(hover:hover){
+  .el:hover{background:var(--amber);border-color:var(--amber);color:var(--bg);transform:translateY(-3px)}
+  .el:hover .n,.el:hover .f{color:var(--bg);opacity:.78}
+}
+.ptable-legend{display:flex;gap:1.3rem;flex-wrap:wrap;margin-top:1.2rem;font-family:var(--mono);
+  font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2)}
+.ptable-legend i{display:inline-block;width:11px;height:11px;border:1px solid var(--border);
+  border-radius:3px;margin-right:.4rem;vertical-align:-1px;background:var(--bg2)}
+.ptable-legend i.alt{background:var(--bg3)}
+
+/* ── Publications as a list ── */
+.publist{border-top:1px solid var(--border)}
+.pubrow{display:grid;grid-template-columns:38px minmax(0,1fr) 120px;gap:1.1rem;align-items:center;
+  padding:1.05rem .35rem;border-bottom:1px solid var(--border);text-decoration:none;
+  transition:background .18s ease,padding .18s ease}
+.pubrow:hover{background:var(--bg2);padding-inline:1rem}
+.pubrow .pn{font-family:var(--mono);font-size:.58rem;color:var(--muted);letter-spacing:.1em}
+.pubrow h3{font-family:var(--brig);font-size:.95rem;font-weight:700;letter-spacing:-.02em;
+  margin:0 0 .22rem;line-height:1.35;color:var(--text)}
+.pubrow p{font-size:.8rem;color:var(--muted2);margin:0;line-height:1.55}
+.pubrow .go{font-family:var(--mono);font-size:.58rem;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--muted2);justify-self:end;white-space:nowrap}
+.pubrow:hover .go{color:var(--amber)}
+
+@media(max-width:900px){
+  .about-top{grid-template-columns:1fr;gap:1.8rem}
+  .about-id{margin-top:.5rem}
+  .ptable{grid-template-columns:repeat(5,1fr)}
+  .pubrow{grid-template-columns:28px minmax(0,1fr);gap:.8rem}
+  .pubrow .go{display:none}
+}
+@media(max-width:560px){ .ptable{grid-template-columns:repeat(4,1fr)} }
+@media(prefers-reduced-motion:reduce){ .dbar i{transform:scaleX(1)} }
+
+/* ── horizontal project cards ───────────────────────────────────────────── */
+.proj-grid{ grid-template-columns:repeat(2,1fr) !important; gap:1.25rem }
+.pc-card{ flex-direction:row !important; align-items:stretch; padding:0 !important;
+  position:relative; overflow:hidden }
+/* accent rail that wipes in on hover */
+.pc-card::before{ content:''; position:absolute; left:0; top:0; bottom:0; width:3px;
+  background:var(--amber); transform:scaleY(0); transform-origin:top;
+  transition:transform .26s cubic-bezier(.22,.61,.36,1); z-index:3 }
+.pc-card .pc-thumb{ width:152px; flex:0 0 152px; height:auto !important;
+  border-bottom:none !important; border-right:1px solid var(--border);
+  padding:.9rem; overflow:hidden }
+.pc-card .pc-thumb svg{ transition:transform .3s cubic-bezier(.22,.61,.36,1) }
+.pc-card .pc-body{ padding:1rem 1.15rem .85rem !important; min-width:0 }
+.pc-card .pc-tags{ margin:0 0 .55rem; gap:.28rem; align-items:center }
+.pc-more{ font-family:var(--mono); font-size:.68rem; color:var(--muted2);
+  opacity:.75; letter-spacing:.02em }
+.pc-card .pc-head{ margin-bottom:.4rem }
+.pc-card .pc-sum{ margin-bottom:.7rem }
+.pc-card .pc-cta{ margin-top:auto }
+@media(hover:hover){
+  .pc-card:hover::before{ transform:scaleY(1) }
+  .pc-card:hover .pc-thumb svg{ transform:scale(1.045) }
+}
+.pc-card:focus-visible::before{ transform:scaleY(1) }
+@media(max-width:1100px){ .proj-grid{ grid-template-columns:1fr !important } }
+@media(max-width:620px){
+  .pc-card{ flex-direction:column !important }
+  .pc-card .pc-thumb{ width:auto; flex:0 0 auto; height:96px !important;
+    border-right:none; border-bottom:1px solid var(--border) !important }
+}
+@media(prefers-reduced-motion:reduce){
+  .pc-card::before{ transition:none }
+  .pc-card .pc-thumb svg{ transition:none }
+}
 </style>
 </head>
 <body>
+<script>
+/* defined before the card renderer runs — it reads DELTAS at first paint */
+window.DELTAS={
+  vehicle:{baseLabel:'Naive',base:'15.9% WAPE',baseVal:15.9,
+           resLabel:'Mine', res:'7.16% WAPE', resVal:7.16},
+  search: {baseLabel:'Lexical',base:'11.5% lower error',baseVal:11.5,
+           resLabel:'+ semantic', res:'16.1% lower', resVal:16.1}
+};
+window.KEYSTACK={
+  hybridrag:['Python','RAG','pgvector'],
+  nmss:     ['SQL','Snowflake','Survival Analysis'],
+  vehicle:  ['Python','ElasticNet','Walk-Forward'],
+  bike:     ['MLflow','DVC','Streamlit'],
+  search:   ['LightGBM','Sentence Transformers'],
+  labcorp:  ['ARIMA','Gradient Boosting'],
+  agent:    ['LangChain','Groq','Streamlit'],
+  blinkit:  ['Power BI','SQL','Figma']
+};
+window.KICKER={hc:'Healthcare',fc:'Forecasting & time series',ai:'ML & AI systems',bi:'Analytics & BI'};
+window.deltaHTML=function(d){
+  const e=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const max=Math.max(d.baseVal,d.resVal)||1, w=v=>Math.max(6,Math.round(v/max*100));
+  return '<span class="delta">'
+    +'<span class="drow"><span class="dlabel">'+e(d.baseLabel)+'</span>'
+    +'<span class="dbar"><i style="width:'+w(d.baseVal)+'%"></i></span>'
+    +'<span class="dval">'+e(d.base)+'</span></span>'
+    +'<span class="drow res"><span class="dlabel">'+e(d.resLabel)+'</span>'
+    +'<span class="dbar"><i style="width:'+w(d.resVal)+'%"></i></span>'
+    +'<span class="dval">'+e(d.res)+'</span></span></span>';
+};
+</script>
+
 <canvas id="bg-canvas"></canvas>
 
 <!-- SCROLL COMPANION -->
@@ -1222,8 +1391,8 @@ nav,.nav-links,.nav-logo,.btn-resume,.btn-ask,.theme-toggle,.fb,
   </div>
   <div class="nav-right">
     <a href="./Varshith_Tipirneni_Resume.pdf" target="_blank" rel="noopener" class="btn-resume">Resume ↗</a>
-    <button class="btn-ask" onclick="go('ask')">AskVarshith ✦</button>
-    <button class="theme-toggle" id="themeToggle" aria-label="Toggle light / dark" title="Toggle theme">
+    <button class="btn-ask" onclick="go('ask')">Duta ✦</button>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle light / dark" title="Toggle theme" data-v5>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
     </button>
   </div>
@@ -1246,8 +1415,8 @@ nav,.nav-links,.nav-logo,.btn-resume,.btn-ask,.theme-toggle,.fb,
     <div class="stat-info"><div class="stat-label">Medical Claims</div><div class="stat-desc">SQL + Snowflake · NMSS</div></div>
   </div>
     <div class="b-stat anim d2">
-    <div class="stat-num"><span class="kcount">25</span><sup>%</sup></div>
-    <div class="stat-info"><div class="stat-label">Supply Gap Cut</div><div class="stat-desc">$15B portfolio · Viatris</div></div>
+    <div class="stat-num">$<span class="kcount">12.9</span><sup>M</sup></div>
+    <div class="stat-info"><div class="stat-label">Supply Gap Closed</div><div class="stat-desc">10% reduction in supply gap &middot; Viatris</div></div>
   </div>
     <div class="b-stat anim d2">
     <div class="stat-num"><span class="kcount">5</span></div>
@@ -1278,12 +1447,13 @@ nav,.nav-links,.nav-logo,.btn-resume,.btn-ask,.theme-toggle,.fb,
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
       </a>
     </div>
+    <a class="walk-link" href="./forest/"><span>↗</span> Walk through the work</a>
   </div>
 
   <!-- Ask mini -->
   <div class="b-ask anim d2">
-    <div class="b-ask-hdr"><div class="b-ask-title"><div class="pdot"></div>AskVarshith</div><button class="b-ask-expand" onclick="go('ask')">⤢</button></div>
-    <div class="b-ask-msgs" id="home-msgs"><div class="m-bot">Hi, I'm <b>AskVarshith</b>. Ask me for the strongest project, a walkthrough of the data, technical stack, or the fastest way to contact Varshith.</div></div>
+    <div class="b-ask-hdr"><div class="b-ask-title"><div class="pdot"></div>Duta</div><button class="b-ask-expand" onclick="go('ask')">⤢</button></div>
+    <div class="b-ask-msgs" id="home-msgs"><div class="m-bot">Hi, I'm <b>Duta</b> — Sanskrit for messenger. Ask me for the strongest project, a walkthrough of the data, technical stack, or the fastest way to contact Varshith.</div></div>
     <div class="b-ask-qchips">
       <span class="qc" onclick="hAsk('Best work')">Best work</span>
       <span class="qc" onclick="hAsk('Why hire him?')">Why hire him?</span>
@@ -1420,14 +1590,41 @@ nav,.nav-links,.nav-logo,.btn-resume,.btn-ask,.theme-toggle,.fb,
       <p>Open to <strong>data scientist, data analyst, business/data analytics, and applied machine learning</strong> roles where I can dig into data and turn it into something a team can act on.</p>
       <a href="#" onclick="go('contact');return false" class="cta-link">Let's connect →</a>
     </div>
+    <div class="about-id anim d3">
+      <div class="idcard" id="idcard" tabindex="0" role="button" aria-label="Flip ID card">
+        <div class="idface">
+          <div class="idlan"></div>
+          <div class="idph"><img src="avatar_light.png" alt=""></div>
+          <div class="idname">Varshith Tipirneni</div>
+          <div class="idrole">Data Scientist</div>
+          <div class="idrows">
+            <div class="idrow"><span>Location</span><b>St. Augustine, FL</b></div>
+            <div class="idrow"><span>Degree</span><b>M.S. UNC · 4.0</b></div>
+            <div class="idrow"><span>Status</span><b>Open to roles</b></div>
+          </div>
+        </div>
+        <div class="idface idback">
+          <div class="idlan"></div>
+          <div class="idbt">Selected results</div>
+          <div class="idbl">
+            <div><b>0.95</b><em>AUC · medication-switch model</em></div>
+            <div><b>100M+</b><em>claims · ~1M patients</em></div>
+            <div><b>$12.9M</b><em>supply gap closed at Viatris</em></div>
+            <div><b>88%</b><em>stale ERP metrics removed</em></div>
+          </div>
+        </div>
+      </div>
+      <div class="idnote">Click to flip</div>
+    </div>
   </div>
   <div class="sec-h anim d0">Data Science <em>Philosophy</em></div>
-  <div class="philo-grid">
+  <div class="philo-grid philo-rail" id="philoRail">
     <div class="pc anim d1"><div class="pc-num">01</div><div class="pc-icon">🔍</div><div class="pc-title">Evidence Before the Model</div><div class="pc-text">Every column I keep, drop, or transform gets checked first - missingness, seasonality, collinearity - <strong>the evidence comes before the decision</strong>, not after.</div></div>
     <div class="pc anim d2"><div class="pc-num">02</div><div class="pc-icon">📏</div><div class="pc-title">Beat a Real Baseline</div><div class="pc-text">A model is only as good as what it's compared against. I backtest against naive and seasonal baselines, not just a train/test split, and I report the worst case too.</div></div>
     <div class="pc anim d3"><div class="pc-num">03</div><div class="pc-icon">⚙️</div><div class="pc-title">Production-Minded Pipelines</div><div class="pc-text">Good analytics needs reliable data paths. I design pipelines from ingestion through features, validation, deployment, and monitoring - not just a one-off notebook.</div></div>
     <div class="pc anim d4"><div class="pc-num">04</div><div class="pc-icon">🤝</div><div class="pc-title">Insight Delivery</div><div class="pc-text">The best analysis still has to land with humans. I translate models and numbers into clear workflows for operators, leaders, and product teams.</div></div>
   </div>
+  <div class="philo-note anim d2">Scroll the row &rarr;</div>
   <div class="sec-h anim d0" style="margin-top:3rem"><em>Professional</em> Trust</div>
   <div class="testi-grid">
     <div class="tc anim d1"><div class="tc-q">"</div><div class="tc-text">Varshith's work became essential decision infrastructure for our global supply chain teams - consistently top 5% company-wide, with 100+ colleagues across functions depending on it daily. His grasp of system design, usability, and stakeholder delivery stood out immediately.</div><div class="tc-who">Lead Specialist, Supply Chain Analytics</div><div class="tc-role">Viatris · 2025</div></div>
@@ -1443,11 +1640,11 @@ nav,.nav-links,.nav-logo,.btn-resume,.btn-ask,.theme-toggle,.fb,
   <div class="pg-eyebrow anim d0">02 / Experience</div>
   <div class="pg-h anim d1"><em>Career</em> Path</div>
   <div class="tl">
-    <div class="tl-item anim d1"><div class="tl-card"><div class="tl-top"><div class="tl-left"><div class="tl-logo"><img src="https://logo.clearbit.com/nationalmssociety.org" alt="National MS Society" onerror="this.outerHTML='MS'"></div><div><div class="tl-role">Data Scientist, Graduate Researcher</div><div class="tl-co">NMSS</div><div class="tl-badge">Part Time · Remote</div></div></div><div class="tl-date">Aug 2025 - Present</div></div><div class="tl-bullets"><div class="tl-b"><div class="tl-dot"></div><span>Improved therapy-group classification accuracy to <b>57.8%</b>, a 5% lift over flat-table baselines, by developing a sequential ML pipeline for therapy selection and medication switching.</span></div><div class="tl-b"><div class="tl-dot"></div><span>Assessed long-term medication persistence across patient cohorts using survival models (Kaplan-Meier, Cox proportional hazards) with quarterly recalibration to track changes in persistence patterns over time.</span></div><div class="tl-b"><div class="tl-dot"></div><span>Queried and joined <b>100M+</b> longitudinal medical claims in SQL and Snowflake to build cohort datasets and engineer training features.</span></div><div class="tl-b"><div class="tl-dot"></div><span>Implemented MLflow and DVC for experiment tracking and dataset versioning, keeping every model result reproducible and auditable months after training.</span></div></div><div class="tl-tags"><div class="tl-tag">Python</div><div class="tl-tag">SQL</div><div class="tl-tag">Snowflake</div><div class="tl-tag">Survival Analysis</div><div class="tl-tag">MLflow</div></div></div></div>
-    <div class="tl-item anim d2"><div class="tl-card"><div class="tl-top"><div class="tl-left"><div class="tl-logo"><img src="https://logo.clearbit.com/viatris.com" alt="Viatris" onerror="this.outerHTML='VX'"></div><div><div class="tl-role">Supply Chain Analyst</div><div class="tl-co">Viatris</div><div class="tl-badge">Internship · Remote</div></div></div><div class="tl-date">May 2025 - May 2026</div></div><div class="tl-bullets"><div class="tl-b"><div class="tl-dot"></div><span>Cut total supply gap value 25% across a $15B portfolio over 8 months by building and maintaining weekly OOS/POOS analytical pipelines and a daily Assumptions Dashboard.</span></div><div class="tl-b"><div class="tl-dot"></div><span>Drove an 88% volume reduction in stale ERP metrics over an 8-month tracking period by engineering daily supply chain dashboards and an automated weekly Inactive PO pipeline to isolate completed orders.</span></div><div class="tl-b"><div class="tl-dot"></div><span>Collaborated with global supply planners to scope the technical requirements behind the dashboards and pipelines above, translating ERP data gaps into concrete build specs.</span></div><div class="tl-b"><div class="tl-dot"></div><span>Built automated Alteryx workflows to ingest, clean, and map multi-source procurement data, cutting manual prep time for weekly reporting.</span></div></div><div class="tl-tags"><div class="tl-tag">Solution Design</div><div class="tl-tag">Power BI</div><div class="tl-tag">Alteryx</div><div class="tl-tag">SQL</div><div class="tl-tag">Supply Chain</div></div></div></div>
-    <div class="tl-item anim d3"><div class="tl-card"><div class="tl-top"><div class="tl-left"><div class="tl-logo"><img src="https://logo.clearbit.com/unc.edu" alt="UNC Chapel Hill" onerror="this.outerHTML='UNC'"></div><div><div class="tl-role">Instructional Assistant</div><div class="tl-co">UNC Chapel Hill</div><div class="tl-badge">Part Time · Chapel Hill, NC</div></div></div><div class="tl-date">Aug 2024 - May 2026</div></div><div class="tl-bullets"><div class="tl-b"><div class="tl-dot"></div><span>Supporting graduate-level Statistics & Analytics coursework - helping students with statistical modeling, ML, and programming concepts.</span></div></div><div class="tl-tags"><div class="tl-tag">Statistics</div><div class="tl-tag">ML</div><div class="tl-tag">Teaching</div></div></div></div>
-    <div class="tl-item anim d4"><div class="tl-card"><div class="tl-top"><div class="tl-left"><div class="tl-logo"><img src="https://logo.clearbit.com/knowde.com" alt="Knowde" onerror="this.outerHTML='KN'"></div><div><div class="tl-role">Data Analyst</div><div class="tl-co">Knowde</div><div class="tl-badge">Contract · Bangalore, India</div></div></div><div class="tl-date">Mar 2024 - Jun 2024</div></div><div class="tl-bullets"><div class="tl-b"><div class="tl-dot"></div><span>Structured product attributes and supplier specifications for 10K+ SKUs into standardized schemas for large-scale catalog ingestion.</span></div><div class="tl-b"><div class="tl-dot"></div><span>Used LLMs to automate data enrichment and standardize technical product descriptions, improving catalog data quality and search relevance.</span></div><div class="tl-b"><div class="tl-dot"></div><span>Scoped an LLM-based architecture to shift catalog ingestion from manual entry to automated retrieval, targeting reduced dependence on supplier-provided formatting.</span></div></div><div class="tl-tags"><div class="tl-tag">Python</div><div class="tl-tag">NLP</div><div class="tl-tag">Data Quality</div></div></div></div>
-    <div class="tl-item anim d5"><div class="tl-card"><div class="tl-top"><div class="tl-left"><div class="tl-logo">RL</div><div><div class="tl-role">Technical Services Intern</div><div class="tl-co">Reliance Industries Limited</div><div class="tl-badge">Internship · Jamnagar</div></div></div><div class="tl-date">Sep 2022 - Nov 2022</div></div><div class="tl-bullets"><div class="tl-b"><div class="tl-dot"></div><span>Performed crude distillation unit simulations using Petrosim to analyze plant operating conditions and process efficiency.</span></div><div class="tl-b"><div class="tl-dot"></div><span>Built Excel-based analytical models to evaluate thermal performance across different operating scenarios.</span></div><div class="tl-b"><div class="tl-dot"></div><span>Analyzed engineering and process data to support operational benchmarking and performance evaluation.</span></div></div><div class="tl-tags"><div class="tl-tag">Petrosim</div><div class="tl-tag">Process</div><div class="tl-tag">Excel</div></div></div></div>
+    <div class="tl-item anim d1"><div class="tl-card"><div class="tl-top"><div class="tl-left"><div class="tl-logo"><img src="data:image/png;base64,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" alt="National MS Society" onerror="this.outerHTML='MS'"></div><div><div class="tl-role">Data Scientist, Graduate Researcher</div><div class="tl-co">NMSS</div><div class="tl-badge">Part Time · Remote</div></div></div><div class="tl-date">Aug 2025 - Present</div></div><div class="tl-bullets"><div class="tl-b"><div class="tl-dot"></div><span>Improved therapy-group classification accuracy to <b>0.95 AUC</b>, a 5.0pp absolute gain over legacy flat-table architectures, by developing a sequential ML pipeline for therapy selection and medication switching.</span></div><div class="tl-b"><div class="tl-dot"></div><span>Assessed long-term medication persistence across patient cohorts using survival models (Kaplan-Meier, Cox proportional hazards) with quarterly recalibration to track changes in persistence patterns over time.</span></div><div class="tl-b"><div class="tl-dot"></div><span>Queried and joined <b>100M+</b> longitudinal medical claims in SQL and Snowflake to build cohort datasets and engineer training features.</span></div><div class="tl-b"><div class="tl-dot"></div><span>Implemented MLflow and DVC for experiment tracking and dataset versioning, keeping every model result reproducible and auditable months after training.</span></div></div><div class="tl-tags"><div class="tl-tag">Python</div><div class="tl-tag">SQL</div><div class="tl-tag">Snowflake</div><div class="tl-tag">Survival Analysis</div><div class="tl-tag">MLflow</div></div></div></div>
+    <div class="tl-item anim d2"><div class="tl-card"><div class="tl-top"><div class="tl-left"><div class="tl-logo"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAIAAABt+uBvAAAjeElEQVR42u19d3wdxbX/mZnde/d29S6r2LIsV9nG3dhgU2xcAAMJLUDoxPxCCDweIY8EwiMhEIghJKGFTjBgwDRTjAEXjHuTe5UlS1aXrm7f3Znz/pirq2t1F8p7P/YjF+3qbvnumXO+53vOjAgiwo9b9xv9EYIfAfoRoG9zU77n6yMgICIAgvzTthEgQAgQQr7fGyTfsZNGjMJBCBDa14dHgYjwvUD2HQGEAhGAEgLkGPOJBPWWRr+vORhoDQdaIoIjADCV2t0Wu1vzJDkSU12qVYn/lISYwHHg+8MFCBFRHGMsrc2Bqv315Zvra6ubDq6v8R8Nc4sQIDjnpiEQozbCFMIYo0AVU3FmWfNL07LyUgtGpWUWJLsS7PJUEk1Cv12b+rYAktBQFr31o+WNu9ZV7Nt45HBZvbchGPbpioVZHAplpH2LswgUKDeBiCZG/AY3hea2JKY68kekDxydUzwmNz03MYqUwG9v6H0LACEIISijABAO6ZuX7l/z/u6KvXWhoE6QqBpjCmUqRQTkUQfd0/0BACGUESDADcENoYdNIGizW/MGpU+aN3j4mYVWTQUAwQWh9JSjdIoBQoHSEFqbA6s/2LHuw72V2+oVB7M6VKYwAEQBJ35FGdkoABBu8FBA5wGRPzp97KyBk+YOcbhs0proKfVNpxIgiU4krC99cfM3H+1sqPSqmqI5LShQCIRTaqmEAKEUKER8umnwtDzPpPOHnnnZCItVRQFA8FSNuFMGkHx1NYebnr1ryaGtdc5kTbUqiIgc4dvzoQiEEUKIETb9jaGCERlzbh1XOmVAvC3/IACS6NRVNv/1pndaagPOJBs3xHfJsAghVCEhny64GD1j4LxfTkxKcwuOlJKTfD2nACDJSgK+0MNXL6o73OxI0rghvh/WSwkA+JtCCWnOy+89s3RKf0BAgJMZbaciF0MEAm/8ZfnRg43fIzpRciDQnWIP+SLP3LFkyfNrJfk+GSOgJz+4CCXL39n2zbu7Xcn27xGd2MZNYbEpmsPy7oLV/7jtg3BIJ4QIgd/DEJOOsPFo639f8m8ByFSK4hT5nWjmRQiBnpwIRo8iAiCiaP9hAkBV2nwkMHhS7k1/Pc/ptp+Y2z5ZgIDCS/ct/WbxLleyjZsnaz5RQkwIoSA4mhFuGjz68G3pvsxdorRIJncIlFHFwlSNyUxYcnAAYBbmbwzlFqX84ok5iemuE2BJJw6QvNiB7dULbnxXUdlJxiBC5ejASMgQXJgBYbGzxCynw2VzJFg9GXZngs3msqoWJjm64EIPGyG/3tIQ8B0NBVrDPm+w+UiAMMIsRLUoqqYQSlAgU2hzdaBgWNqvnp3ncGuIx0eRThwgeaVn/3PJxs/2ORJtgp+I+VBGAIgRNo2ICQRsLkuS25M1NKl4bE5GXmJCltOT7FBY7+hHInpLXaDxcGvlobrdXxypq/W2egNG0GQqs9gVi6Z46wLFY3J+sWCuVVOPK66dIEDSfCp31z/4k9ftSdYTOAllBBHCPt3UeXK2u/+ojMET8vKHpGcVpHQlqkHnUETako+2b9q3gD9cvb9h55qKXWsqKsrqTYO70+2tNcFRZw+46dFZiND3gXaCAEmHt+jRFZ8+v9GT6Tiu4EUZERzDAR055JWkTb5kyPApBZ5kZ4wzoBAxRTH26AS699YYwzDqpuQwBADO+Z4NR1a9tb1seTmnwgiaF905acbVYwXHmNLwLQCECISEApE/X/NGU7VfUVkfT0IoIQQCzRGLXRk6OW/KxcMHjck9ARmszW0jtOWuHYZM9CC0W0rV/oblb2/d8PH+5ir/na9eNGRcfh8d9okAJE+9Z2PF33/5IVOojCN9MBxqhM1Qqz5kQt6s+WOKSnNiulfPopehmyGfbnNYZZDq8gexTTjpKFpKptaG++G9tW/+cUXFzroHP77Gnezoi8M+cYDe/+fqD59e70rq3T0TApRRX1M4Ndc1++bx488rib3knt+hfICmWt9nL2zaueKwtz5gc1sS+zndyfakVFdisispz5VTnOxJcticWvvtcewseCMiYHTnB//8puGo94p7pqtW5VsBSPqgv9/+3o6VFfYEq5Q+exhWiOhvCI2bO+jiX09OSHHJAXLMA7Q5kU7iT/u3tZWNK97evvKtHa0NQZvTynVhhE2Lk9kdmjPRll+a1m9Q2oBR2XnFaZTSKEfrNGBRoKROO9aWu5PsuUVpvRpR7wAJLoCAvGqb/wFfS+iBea9FdJ0ptIcTUEa4ISJB44L5E8+9djQAEVzEPChi9DG685eCC5Bkuu3l11U2L3lm3fql+1SVWZ2qGRGmwYUpjDAHglanmpadMHhi3qS5g9PyEqPQd34ZiPK19YUQ9QSQPMWqD7YPm1DgSXFIXi/jV+XeuoevXKTYaA9JAFWIHuJMIVfdP33UtIEoENqU42iRo+2+uRB6yAgFIpGQAQBWm6o5rJrdEhNQhUD5ZuRHylYfXPTIqqo9jZ5MB7ZJ9wAgTDQiZthvONzWYWfkn37JsOJRuVFrIseg0Xe6qPQcyOsqW3avq5gwY3CMayAiAVJb0aybhoVq3SWBhBFTF4Bw/Z9nDJ1YwE3BGAXS7gsIQDhgbP/64P4t1UfLm7z1gdb6IFMpIgqOnhR7QrozIy9p4JicoePyVZsCQFCg4AKADJtYmPd8xuv//eWmZfsdCVYAIkwEAkDBYlc1l4UbYv0n+8pWlA8ck33u1acNGJndQULrO5nu1oKQI2HkrUdWNBxoveWp2bGzc1MwhX763MaFf/kqOcfNDd5l6oCI3OQ3PDxz2KRCzgWT+UFbZK061PDN4l1fvrA14A/Zk63cQErIsGn5h3fUMYWlFyTs+KqCKEAVEqyPeJIc064fMWFOSXpuUgfr++Sl9YsXrNacFqrE5ckIQIAyggKDPp2YMOWKYXNuHu902+IHeB83dt9993VNdCgxdfOl/1qaNyht+PRCFFEvgBwpI7uWVe5ce9iRrHXpoSmjvobgFb87c8zZgySgMrhQRnwtwXefXPXKvcvKviwfObP/tJ+XHtpSo7ksNzwyc/b14795f6cnxX77Py/KKErctabS7rRceNdEboilL2xe+9GeiB7JH5yuStUZABCKRmYnZju3LD1AFUYZiTr6WH4PYLWpikb3rq3a/nV51sDklCyPEMenn9Fu03SALV8drNjWYHVZOjF80CMmoaRL+kMV6m8MTv3p8MnnDxMcpRdHgZSRrcsP/v68Vz99bmPpWf3/8NFV8x+fu3NlhWnw2566YNikApNzBJQPP+bs4vl/mx1oiRzeWnfbUxfet/jKoVP6vffEmvsv/PfudRWUEQQAAoKLSXOG/vxP50b8Ogrs/OSCC0Rwp9jrK71/vfrdZa9splQyDDwpgCQKq9/eqTiPT+IhlET8enZxysV3nt4ePhAJJcve2PTYte8wG7ntmQtuenhWwdCMj59ft3Lh9qv/cE7ugDRJXtora6YoGpFz6T1TP31u44p3yopGZd/y6Nz5T86JhPS/XLVo1ftllBKpcgguxpxTfNGdk3yNoe48C+fCaletHnXhQ8vf/tuKqMiEJwpQrD5Rsa/O7raEwzrEp78IAGCxKDIqdbnNu32SZrNIQiC4IJQsfmT1c3d8Wjq94LcLLy2dMgAFNtW0Lv7rN2dfN3L0WUXCFDKtj70eqlBuiskXDj39kiGL/rzS1xRCgWPPGfTbNy8rHJX11C8/WvLMOkKJPDnnYvrlo6ZdOdzfEqYK7YYxIGXEnW779NlNL/7+UyB9NaJuPdautYdDgYhqU4KB0DFunwAAKA5GlI4ZBlVooClcMr7f0AkFEmUhkDK67PVNCxcsP+OKYfP/Njch1WXqnFCy8p0yQcTMG8ZIpxtv9u3/R5h1y1hfa3DtJzsJJYbOU7I8tz19weiZRa89+MXK97ZRRkHScQEX/WpKzsCUkDfSHatCgYKjO9W+4s3tbz22nNA+6bC0y8xACLFvczVyUK1KfbWXc9FuLAQAwJ1rU2wKHuuhUSAl9NxrToum1gIpJdtWHnzl3i8mzi25/sGZFqsKAIqFhcP6N+/tKp3WP3dAGqGEKZQQInWfWKVe7uw/LHvopPyVi7ZzIVQLAwCHS7v5L7OHTy18+Z4v9m48Il0hAlo19bL/OANM6NkncFMkZro+f3HL0lc20j5gRLskh4HWUPnWWsXKKCOBlkgkaMQGlzSllGyXxaLEn50yGmyJDJuWN2BkVluiQHwtwZfvWZZW4Ln4PyeHAhFvc8DbHAj4QluXH6gpbyk9qzDgC3mb/K0tQZ836G32o0DOuc8b9HmDvpZgS5M/6A+XTi+s3N2wbeWBgD/U2hzwNgWEEJfeO9WZpL30X0vDQV0qkkLggNOyp145NNASoQrpMZcUziTtzT+uLFt5iFLSM6AdeZDkO3s2Vjx56weKlUlifts/LygYkikPSQQbqr0PXPhvYm0feoSScKt+zR/PGntOicBoAv36w19+9q+NiVkuq001IqbMGiijiBD0RmweCyVEcj/Jhk2dI4JqZTKWISBjlJsi7DcciVYUIIQgQFCgqrGQT29tDM2ZP+7C+ZOiD0lIw9GWR655Sw+ZUpDrIQfSQ6Y7xX7Xi5e4k5zQvcaodFkFPLSpNtgSScp2Co7BVr36UGPBkEzJoWUG6UqypxS4asu9FpsiM0AzwpNzXYPG9QMCIJAweuRA/aq3theNzc4akKyHdOkvgBLB+Y7lFan9PDnFyVLriNYwKNmz9oiqKf1LM4XU/0mUkR0uq/U3h4dO6ReVxAgIjla7enhH3fKF2yZdMDgtO1F6rtSshJHTB3z5+lZXkh27lxnkxxuPtC5asPK6B2bKXKRPAMmkpuZIo2JhQqBMDg7vqJ00eyiR+SoBRLRqanZRypFdjZpD5QIJJXrE6FeS5k5wRDNmgJVvb/fVh3722vTcgWnxl6itbP76rV2zbx539lWjO1z9Dz991Zlgu/YPMzrsf/fxVR8/u+GSO89wt3VPye3AlurfzXp57Ye759w0Qb5aQJg4e8jy18p6DVLcFPYEbd0He8eeO2jY5ILu9DPaOUsAAQc31FkciowvjLHKnfWGbhIS5afy0v1K0ohChGizPBMGjMqKlRKDreFVr+0YM2tg7sA0bgohEAWahkCBh7bUEEpyh6aiQG4KGVxQoGlyRBSGkAVS5Bj7gbzh6cFA5MCGoyiQG0K2i3BTFI7IHD698MuXy4yQKcvwCNhvcGrxuOxg9+Es/mGZShc/vlqPGAS6LsB2EcUiIcN/NCxHBAq02JUjexprDjUCQLzJ9i/N0Oxq1IwJiAAOGJIdg2/HmvKWpsCEC0tkakopIZRQRgglVYfq7S5rSpYntif2FdWB4vbID6bnJ9qc1vqq5g77CSETLxhUc7Bp79Yj0NbrSQgZPr0Aee8hXHBhc1mrDjZsW3GQ0K59Fu0ouwE0N/i4hRMS7cxlCg359S1fHAIAkCoUIYCQVZiamu8xDU4oMXXhybUnZDhi3m7PuqrkPGfhsIw27b299FBb3uJMsWl2S9+4OcjQbnNZjh5uivem8t/CEZnODG3X6ooOOzWX2qdCJiKldMWi7abBu2xPox3FcABvY4ALHgtPiGi1q5s/P2CaJqU0yo8FWjV14IicUIuhWKgRMtMLE+wJGgAwhQoUFbtr0/MSE9JcUt+IcT9EDPkiiRkOm8MSf6gzUYztQ0SLpjiTtdbGYGxPtJsYMa1fQmZBYsXuOgSgjEqEMvKSUvM9ZkT0WgIQiJrDcmBTdfmOGql29TjEEAEg4A1zbD+14Kg51JrKpgNbj0KsU4IAAIyaXsQYQQTTEE6bjVEqk3s9ZLTUBTILk6gcBrS9TZMQEvTrDrfGGIvtoZR0Jorxh+xOzZVs00MGISTW9ykPqaqamuNpqG41DTOWDNns1tRsD+e898QdgTJiRPi6j/f0VTALtUa4KQgh7ToxAWHg+k/3FI/OlVeklCBi4ciM4vHZB8tqCAGLXW0bpMTvDRu6afNYvM0BM2xGdRIEyiAU0EO+iDvF1tzoE4aICowAhERb7g3TbGn0CRM7DDRFZQFvuL66mSksdl+IwFRqdapGxAwHdDVBkUZBCcksTNq89AD0oeQiuNDcli1LDv7kjqmKhfUOUFv57Rj2aLErO76uaKprTUp1tzFGoISMmVO8f8tRyojmUWM/Hw7qTKFr39uzfslejJtjQACEAIKkfFvtHy5+tePdIwCQljq8/6JXu0iDkSDHBy9bSGn8ZwghYIS4I1ELB/RoCzUiAPEkO0Xf0lFEYIyGQpGKfXWFQzI7xHulj6ewaErDYe/Kt7afP38iCiBtznLUtKLlb2w7uKXGoinxd20aIntgcuGITG7w9uooAUM3N39+wJGgDZmcHx9opF/bvOwAs9ARUwuhU5m5bGW5HjJLpxUoCot7cGQq27uhqqmmtQOmdo+V0j5rGpQY3Gysbi0ckinx7QkgQrro6xMc7R5t1ds7z7h0hDvJLqOpEOhwaWPPG7Tz68p47ybDf8n43Nk3TOhcJd61pjKrKPmSX03pfOk9G444XdpPfj2186GaQ03ehsBld03rfOiNR79qqPK2h0VCAMCZoCmMoehTTRwBCCWKSvvEg6wOhVICHXI0RFVjLQ3+Za9vlpKzvBNEmDhrsCfJ4asNxmKw3a1ZHZaaQy2CY/RLRP/mBrfYlGBrJLZHCOQchUDD5Bi3M/5Thm76vSGrTRVcdDihEFhzsNlqUzWHpR0eAIvNQijpq9aHQAnV7Cp0yspoR6UDwJlgY4x11gEEFw6Pdc37u+qqm2lb1ooCnYm2c38+ylsZjBERzaYmpDrqKpoJA8oIpYRSQhmhhCiqYndaQ4EIAso90aM0WtIBAvF7CAVKiWlwf3PY5rJSRgmJnlPSRSF401FfarZHUZVjWNLxCM+ISAm1u22dOyRoJ3zAnexgQDvzbkRgKmttCH701LqY+iHH+ZlXlKYP80TCBmVEmIIQ2m9Qes2h5uba1lj7SoyI2lzW5qOBkD8Sf6iX9p+Q4W8Mu5LtnUlJbUXL0UNN/UrSCADnIhYRTIP3XSwWAhmn7iRHLxYkg25SmlsxFOxKUBVc2D3amvd2l606SCgRQkht15PsOP2SobIEhAQAoGR8blOF/2BZjaxzyZ44mZGl9kvw14dCAT06WSXuKxY0j/lCDLSGQj49s19i7CTR7n2A/Zuq/DXhQeNzoyJUG0LhQET0sXYqdRVkMhPu8IkufJBmU23JFhGvInagBlb2zoKvg/4wATnQABDyBmbYXRoAMEoBYMiE/IRk5+p3dsW0wahySElhSWbAF2mp9xFCKKOxjExRmOxPjCZcTKZvlBBSX+kN+SPt8iONng0AVr29M7N/0sAROXElbAQAf1PENHmfujYp4RGRMsTFLLRvehCFwvHp6z7Ya9GUzikfCtSclqp9je/9Y/Vld00THAlrE27aeitRoOawnH7lkI+f2lC2+lBaP48QUYfFFEqthBAo++qQJ9nBzXbKjoDcRD1i1FU1izhrYgrZvqLc7rKiFWuPNAsh5Kkoo0d2NexeXfnTe6eoNqUDf4kE9T56IUpJJGDkl6RBVxMYlC4qzoxk5aUYkV2Uki7rgoILZ5Jt+evbi0fnjppeJAunnW154vmDV7+z87m7PhG6iIQMeWECQBhxJmkrF+1Y+uJmcSwV0lyWFsTfzXo53gEyRjS31epQn7zxfWwjf/I9EUrSBySMnVF8rHsmANBY6+uroyYABNLzkmKF9R6ZNAEAyCtNs3sspiF6YOoWu/LKfcsyChOzClI6AC/bS3OL0sZfWLL0+U3jzx/UryTdCBvRtlOV7VlfuX/90elXjbC5tPbZLgS+fmeHYmHjf14i/REiUEZ8zcEVr28vnpBTNCqbG1xWI6w2df/mI+uX7J/364lpOYnx5iPvpLa8iVLaa55BCJg6t7usBSPTu6zZK50/AADZhcnOBFvQH1FU1mWgQYGqpoRaI6/cv+z2p+dZrGrHfglCEGHOjeM2LN5bvafp6vvPsVrbc5GcgSmbPz0waFze0An58afdtHS/06PNum5c/M51n+z+pHXDedeNKRqZE9vpbw1++erW9JyEs68cLVlrfHdOJKy3NgYZJb0nG4RwnSdlutL7JXbJDmiXfQeuRHtBaZoR7ikbFqawu60HNx997q5PhBBwbAYn5Uenx37NQ+cc2Hz07/PfC4d0wdE0uBA4YGRW1sDkL17bLBs2OBdRoogozBh7FPLQlwu35g1Pzx+aIQSaBgcEvze04MbFdeXe6x+ZaXNYAeOrsggAdZUt9Ye9ipX1GukJATPCC0rT7Q4NsYviNe0y86KUDhydg6SXQj83hSvFvunzfW888qUseMS/MTkWhp1ecM1DZ63/ZN/L9y/lnCsqQy7sDm383OLtK8urDtVTSglAZ6JIgFBGD++q2behavJFQ1RVEVwoKgsGws/d8/HuNZXXPnJ20ahswY8Z3fL6NeVNQa/eXZW14/MyKB6TG5PD+lpZLRmXZ7NbuSl6nm/FTZGQ4fzq9TJZq4RjlV3p5qdfOuriW0//6rWyv936Xku9j6kMBU6+YBhBuuSZ9d25OSmNffiPtQ6nbfzMwShQUVlDtXfBzYs3fLT38nvOnHz+MMFFR+EZAQD2flPFueh1AishYOrC5daKR+dAN13GtMuwJwRm5CXlFadFAnqvvbKcC2ei7ZNnN7711+WSyOAxBUWCAi+6e/L1fzln67JDf7z0jS0r9hNKUrI8F/xqwtJ/bd74+T6qSKUN45sXmEJXvbt95Zs75v3HJFeijVCy7tPdD1z874Mbj978xKzzbhwrI31H22dEDxt7NlRZbUqvcgehNOTXC0dkJaW7O1hib3IHAgBMuGDw9hWHIZFAzwI4AgImZDo/f3lL0Ktf8dtpisqO6dQmBAVO++mo5IyEl+5e+vgNiyddPGT6ZSNnXjt236bql373WVq+J3dAmskhvnlh39YjCx/86twbRk+9aPi+TVWfv7Zpzfu7M/KSblkwe9DYXCGQkk59hohASMWuupoDza4MTRjY60whNHDShYMBu+1SV7rrYgGA0mmF/Uak1h1usdrVnmvYiIBcuJJsK94sa6zyXffQOZ5kZwwjQgAIERxHTC28/+OfffTs2uULy5a/Wjb+gkGDT+9XXlbz+M2Lr77/7GGTCtomNcP6pXtee+BLR6KWNyLt8VsWr/twT0KG4/zbxs/4+Vi7wyrnWsr2GiFEXIMpEiDrPtlDLABIoMdknjISatUHnJYxeEIeEKDdINRtC55kFp+9uuHtR792JmqC9ynxYyr1N4XT8jw/+91ZRSOz4dh52ifSglcX8SQ7zrxu+IQ5gzP6xbXgEQIENn25z5VkKxqR0ya/kKA//PA1bzZW+eSU4p4BCrSEL7/3zCkXDu+h6777HkVEQkhrc+Chq97wN4UVlfZJwESgCtWDhjDFjBvGnHvNaIs1an005sLbenqPs4kzuhwDAKGMcBRv/mn54bK6O166WFGZFCQpJeuX7nn+7k9tbmsvLQmU6GEzJcd994s/0exWhG7TWqWHqqMQ6E50nH7B0EWPrkrMdPapzERAcKHaFBT4/t/X7Fp7+PxbJ0Z7cSVjJoTQqBVoDvW0c4pPO6e49zZgLqTVSK+8Z0vl+wu+2bGq4oElV6kWJhM9WWVY88GuqJLXW/4VaolMv7NUkwO2+xpsz33SAIDhoP7wVW/WH/H26ok6NyuGWyOEkdIz+s+4ZkzOoJTY08ZUXRRRi+iOQ0RHbhujqdrf8PGz67etOtRaH/jJ3VPOu3acfDxpPge3VD9yzSJbYu/mE/breSVpd/7rYqrQDi39fbWgNiEdbA7r3P83/pk7Pobj3IQpNKcFAdZ9tGfrsoOjZhVNmD2of2mWqijtraKEQHQdF4xnepIyxnAxTX6wrHr14l0bPt7HuQCEotLss68cHWuDlA+47N9bOBeUEi56CbsAMPeX45nKhEDSI51UepUCUGDp1AEjzyrc+OkBV5KNH8/MQmlx7nQ7N8Wa93Zt/nxf1oDk4jG5o88oSs332BxW0iFL7iAkho36cu/Wrw9sX1VevbcxHDAcCVZCFFPnl//+TNWioEBCo97n8O6a7avLHclaz66AKbS1Pjj5kiElp+VhH2ZE9T5XIzbl5o+XL9RDRl8SnG6iBhVc6HL2ZZikDfTk9k/NKklKL0j0JDkoI5RSFMi58LeGastbqnc1Vh1qrNrRQCxEsTKLplBGgBB/Q/DqB8+eOHtITEKQd/jM3R9tXnrA7tF6mH1EKdFDpivZ9ptXL3Ul2HvwzccBUCw8b1q27+k7ljgTNXESc79lQRkI6kEzEjAIBUqpvEumUmEgIiJBIVCYaLWrVqcCGJ32wlTaVO0/8/LhP/uvs2I98/Ledm+ofPymxTaXpYfHkZ4mHNBveWL2sIkFfZxQ16fCoUypRk0vmnH96CVPr/ekO054AQEUsmMBVE2x2tXoRLi2OalEg/jl3YTAKBtGYBbqbwqNnF54xT3TETFGDgmAoZtv/XkFYUAoIO8haBBvfWDe7ROHTSzo+5TMvk5ckM7o/FsmDhmf31IdUFR6UsvdEJDNUYKLtsWm2hi5lPd5tHVKoqNYWWtNMK8k/bo/zaCUxOR52az11aKtlXvq7a7uZ64hMJW1HPWPOmvAjGvGCtFXdI4DoGibJaM3PDaz/8hMf0uEWSh8J8u7KBbqawzmFqfe8thsu1MTbVMOpIut3Fe35Kn19gSt2+iBoFipvyk4eFK/ax+cQQg5rnnz9HjcB6BAh0u75YlZqTnu1vrQd4ARU2hLTaD/yMzbX5iXkO6MxR1pc7puvvbAF+GAzpRu7gRBsbCWqmDugNSbHptttaldqmKnBqCYBpaQ7Jr/t7mZBQmBlnCXpZJTssnaqbc+MGJa4a2Pn+902+KVbxRAKXn/H6v3bzrqSOw2cjEr8zWF8oel/eLJOQ6XtL5vf2kKeaPN9b6nb/9o/6ajidkOUxen3HDCfoObfOYNp829eWKHgowMYeuX7n7hN0s1lwW6EX6YSpuP+AdPzrvpsZnf9eImUmTwe0PP3fHxjnUVrmRbW95w0obDqOAi6I0kpDouveeMkWcOkBkPIcegs39L9RO3vEcVOGYqXeypGAEBvubgyKkDrv3zuZrNcsKLv53E2h2yjQrw3Se//uxfGy021WJTTngBGEKAMAoCAy1hVWOT5g2ZdeM4l6fja5cvpqaiacH17/q9IatD7Ry5mEIjQcPU+Zz54867dhwczwzVUwlQe5mNwIbP9ix86Ctfc9iZqAHC8ea0IJCbIuzXAWH4GYUzbjitcEhmzFjitV3GaOPR1iduXdxQ6bW5rNw4RjKPLdGVmO689DdTR55ZdPJLdJ3sGmaxSfB1lc2LFqzc9sUhpjKrU5Xzm2NL27YnoXEL1oooLgYBdKc5SsblTpwzOFpgiJsiHT+y6qtanrz1/bqKFofnmLguC/w/0EXeoG26GgBsXLZn6Quby7fWCSaEKRRVYSqVvQlRNZ4LbqLs22eEOdzW4gk5gybkDhqTm5aTCF0uCIAgqd3h3bXP3/NJfWWr3W2NjWWZu+hhI9gUyR+RPmd+dJnAU7Xi5ClbRzG2qAE3+ZF9Dfs2VdXtb/F6g35vMOiL6GETERWV2RwWh8eWkORMyHAUj8vJzE9yJzvispCOi1VIcR4IbP5y/8u//9yImFaHRZiCUCCUAoGwT+cmT89POP3CYVMvHa6qyg90ockOqnOc4+BGhMsXTihRrUxVlY6CP3axWm1suVzT5B8+s+az5zfJnF6qSHKpUoxg4aiMMbMGTpg92O7U4Ae+VGl7FaitFZ6yrot3cjKydBCdX3X8SsKHd9W++8TXu9cdcSXZuCmMiGlGuAB0OLX+QzMnzCsZPqVANt8JLiil8ANf7LYb3Rbiiqd9tf2WRt/SlzZ9/uIWjkJRmBEx7W6rJ9VRMCJtwKickrFRnwX/+5ZLPik0MRzUq/Y1rFmyc+uyQ97qoNNuTyy055akZual9B+Tnt4v6ZgFt2NLCX5r2w8JIAQg0FjTum3FIatdScp0p2S6PUkOVVM6DsD/M0u2nzLoohPBAP6vLvp/XKMsNkP3/8dfG/G/bvvxN7P8CNCPAH2r2/8AyQZ8p7kLOcoAAAAASUVORK5CYII=" alt="Viatris" onerror="this.outerHTML='VX'"></div><div><div class="tl-role">Supply Chain Analyst</div><div class="tl-co">Viatris</div><div class="tl-badge">Internship · Remote</div></div></div><div class="tl-date">May 2025 - May 2026</div></div><div class="tl-bullets"><div class="tl-b"><div class="tl-dot"></div><span>Cut total supply gap value 10% ($12.9M) by building and maintaining weekly OOS/POOS analytical pipelines and a daily Assumptions Dashboard.</span></div><div class="tl-b"><div class="tl-dot"></div><span>Drove an 88% volume reduction in stale ERP metrics over an 8-month tracking period by engineering daily supply chain dashboards and an automated weekly Inactive PO pipeline to isolate completed orders.</span></div><div class="tl-b"><div class="tl-dot"></div><span>Collaborated with global supply planners to scope the technical requirements behind the dashboards and pipelines above, translating ERP data gaps into concrete build specs.</span></div><div class="tl-b"><div class="tl-dot"></div><span>Built automated Alteryx workflows to ingest, clean, and map multi-source procurement data, cutting manual prep time for weekly reporting.</span></div></div><div class="tl-tags"><div class="tl-tag">Solution Design</div><div class="tl-tag">Power BI</div><div class="tl-tag">Alteryx</div><div class="tl-tag">SQL</div><div class="tl-tag">Supply Chain</div></div></div></div>
+    <div class="tl-item anim d3"><div class="tl-card"><div class="tl-top"><div class="tl-left"><div class="tl-logo"><img src="data:image/png;base64,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" alt="UNC Chapel Hill" onerror="this.outerHTML='UNC'"></div><div><div class="tl-role">Instructional Assistant</div><div class="tl-co">UNC Chapel Hill</div><div class="tl-badge">Part Time · Chapel Hill, NC</div></div></div><div class="tl-date">Aug 2024 - May 2026</div></div><div class="tl-bullets"><div class="tl-b"><div class="tl-dot"></div><span>Supporting graduate-level Statistics & Analytics coursework - helping students with statistical modeling, ML, and programming concepts.</span></div></div><div class="tl-tags"><div class="tl-tag">Statistics</div><div class="tl-tag">ML</div><div class="tl-tag">Teaching</div></div></div></div>
+    <div class="tl-item anim d4"><div class="tl-card"><div class="tl-top"><div class="tl-left"><div class="tl-logo"><img src="data:image/png;base64,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" alt="Knowde" onerror="this.outerHTML='KN'"></div><div><div class="tl-role">Data Analyst</div><div class="tl-co">Knowde</div><div class="tl-badge">Contract · Bangalore, India</div></div></div><div class="tl-date">Mar 2024 - Jun 2024</div></div><div class="tl-bullets"><div class="tl-b"><div class="tl-dot"></div><span>Structured product attributes and supplier specifications for 10K+ SKUs into standardized schemas for large-scale catalog ingestion.</span></div><div class="tl-b"><div class="tl-dot"></div><span>Used LLMs to automate data enrichment and standardize technical product descriptions, improving catalog data quality and search relevance.</span></div><div class="tl-b"><div class="tl-dot"></div><span>Scoped an LLM-based architecture to shift catalog ingestion from manual entry to automated retrieval, targeting reduced dependence on supplier-provided formatting.</span></div></div><div class="tl-tags"><div class="tl-tag">Python</div><div class="tl-tag">NLP</div><div class="tl-tag">Data Quality</div></div></div></div>
+    <div class="tl-item anim d5"><div class="tl-card"><div class="tl-top"><div class="tl-left"><div class="tl-logo"><img src="data:image/png;base64,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" alt="Reliance Industries" onerror="this.outerHTML='RL'"></div><div><div class="tl-role">Technical Services Intern</div><div class="tl-co">Reliance Industries Limited</div><div class="tl-badge">Internship · Jamnagar</div></div></div><div class="tl-date">Sep 2022 - Nov 2022</div></div><div class="tl-bullets"><div class="tl-b"><div class="tl-dot"></div><span>Performed crude distillation unit simulations using Petrosim to analyze plant operating conditions and process efficiency.</span></div><div class="tl-b"><div class="tl-dot"></div><span>Built Excel-based analytical models to evaluate thermal performance across different operating scenarios.</span></div><div class="tl-b"><div class="tl-dot"></div><span>Analyzed engineering and process data to support operational benchmarking and performance evaluation.</span></div></div><div class="tl-tags"><div class="tl-tag">Petrosim</div><div class="tl-tag">Process</div><div class="tl-tag">Excel</div></div></div></div>
   </div>
 </div>
 </div>
@@ -1464,119 +1661,25 @@ nav,.nav-links,.nav-logo,.btn-resume,.btn-ask,.theme-toggle,.fb,
   <!-- ── PUBLICATIONS ── -->
   <div class="proj-section anim d0" style="margin-top:3.5rem" id="pubs">
     <div class="pg-h" style="margin-bottom:.4rem"><em>Publications</em></div>
-    <div class="pg-sub" style="font-size:.74rem;color:var(--muted2);margin-bottom:1.4rem;max-width:620px">5 articles on Medium · Towards AI &amp; Generative AI publications.</div>
-    <div class="proj-grid">
-      <div class="pc-card">
-        <div class="pc-thumb" style="background:linear-gradient(135deg,#0a0f1a,#050810)"><svg viewBox="0 0 90 55" fill="none"><rect x="10" y="15" width="28" height="22" rx="4" fill="none" stroke="#60a5fa" stroke-width="1" opacity=".5"/><rect x="52" y="15" width="28" height="22" rx="4" fill="none" stroke="#a78bfa" stroke-width="1" opacity=".5"/><line x1="38" y1="26" x2="52" y2="26" stroke="#60a5fa" stroke-width="1" stroke-dasharray="2 2" opacity=".6"/><text x="24" y="29" fill="#60a5fa" font-size="6" text-anchor="middle" opacity=".8">MCP</text><text x="66" y="29" fill="#a78bfa" font-size="5.5" text-anchor="middle" opacity=".8">fn()</text></svg></div>
-        <div class="pc-body"><div class="pc-head"><div class="pc-name">I Thought MCP Was Just Another Name for Function Calling. I Was Wrong.</div><div class="pc-badge badge-res">Medium · 2026</div></div><div class="pc-desc">Why the Model Context Protocol is architecturally distinct from plain function calling - server-side state, bi-directional control, and what that means for real agent systems.</div><div class="pc-tags"><div class="pc-tag">MCP</div><div class="pc-tag">Agents</div><div class="pc-tag">LLMs</div></div><div class="pc-links"><a href="https://medium.com/towards-artificial-intelligence/i-thought-mcp-was-just-another-name-for-function-calling-i-was-wrong-44e45c0e9bdb" target="_blank" rel="noopener" class="pc-link">↗ Read on Medium</a></div></div>
-      </div>
-      <div class="pc-card">
-        <div class="pc-thumb" style="background:linear-gradient(135deg,#051a0f,#020d06)"><svg viewBox="0 0 90 55" fill="none"><circle cx="45" cy="27" r="18" fill="none" stroke="#10b981" stroke-width="1" opacity=".4"/><path d="M30 20 L45 10 L60 20 L60 35 L45 44 L30 35 Z" fill="none" stroke="#10b981" stroke-width="1" opacity=".6"/><text x="45" y="30" fill="#10b981" font-size="6" text-anchor="middle" opacity=".8">RAG</text></svg></div>
-        <div class="pc-body"><div class="pc-head"><div class="pc-name">Why HybridRAG Changed The Way I Think About AI Systems</div><div class="pc-badge badge-res">Medium · 2026</div></div><div class="pc-desc">How building a production RAG classifier forced a rethink of retrieval - why neither dense nor sparse alone is enough, and how RRF fusion changes the outcome at the claim level.</div><div class="pc-tags"><div class="pc-tag">RAG</div><div class="pc-tag">BGE</div><div class="pc-tag">BM25</div><div class="pc-tag">RRF</div></div><div class="pc-links"><a href="https://medium.com/towards-artificial-intelligence/why-hybridrag-changed-the-way-i-think-about-ai-systems-372ac00ea199" target="_blank" rel="noopener" class="pc-link">↗ Read on Medium</a></div></div>
-      </div>
-      <div class="pc-card">
-        <div class="pc-thumb" style="background:linear-gradient(135deg,#1a0f00,#0d0600)"><svg viewBox="0 0 90 55" fill="none"><line x1="15" y1="40" x2="75" y2="40" stroke="#e8c59a" stroke-width="1" opacity=".4"/><polyline points="15,40 25,28 35,30 45,18 55,22 65,12 75,16" fill="none" stroke="#e8c59a" stroke-width="1.5" opacity=".7"/><text x="45" y="52" fill="#e8c59a" font-size="5.5" text-anchor="middle" opacity=".6">ETL pipeline</text></svg></div>
-        <div class="pc-body"><div class="pc-head"><div class="pc-name">How Chemical Engineering Made Data Pipelines Feel Familiar</div><div class="pc-badge badge-res">Medium · 2026</div></div><div class="pc-desc">Process control, mass balances, and unit operations as mental models for ETL, streaming pipelines, and data quality at scale.</div><div class="pc-tags"><div class="pc-tag">Data Eng.</div><div class="pc-tag">ETL</div><div class="pc-tag">Systems</div></div><div class="pc-links"><a href="https://medium.com/generative-ai/how-chemical-engineering-made-data-pipelines-feel-familiar-a35a5b820b5d" target="_blank" rel="noopener" class="pc-link">↗ Read on Medium</a></div></div>
-      </div>
-      <div class="pc-card">
-        <div class="pc-thumb" style="background:linear-gradient(135deg,#0f0a1a,#070412)"><svg viewBox="0 0 90 55" fill="none"><rect x="20" y="12" width="50" height="32" rx="5" fill="none" stroke="#a78bfa" stroke-width="1" opacity=".5"/><line x1="30" y1="22" x2="60" y2="22" stroke="#a78bfa" stroke-width=".8" opacity=".4"/><line x1="30" y1="28" x2="55" y2="28" stroke="#a78bfa" stroke-width=".8" opacity=".4"/><line x1="30" y1="34" x2="50" y2="34" stroke="#a78bfa" stroke-width=".8" opacity=".4"/></svg></div>
-        <div class="pc-body"><div class="pc-head"><div class="pc-name">AI Kept Forgetting My Notes - Fixing That Taught Me How It Actually Works</div><div class="pc-badge badge-res">Medium · 2026</div></div><div class="pc-desc">A first-principles walkthrough of how LLM context windows and retrieval behave once you push them past trivial demos - what fails, why, and how to design around it.</div><div class="pc-tags"><div class="pc-tag">LLMs</div><div class="pc-tag">RAG</div><div class="pc-tag">Context</div></div><div class="pc-links"><a href="https://medium.com/towards-artificial-intelligence/ai-kept-forgetting-my-notes-fixing-that-taught-me-how-it-actually-works-e08ff209403d" target="_blank" rel="noopener" class="pc-link">↗ Read on Medium</a></div></div>
-      </div>
-      <div class="pc-card">
-        <div class="pc-thumb" style="background:linear-gradient(135deg,#160f05,#0d0a04)"><svg viewBox="0 0 90 55" fill="none"><line x1="12" y1="48" x2="78" y2="8" stroke="#e8c59a" stroke-width="1.5" opacity=".4" stroke-dasharray="3 2"/><circle cx="20" cy="44" r="2.5" fill="#e8c59a" opacity=".8"/><circle cx="38" cy="32" r="3" fill="#e8c59a" opacity=".9"/><circle cx="62" cy="16" r="2.5" fill="#e8c59a" opacity=".8"/><circle cx="72" cy="12" r="2" fill="#f87171" opacity=".9"/></svg></div>
-        <div class="pc-body"><div class="pc-head"><div class="pc-name">Linear Regression Rarely Fails. It Drifts.</div><div class="pc-badge badge-res">Medium · 2026</div></div><div class="pc-desc">Why production ML systems fail less from wrong model and more from drift - covariate, concept, label. Practical monitoring patterns (PSI, KS, calibration plots) and retraining triggers that don't oscillate.</div><div class="pc-tags"><div class="pc-tag">MLOps</div><div class="pc-tag">Drift</div><div class="pc-tag">Monitoring</div></div><div class="pc-links"><a href="https://medium.com/towards-artificial-intelligence/linear-regression-rarely-fails-it-drifts-6c6c1134c2f3" target="_blank" rel="noopener" class="pc-link">↗ Read on Medium</a></div></div>
-      </div>
-    </div>
+    <div class="pg-sub" style="font-size:.78rem;color:var(--muted2);margin-bottom:1.4rem;max-width:620px">5 articles on Medium · Towards AI &amp; Generative AI.</div>
+    <div class="publist" id="publist"></div>
   </div>
-
 </div>
 </div>
 
-<!-- SKILLS -->
 <div id="p-skills" class="page">
-<div class="pg-inner">
+<div class="pg-inner" style="max-width:1200px">
   <div class="pg-eyebrow anim d0">04 / Skills</div>
-  <div class="pg-h anim d1">The <em>Stack</em> Terminal</div>
-  <div class="terminal anim d2">
-    <div class="term-bar"><div class="td td-r"></div><div class="td td-y"></div><div class="td td-g"></div><div class="term-path">📁 ~/portfolio/skills</div></div>
-    <div class="sk-grid">
-
-      <div class="sk-cat">
-        <div class="sk-head"><span class="sk-ic">&lt;/&gt;</span>Languages &amp; Query</div>
-        <div class="sk-chips">
-          <span class="skill-chip">Python</span>
-          <span class="skill-chip">SQL</span>
-          <span class="skill-chip">R</span>
-          <span class="skill-chip">DAX / M</span>
-        </div>
-        <div class="sk-decor">&lt;/&gt;</div>
-      </div>
-
-      <div class="sk-cat">
-        <div class="sk-head"><span class="sk-ic">🧠</span>ML &amp; Statistics</div>
-        <div class="sk-chips">
-          <span class="skill-chip">scikit-learn</span>
-          <span class="skill-chip">XGBoost</span>
-          <span class="skill-chip">LightGBM</span>
-          <span class="skill-chip">statsmodels</span>
-          <span class="skill-chip">PyTorch</span>
-          <span class="skill-chip">Time Series · ARIMA / SARIMA</span>
-          <span class="skill-chip">Survival Analysis</span>
-          <span class="skill-chip">Feature Engineering</span>
-          <span class="skill-chip">Calibration</span>
-        </div>
-        <div class="sk-decor">🧠</div>
-      </div>
-
-      <div class="sk-cat">
-        <div class="sk-head"><span class="sk-ic">◈</span>LLM &amp; Retrieval</div>
-        <div class="sk-chips">
-          <span class="skill-chip">LangChain</span>
-          <span class="skill-chip">LangGraph</span>
-          <span class="skill-chip">RAG</span>
-          <span class="skill-chip">BGE Embeddings</span>
-          <span class="skill-chip">BM25</span>
-          <span class="skill-chip">pgvector</span>
-          <span class="skill-chip">RAGAS</span>
-        </div>
-        <div class="sk-decor">◈</div>
-      </div>
-
-      <div class="sk-cat">
-        <div class="sk-head"><span class="sk-ic">🗃</span>Data &amp; Pipelines</div>
-        <div class="sk-chips">
-          <span class="skill-chip">Snowflake</span>
-          <span class="skill-chip">Databricks</span>
-          <span class="skill-chip">Spark</span>
-          <span class="skill-chip">PostgreSQL</span>
-          <span class="skill-chip">Alteryx</span>
-          <span class="skill-chip">ETL Pipelines</span>
-          <span class="skill-chip">Airflow / dbt</span>
-        </div>
-        <div class="sk-decor">🗃</div>
-      </div>
-
-      <div class="sk-cat">
-        <div class="sk-head"><span class="sk-ic">⚙</span>Delivery &amp; Ops</div>
-        <div class="sk-chips">
-          <span class="skill-chip">Power BI</span>
-          <span class="skill-chip">Tableau</span>
-          <span class="skill-chip">MLflow</span>
-          <span class="skill-chip">DVC</span>
-          <span class="skill-chip">Docker</span>
-          <span class="skill-chip">GitHub Actions</span>
-          <span class="skill-chip">Streamlit</span>
-        </div>
-        <div class="sk-decor">⚙</div>
-      </div>
-
-    </div>
-    <div class="term-foot">→ ~ echo "Stack initialized. Building: Vehicle Sales Forecast · Search Relevance Ranking · HybridRAG | Learning: Airflow · dbt"</div>
+  <div class="pg-h anim d1">The <em>Stack</em>, elementally</div>
+  <div class="pg-sub anim d1" style="margin-bottom:1.5rem;max-width:620px">32 elements across five groups. Shaded tiles are infrastructure and delivery.</div>
+  <div class="ptable anim d2" id="ptable"></div>
+  <div class="ptable-legend anim d3">
+    <span><i></i>Languages · ML &amp; Statistics · LLM &amp; Retrieval</span>
+    <span><i class="alt"></i>Data &amp; Pipelines · Delivery &amp; Ops</span>
   </div>
 </div>
 </div>
 
-<!-- CONTACT -->
 <div id="p-contact" class="page">
 <div class="pg-inner" style="max-width:960px">
   <div class="pg-eyebrow anim d0">05 / Contact</div>
@@ -1623,8 +1726,8 @@ nav,.nav-links,.nav-logo,.btn-resume,.btn-ask,.theme-toggle,.fb,
     <div class="ask-pg-sub">Ask me about Varshith's experience, specific projects, technical skills, or just say hello.</div>
     <div class="ask-div"></div>
     <div class="ask-win">
-      <div class="ask-win-hdr"><div class="ask-win-title"><div class="pdot"></div>AskVarshith</div><button class="ask-win-clr" onclick="clrAsk()">🗑</button></div>
-      <div class="ask-win-msgs" id="ask-msgs"><div class="aw bot">Hi, I'm <b>AskVarshith</b>. I can give you a recruiter summary, technical deep dive, project walkthrough, or direct contact links. What should we look at first?</div></div>
+      <div class="ask-win-hdr"><div class="ask-win-title"><div class="pdot"></div>Duta</div><button class="ask-win-clr" onclick="clrAsk()">🗑</button></div>
+      <div class="ask-win-msgs" id="ask-msgs"><div class="aw bot">Hi, I'm <b>Duta</b> — Sanskrit for messenger. I can give you a recruiter summary, technical deep dive, project walkthrough, or direct contact links. What should we look at first?</div></div>
       <div class="ask-fallback" id="ask-fallback">✦ The AI assistant is still warming up - please check back shortly. In the meantime you can reach Varshith directly at <a href="mailto:tipirnenivarshith@gmail.com">tipirnenivarshith@gmail.com</a> or on <a href="https://www.linkedin.com/in/varshith-t//" target="_blank" rel="noopener">LinkedIn</a>.</div>
       <div class="ask-win-inp-row"><input class="ask-win-inp" id="ask-inp" placeholder="Ask me anything..." onkeydown="if(event.key==='Enter')aFull()"><button class="ask-win-snd" onclick="aFull()">➤</button></div>
     </div>
@@ -1809,7 +1912,7 @@ function stripMd(t){ return t.replace(/\*\*(.*?)\*\*/g,'$1').replace(/\*(.*?)\*/
 
 const ASK_FAQ = [
   { intent:'greeting', keys:['hi','hey','hello','sup','hiya','howdy','yo','greetings','good morning','good afternoon','good evening'],
-    a:"Hey, I'm <b>AskVarshith</b>. I can give you the recruiter-speed version, the technical deep dive, or the human side.<br><br>Best places to start:<br>• <b>Best work</b><br>• <b>Why hire him?</b><br>• <b>Is he open to work?</b>" },
+    a:"Hey, I'm <b>Duta</b> — Sanskrit for messenger. I can give you the recruiter-speed version, the technical deep dive, or the human side.<br><br>Best places to start:<br>• <b>Best work</b><br>• <b>Why hire him?</b><br>• <b>Is he open to work?</b>" },
   { intent:'about', keys:['who','about','tell me','varshith','introduce','yourself','overview','summary','profile'],
     a:"<b>Varshith Tipirneni</b> is a data scientist - he turns messy real-world data into forecasts, rankings, and decisions people actually use.<br><br>• M.S. Data Science, Analytics & Statistics at <b>UNC Chapel Hill</b>, 4.0 GPA<br>• Recent work: vehicle sales forecasting, e-commerce search relevance, and a live production AI system, <b>HybridRAG</b><br>• Healthcare ML at <b>NMSS</b> across 1M+ patient journeys<br>• Supply Chain Analyst at <b>Viatris</b> across a $15B pharma portfolio" },
   { intent:'bestWork', keys:['best work','best project','favourite project','favorite project','top project','most impressive','most proud','flagship','standout','portfolio highlight','strongest project'],
@@ -1819,11 +1922,11 @@ const ASK_FAQ = [
   { intent:'whyHire', keys:['why hire','why should we','what makes him','different','stand out','unique','set apart','better than','advantage','why him','candidate'],
     a:"Three reasons to pay attention:<br><br>• <b>He backs every decision with evidence.</b> Forecasting and search-relevance projects show feature checks, backtests, and honest worst-case reporting, not just a final number.<br>• <b>He has model judgment.</b> A 4.0 M.S. in Statistics helps him evaluate lift, calibration, drift, and failure modes.<br>• <b>He can deliver with stakeholders.</b> His enterprise work reached VP/Sr. Director audiences and ranked top 5% company-wide for adoption." },
   { intent:'viatris', keys:['viatris','supply chain','pharma','165','15b','stockout','purchase order','po','assumptions dashboard','oos','poos','erp'],
-    a:"At <b>Viatris</b>, Varshith is a <b>Supply Chain Analyst</b> working across a $15B pharma supply-chain portfolio.<br><br>Impact highlights:<br>• Cut total supply gap value 25% over 8 months via weekly OOS/POOS pipelines and a daily Assumptions Dashboard<br>• 88% reduction in stale ERP metrics via an automated weekly Inactive PO pipeline<br>• Scoped technical requirements directly with global supply planners<br>• Automated Alteryx workflows for multi-source procurement data" },
+    a:"At <b>Viatris</b>, Varshith is a <b>Supply Chain Analyst</b> working across a $15B pharma supply-chain portfolio.<br><br>Impact highlights:<br>• Cut total supply gap value 10% — $12.9M — via weekly OOS/POOS pipelines and a daily Assumptions Dashboard<br>• 88% reduction in stale ERP metrics via an automated weekly Inactive PO pipeline<br>• Scoped technical requirements directly with global supply planners<br>• Automated Alteryx workflows for multi-source procurement data" },
   { intent:'dashboard', keys:['dashboard','dashboards','power bi','bi','business intelligence','blinkit','kpi','reporting','figma','regional marketing'],
     a:"His dashboard work is strongest when it behaves like a <b>decision system</b>, not just a report.<br><br>Examples:<br>• <b>Viatris:</b> Power BI + Alteryx + SQL workflows used by 100+ global leaders across supply-chain decisions<br>• <b>Blinkit:</b> SQL-backed Power BI dashboard with Figma-designed UX for KPI tracking and regional marketing decisions<br><br>The thread across both: clean data modeling, stakeholder-friendly UX, and operational actionability." },
   { intent:'nmss', keys:['nmss','ms','sclerosis','patients','claims','national ms','therapy','switch','healthcare','dmt','survival analysis','kaplan-meier','cox','snowflake'],
-    a:"At the <b>National MS Society</b>, he works with large-scale claims data on therapy selection and medication switching.<br><br>Highlights:<br>• Sequential ML pipeline lifted therapy-group classification accuracy to 57.8% (5% lift over flat-table baselines)<br>• Survival modeling (Kaplan-Meier, Cox proportional hazards) with quarterly recalibration to track medication persistence<br>• 100M+ longitudinal medical claims joined in SQL and Snowflake<br>• MLflow + DVC for reproducible, auditable experiment tracking<br><br>Live project: <a href='https://msdmtpipeline.netlify.app/' target='_blank' rel='noopener'>msdmtpipeline.netlify.app</a>" },
+    a:"At the <b>National MS Society</b>, he works with large-scale claims data on therapy selection and medication switching.<br><br>Highlights:<br>• Sequential ML pipeline lifted 0.95 AUC predicting clinical medication switches (5.0pp absolute accuracy over legacy flat-table architectures)<br>• Survival modeling (Kaplan-Meier, Cox proportional hazards) with quarterly recalibration to track medication persistence<br>• 100M+ longitudinal medical claims joined in SQL and Snowflake<br>• MLflow + DVC for reproducible, auditable experiment tracking<br><br>Live project: <a href='https://msdmtpipeline.netlify.app/' target='_blank' rel='noopener'>msdmtpipeline.netlify.app</a>" },
   { intent:'experience', keys:['experience','work history','jobs','internship','worked','career','employment','roles'],
     a:"His experience has a useful range:<br><br>• <b>NMSS:</b> Data Scientist, Graduate Researcher - healthcare claims ML, treatment-switch modeling, patient journeys<br>• <b>Viatris:</b> Supply Chain Analyst, decision systems, reusable pipelines<br>• <b>UNC Chapel Hill:</b> graduate statistics and ML instruction<br>• <b>Knowde:</b> Data Analyst, product catalog quality and search relevance<br>• <b>Reliance:</b> process simulation and digital-twin thinking" },
   { intent:'projects', keys:['project','projects','built','building','what has he','portfolio','all project','demo','case study'],
@@ -1973,7 +2076,7 @@ async function askRag(question){
   });
   if(response.status===429){
     const limited = await response.json().catch(()=>({}));
-    return { intent:'rateLimited', a:limited.answer || 'AskVarshith is getting a lot of questions right now. Please try again in about a minute.', html:false, sourceIds:[], rateLimited:true };
+    return { intent:'rateLimited', a:limited.answer || 'Duta is getting a lot of questions right now. Please try again in about a minute.', html:false, sourceIds:[], rateLimited:true };
   }
   if(!response.ok) throw new Error('rag_unavailable');
   const data = await response.json();
@@ -2098,7 +2201,7 @@ function syncAskMsgs(){
   if(!c)return;
   c.innerHTML='';
   if(chatLog.length===0){
-    c.innerHTML='<div class="aw bot">Hi! I\'m AskVarshith. I know his projects (Vehicle Sales Forecast, Search Relevance, HybridRAG), his experience at Viatris &amp; NMSS, education, and skills. What would you like to know?</div>';
+    c.innerHTML='<div class="aw bot">Hi! I\'m Duta. I know his projects (Vehicle Sales Forecast, Search Relevance, HybridRAG), his experience at Viatris &amp; NMSS, education, and skills. What would you like to know?</div>';
     return;
   }
   chatLog.forEach(m=>{
@@ -2193,56 +2296,89 @@ async function sendMsg(){
   btn.disabled=false;
 }
 
-// ── PARTICLE NETWORK BACKGROUND ──
+// ── CONTOUR FIELD BACKGROUND ──
+// Marching-squares isolines over a slow 2-D scalar field: a density
+// surface rather than a particle swarm. Large, sparse shapes read as
+// texture, so the eye registers form instead of tracking elements.
+// Fades out below the first screen and the loop stops when invisible.
 (function(){
   const cv=document.getElementById('bg-canvas');
+  if(!cv) return;
   const cx=cv.getContext('2d');
-  const N=90, LINK=180, SPEED=0.4;
-  let pts=[];
-  function resize(){cv.width=window.innerWidth;cv.height=window.innerHeight;}
-  function init(){
-    pts=[];
-    for(let i=0;i<N;i++)pts.push({
-      x:Math.random()*cv.width, y:Math.random()*cv.height,
-      vx:(Math.random()-.5)*SPEED, vy:(Math.random()-.5)*SPEED,
-      r:Math.random()*1.2+0.6
-    });
+  const reduce=window.matchMedia('(prefers-reduced-motion:reduce)');
+  const STEP=16, LEVELS=[-1.9,-1.35,-0.8,-0.25,0.3,0.85,1.4,1.95];
+  let W=0,H=0,DPR=1,t=0,vis=1,raf=null;
+
+  function size(){
+    DPR=Math.min(window.devicePixelRatio||1,2);
+    W=window.innerWidth; H=window.innerHeight;
+    cv.width=W*DPR; cv.height=H*DPR;
+    cv.style.width=W+'px'; cv.style.height=H+'px';
+    cx.setTransform(DPR,0,0,DPR,0,0);
   }
-  // Theme-aware particle colors (recomputed every frame so theme toggle is instant)
-  function colors(){
-    const t=document.documentElement.getAttribute('data-theme');
-    if(t==='light') return {dot:'rgba(62,95,68,0.85)', line:0.45, lineRGB:'122,53,5'};
-    return {dot:'rgba(212,170,125,0.55)', line:0.18, lineRGB:'245,166,35'};
+  const dark=()=>document.documentElement.getAttribute('data-theme')!=='light';
+  function visibility(){ const v=1-Math.min(1,window.scrollY/((H||1)*0.8)); return v*v; }
+
+  function f(x,y){
+    return Math.sin(x*0.0062 + t*0.00011)*1.0
+         + Math.cos(y*0.0049 - t*0.00009)*0.9
+         + Math.sin((x+y)*0.0031 + t*0.00007)*0.75
+         + Math.cos((x-y*1.4)*0.0021)*0.6;
   }
-  function frame(){
-    cx.clearRect(0,0,cv.width,cv.height);
-    const C=colors();
-    for(let i=0;i<N;i++){
-      for(let j=i+1;j<N;j++){
-        const dx=pts[i].x-pts[j].x, dy=pts[i].y-pts[j].y;
-        const d=Math.sqrt(dx*dx+dy*dy);
-        if(d<LINK){
-          cx.beginPath();
-          cx.moveTo(pts[i].x,pts[i].y);
-          cx.lineTo(pts[j].x,pts[j].y);
-          cx.strokeStyle='rgba('+C.lineRGB+','+(C.line*(1-d/LINK)).toFixed(3)+')';
-          cx.lineWidth=0.6; cx.stroke();
+  function draw(){
+    cx.clearRect(0,0,W,H);
+    if(vis<=0.02) return;
+    const d=dark(), rgb = d ? '234,231,223' : '62,95,68', base = d ? 0.085 : 0.13;
+    cx.lineWidth=1; cx.lineCap='round';
+    for(const L of LEVELS){
+      const near=1-Math.min(1,Math.abs(L)/2.4);
+      cx.strokeStyle='rgba('+rgb+','+(vis*base*(0.55+near*0.6)).toFixed(4)+')';
+      cx.beginPath();
+      for(let y=0;y<H+STEP;y+=STEP){
+        for(let x=0;x<W+STEP;x+=STEP){
+          const v00=f(x,y), v10=f(x+STEP,y), v01=f(x,y+STEP), v11=f(x+STEP,y+STEP);
+          let k=0;
+          if(v00>L)k|=8; if(v10>L)k|=4; if(v11>L)k|=2; if(v01>L)k|=1;
+          if(k===0||k===15) continue;
+          const ip=(va,vb,pa,pb)=>pa+(L-va)/(vb-va)*(pb-pa);
+          const top=[ip(v00,v10,x,x+STEP),y], right=[x+STEP,ip(v10,v11,y,y+STEP)],
+                bot=[ip(v01,v11,x,x+STEP),y+STEP], left=[x,ip(v00,v01,y,y+STEP)];
+          const seg=(a,b)=>{cx.moveTo(a[0],a[1]);cx.lineTo(b[0],b[1]);};
+          switch(k){
+            case 1: case 14: seg(left,bot); break;
+            case 2: case 13: seg(bot,right); break;
+            case 3: case 12: seg(left,right); break;
+            case 4: case 11: seg(top,right); break;
+            case 6: case 9:  seg(top,bot); break;
+            case 7: case 8:  seg(left,top); break;
+            case 5:  seg(left,top); seg(bot,right); break;
+            case 10: seg(left,bot); seg(top,right); break;
+          }
         }
       }
+      cx.stroke();
     }
-    pts.forEach(p=>{
-      cx.beginPath();
-      cx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      cx.fillStyle=C.dot;
-      cx.fill();
-      p.x+=p.vx; p.y+=p.vy;
-      if(p.x<0||p.x>cv.width)p.vx*=-1;
-      if(p.y<0||p.y>cv.height)p.vy*=-1;
-    });
-    requestAnimationFrame(frame);
   }
-  window.addEventListener('resize',()=>{resize();init();});
-  resize(); init(); frame();
+  function step(){
+    if(!reduce.matches) t+=16;
+    draw();
+    if(vis<=0.02 || reduce.matches){ raf=null; return; }
+    raf=requestAnimationFrame(step);
+  }
+  function kick(){ if(raf===null && vis>0.02 && !reduce.matches) raf=requestAnimationFrame(step); }
+  function onScroll(){
+    const v=visibility();
+    if(Math.abs(v-vis)<0.004) return;
+    vis=v;
+    if(vis<=0.02 || reduce.matches){ draw(); return; }
+    kick();
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  window.addEventListener('resize',()=>{size();vis=visibility();draw();kick();},{passive:true});
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden) kick(); });
+  // repaint immediately on a theme change so the line colour follows
+  new MutationObserver(draw).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+  size(); vis=visibility(); draw(); kick();
 })();
 
 /* ─────── THEME TOGGLE ─────── */
@@ -2526,7 +2662,7 @@ window.__pxArtOff = function(){
   function goWork(){ var seq=[]; if(currentPose==='about1' || currentPose==='contact' || currentPose==='ask') seq=['open','work']; else if(currentPose==='point1') seq=['point0','work']; else if(currentPose==='point0') seq=['work']; play(seq,'work',{delay:160,clearBubble:true}); }
   function goProjects(){ var seq=[]; if(currentPose==='point1' || currentPose==='point0') seq=['point0','point1']; else if(currentPose==='about1' || currentPose==='contact' || currentPose==='ask') seq=['open','work','point0','point1']; else seq=['point0','point1']; play(seq,'point1',{delay:170,clearBubble:true,beat:true}); }
   function goContact(){ var seq=[]; if(currentPose==='point1') seq=['point0','work','about0','contact']; else if(currentPose==='point0') seq=['work','about0','contact']; else if(currentPose==='about1' || currentPose==='about0') seq=['contact']; else if(currentPose==='work') seq=['about0','contact']; else seq=['contact']; play(seq,'contact',{delay:170,bubble:"Let's get in touch.",sticky:true,beat:true}); }
-  function goAsk(){ var seq=[]; if(currentPose==='point1') seq=['point0','work','about0','ask']; else if(currentPose==='point0') seq=['work','about0','ask']; else if(currentPose==='about1' || currentPose==='about0') seq=['ask']; else if(currentPose==='work') seq=['about0','ask']; else seq=['ask']; play(seq,'ask',{delay:170,bubble:'AskVarshith anything about me.',sticky:true,beat:true}); }
+  function goAsk(){ var seq=[]; if(currentPose==='point1') seq=['point0','work','about0','ask']; else if(currentPose==='point0') seq=['work','about0','ask']; else if(currentPose==='about1' || currentPose==='about0') seq=['ask']; else if(currentPose==='work') seq=['about0','ask']; else seq=['ask']; play(seq,'ask',{delay:170,bubble:'Ask Duta anything about me.',sticky:true,beat:true}); }
   function apply(){ if(active==='home') goHome(); else if(active==='about') goAbout(); else if(active==='experience' || active==='skills') goWork(); else if(active==='projects') goProjects(); else if(active==='contact') goContact(); else if(active==='ask') goAsk(); else goWork(); }
   var names=['home','about','experience','projects','skills','contact','ask'], sections=[]; names.forEach(function(n){var el=document.getElementById('p-'+n); if(el) sections.push({name:n,el:el});});
   if('IntersectionObserver' in window){var io=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){var m=sections.find(function(s){return s.el===e.target;}); if(m&&m.name!==active){active=m.name; apply();}}});},{threshold:0,rootMargin:'-45% 0px -45% 0px'}); sections.forEach(function(s){io.observe(s.el);});}
@@ -2537,7 +2673,7 @@ window.__pxArtOff = function(){
 
 <script>
 /* ── PROJECTS v2: data-driven cards + case-study dialog ── */
-const PROJECTS = [{"id": "hybridrag", "name": "HybridRAG Classifier", "badge": "Live", "cat": ["ai"], "signal": "Live", "signalLabel": "in production, maintained", "summary": "A 6-label FDA compliance classifier that fuses dense and sparse retrieval, and routes anything it is unsure about to a human.", "problem": "A single retrieval method misses relevant evidence in compliance text. Dense embeddings catch meaning but miss exact regulatory phrasing; BM25 catches the phrasing but misses paraphrase. Treating a low-confidence label as settled is how a compliance classifier does real damage.", "approach": "Combined BGE dense embeddings (pgvector/HNSW) with BM25 sparse retrieval via Reciprocal Rank Fusion, then used the fused context for six-label classification. Outputs below 70% confidence route to a human review queue instead of being returned. Weekly GitHub Actions scraping pipeline keeps the corpus current, behind an LLM gateway with input sanitization and rate limiting.", "result": "A live classifier serving the full retrieval and review flow, evaluated with RAGAS and still actively maintained.", "tools": ["Python", "RAG", "BGE", "BM25", "pgvector", "RAGAS", "Docker"], "links": [["https://hybridrag.netlify.app/", "Live site"]], "svg": "<svg viewBox=\"0 0 90 55\" fill=\"none\">\n            <rect x=\"6\" y=\"14\" width=\"22\" height=\"14\" rx=\"1.5\" stroke=\"#D4AA7D\" stroke-width=\"1\" fill=\"rgba(212,170,125,.10)\"/>\n            <text x=\"17\" y=\"23\" font-size=\"4.5\" fill=\"#D4AA7D\" text-anchor=\"middle\" font-family=\"monospace\">DENSE</text>\n            <rect x=\"6\" y=\"32\" width=\"22\" height=\"14\" rx=\"1.5\" stroke=\"#a78bfa\" stroke-width=\"1\" fill=\"rgba(167,139,250,.10)\"/>\n            <text x=\"17\" y=\"41\" font-size=\"4.5\" fill=\"#a78bfa\" text-anchor=\"middle\" font-family=\"monospace\">SPARSE</text>\n            <line x1=\"28\" y1=\"22\" x2=\"48\" y2=\"29\" stroke=\"#D4AA7D\" stroke-width=\".7\" opacity=\".7\"/>\n            <line x1=\"28\" y1=\"38\" x2=\"48\" y2=\"29\" stroke=\"#a78bfa\" stroke-width=\".7\" opacity=\".7\"/>\n            <circle cx=\"52\" cy=\"29\" r=\"5\" fill=\"rgba(52,211,153,.18)\" stroke=\"#34d399\" stroke-width=\"1\"/>\n            <text x=\"52\" y=\"32\" font-size=\"5\" fill=\"#34d399\" text-anchor=\"middle\" font-family=\"monospace\">RRF</text>\n            <line x1=\"58\" y1=\"29\" x2=\"76\" y2=\"29\" stroke=\"#34d399\" stroke-width=\".8\" opacity=\".7\"/>\n            <rect x=\"76\" y=\"22\" width=\"10\" height=\"14\" rx=\"1\" fill=\"rgba(52,211,153,.20)\" stroke=\"#34d399\" stroke-width=\".8\"/>\n            <text x=\"81\" y=\"31\" font-size=\"4.5\" fill=\"#34d399\" text-anchor=\"middle\" font-family=\"monospace\">LLM</text>\n          </svg>", "bg": "linear-gradient(135deg,#181107,#0d0a04)"}, {"id": "nmss", "name": "MS Therapy Pathways — NMSS DMT Pipeline", "badge": "Live", "cat": ["hc"], "signal": "100M+", "signalLabel": "longitudinal claims modeled", "summary": "Engineered patient journeys from 100M+ managed-care claims, then modeled therapy choice, switching, and long-term persistence.", "problem": "A research team sponsored by the National MS Society wanted to understand how disease-modifying therapy choices change over time, what happens after a patient switches, and how long patients actually stay on treatment — questions a flat claims table cannot answer.", "approach": "Built longitudinal patient-journey datasets across 18K+ patients and 31K+ episodes, integrating diagnosis, procedure and pharmacy claims into ICD-10 and pharmacy-based cohorts in SQL and Snowflake. Modeled first therapy, the decision to switch, and the next therapy as separate sequential steps, then layered survival modeling — Kaplan-Meier and Cox proportional hazards with quarterly recalibration — to track persistence.", "result": "Therapy-group classification reached 57.8% accuracy, a 5% lift over flat-table baselines, and the survival layer gave stakeholders a population-scale view of time-to-treatment and medication persistence.", "tools": ["Python", "SQL", "Snowflake", "Survival Analysis", "ICD-10", "Claims", "RWE"], "links": [["https://msdmtpipeline.netlify.app/#overview", "Project walkthrough"]], "svg": "<svg viewBox=\"0 0 90 55\" fill=\"none\"><circle cx=\"45\" cy=\"27\" r=\"18\" stroke=\"#2dd4bf\" stroke-width=\"8\" stroke-dasharray=\"70 43\" stroke-dashoffset=\"-5\" fill=\"none\" opacity=\".85\"/><circle cx=\"45\" cy=\"27\" r=\"18\" stroke=\"#2dd4bf\" stroke-width=\"8\" stroke-dasharray=\"43 70\" stroke-dashoffset=\"65\" fill=\"none\" opacity=\".3\"/><text x=\"45\" y=\"31\" font-size=\"7\" fill=\"#2dd4bf\" text-anchor=\"middle\" font-family=\"monospace\" opacity=\".9\">50-60%</text></svg>", "bg": "linear-gradient(135deg,#0d1610,#090f0b)"}, {"id": "vehicle", "name": "Q4 Vehicle Sales Forecast", "badge": "Completed", "cat": ["fc"], "signal": "7.16%", "signalLabel": "WAPE vs 15.9% baseline", "summary": "Three-month forecasts for eight vehicle series, built after throwing out a lag-feature design that looked obvious and was badly collinear.", "problem": "Forecast monthly unit sales for 8 vehicle series three months ahead, from 33 months of sales, incentive and macro data — without assuming future incentives or economic inputs are already known.", "approach": "The obvious lag-feature design carried severe multicollinearity, with VIF up to 137. I rebuilt the feature set around independent signals instead: recent level, momentum against a trailing average, and trend slope. A pooled ElasticNet was selected only after true walk-forward backtesting against Ridge, Lasso and Gradient Boosting, with future incentive and macro inputs held flat.", "result": "7.16% average WAPE against 15.9% for naive persistence across four backtest quarters, reported with bootstrapped P10–P90 uncertainty bands on every series rather than a bare point forecast.", "tools": ["Python", "ElasticNet", "Time Series", "Feature Engineering", "Walk-Forward Validation", "WAPE"], "links": [], "svg": "<svg viewBox=\"0 0 90 55\" fill=\"none\">\n            <polyline points=\"4,44 14,40 24,42 34,30 44,33 54,20 64,24 74,14 84,17\" stroke=\"#34d399\" stroke-width=\"2\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n            <polyline points=\"64,24 74,12 84,15\" stroke=\"#34d399\" stroke-width=\"1.5\" stroke-dasharray=\"3 2\" fill=\"none\" opacity=\"0.6\"/>\n            <line x1=\"63\" y1=\"4\" x2=\"63\" y2=\"50\" stroke=\"rgba(52,211,153,0.2)\" stroke-width=\"1\" stroke-dasharray=\"2 2\"/>\n            <text x=\"64\" y=\"49\" font-size=\"5\" fill=\"rgba(52,211,153,0.5)\" font-family=\"monospace\">Q4 →</text>\n            <circle cx=\"34\" cy=\"30\" r=\"2\" fill=\"#34d399\"/><circle cx=\"54\" cy=\"20\" r=\"2\" fill=\"#34d399\"/>\n          </svg>", "bg": "linear-gradient(135deg,#0e1f1a,#081410)"}, {"id": "bike", "name": "Bike Demand Prediction — End-to-End ML System", "badge": "Live", "cat": ["fc"], "signal": "Live", "signalLabel": "dashboard + drift monitor", "summary": "A full production-shaped ML system for hourly demand: versioned pipeline, tracked experiments, automated tests, and drift monitoring with a retrain trigger.", "problem": "Most forecasting projects stop at a validated model. The harder question is what it takes to keep one running: reproducible data, tracked experiments, and something that notices when the model has gone stale.", "approach": "Leakage-safe lag and rolling feature engineering on the UCI Bike Sharing data, walk-forward validated Gradient Boosting, MLflow for experiment tracking, a DVC-versioned pipeline, automated tests, and simulated drift monitoring wired to a retrain trigger.", "result": "Ships as an interactive Streamlit dashboard for on-demand prediction and live model-performance monitoring.", "tools": ["Python", "Gradient Boosting", "MLflow", "DVC", "Streamlit", "Drift Monitoring"], "links": [["https://bike-demand-prediction-project.streamlit.app/", "Live dashboard"]], "svg": "<svg viewBox=\"0 0 90 55\" fill=\"none\">\n          <path d=\"M4,44 Q10,30 16,32 Q22,34 28,20 Q34,10 40,16 Q46,22 52,14 Q58,8 64,18 Q70,26 76,12 Q80,6 84,8\" stroke=\"#34d399\" stroke-width=\"2\" fill=\"none\" stroke-linecap=\"round\"/>\n          <circle cx=\"28\" cy=\"20\" r=\"2\" fill=\"#34d399\"/><circle cx=\"52\" cy=\"14\" r=\"2\" fill=\"#34d399\"/><circle cx=\"76\" cy=\"12\" r=\"2\" fill=\"#34d399\"/>\n          <rect x=\"4\" y=\"46\" width=\"8\" height=\"4\" rx=\"1\" fill=\"rgba(52,211,153,.3)\"/><rect x=\"14\" y=\"44\" width=\"8\" height=\"6\" rx=\"1\" fill=\"rgba(52,211,153,.4)\"/><rect x=\"24\" y=\"40\" width=\"8\" height=\"10\" rx=\"1\" fill=\"rgba(52,211,153,.5)\"/><rect x=\"34\" y=\"38\" width=\"8\" height=\"12\" rx=\"1\" fill=\"rgba(52,211,153,.35)\"/><rect x=\"44\" y=\"42\" width=\"8\" height=\"8\" rx=\"1\" fill=\"rgba(52,211,153,.45)\"/><rect x=\"54\" y=\"36\" width=\"8\" height=\"14\" rx=\"1\" fill=\"rgba(52,211,153,.55)\"/><rect x=\"64\" y=\"40\" width=\"8\" height=\"10\" rx=\"1\" fill=\"rgba(52,211,153,.4)\"/><rect x=\"74\" y=\"44\" width=\"8\" height=\"6\" rx=\"1\" fill=\"rgba(52,211,153,.3)\"/>\n          <text x=\"45\" y=\"8\" font-size=\"4.5\" fill=\"rgba(52,211,153,.5)\" font-family=\"monospace\" text-anchor=\"middle\">hourly demand</text>\n        </svg>", "bg": "linear-gradient(135deg,#0c1a14,#07100c)"}, {"id": "search", "name": "Product Search Relevance — Home Depot Catalog", "badge": "Completed", "cat": ["ai"], "signal": "16.1%", "signalLabel": "lower prediction error", "summary": "A two-stage ranking system for a home-improvement catalog, built to catch the matches that keyword overlap misses.", "problem": "A product can share words with a search query and still be the wrong result. The task was to rank products by how well they matched what the shopper actually meant.", "approach": "Engineered 13 lexical and statistical features — TF-IDF cosine similarity, n-gram overlap, length ratios — and trained a LightGBM ranker on 74K query-product pairs. Then layered in a fine-tuned dual-encoder sentence transformer for semantic matches, keeping inference in milliseconds by pre-caching product embeddings.", "result": "The first stage cut prediction error 11.5% against a naive baseline; the semantic stage brought the total reduction to 16.1%.", "tools": ["Python", "LightGBM", "Sentence Transformers", "TF-IDF", "Search Ranking", "Feature Engineering"], "links": [], "svg": "<svg viewBox=\"0 0 90 55\" fill=\"none\">\n            <rect x=\"6\" y=\"8\" width=\"34\" height=\"8\" rx=\"1.5\" fill=\"rgba(232,197,154,.10)\" stroke=\"#e8c59a\" stroke-width=\".8\"/>\n            <text x=\"23\" y=\"13.5\" font-size=\"4\" fill=\"#e8c59a\" text-anchor=\"middle\" font-family=\"monospace\">\"porch light\"</text>\n            <line x1=\"40\" y1=\"12\" x2=\"58\" y2=\"12\" stroke=\"#e8c59a\" stroke-width=\".7\" opacity=\".6\"/>\n            <circle cx=\"63\" cy=\"12\" r=\"6\" fill=\"rgba(52,211,153,.15)\" stroke=\"#34d399\" stroke-width=\"1\"/>\n            <text x=\"63\" y=\"14.5\" font-size=\"4\" fill=\"#34d399\" text-anchor=\"middle\" font-family=\"monospace\">rank</text>\n            <rect x=\"8\" y=\"30\" width=\"70\" height=\"6\" rx=\"1.5\" fill=\"rgba(212,170,125,.10)\" stroke=\"rgba(212,170,125,.3)\" stroke-width=\".5\"/>\n            <rect x=\"8\" y=\"30\" width=\"59\" height=\"6\" rx=\"1.5\" fill=\"rgba(212,170,125,.5)\"/>\n            <text x=\"80\" y=\"35\" font-size=\"3.6\" fill=\"#D4AA7D\" font-family=\"monospace\">−16.1%</text>\n            <text x=\"10\" y=\"28\" font-size=\"3.4\" fill=\"rgba(212,170,125,.6)\" font-family=\"monospace\">prediction error ↓</text>\n            <text x=\"8\" y=\"47\" font-size=\"3.6\" fill=\"rgba(167,139,250,.55)\" font-family=\"monospace\">LightGBM + dual-encoder</text>\n          </svg>", "bg": "linear-gradient(135deg,#1a1005,#0d0803)"}, {"id": "labcorp", "name": "Healthcare Demand Forecasting — Labcorp", "badge": "Completed", "cat": ["hc", "fc"], "signal": "2026", "signalLabel": "forecast horizon", "summary": "Hybrid ML and time-series forecasting of diagnostic-test demand across specialties, with calendar effects separated from real demand.", "problem": "Early-stage adoption data biases demand forecasts upward, producing spikes that are artifacts rather than signal — a costly thing to plan capacity around.", "approach": "Combined Gradient Boosting with ARIMA and modeled adoption, timing and repeat-utilization separately to correct the early-stage bias. Engineered a working-days adjustment so calendar variation could not be mistaken for genuine movement in demand.", "result": "Diagnostic-test demand projected through 2026 across specialties, in a form usable for capacity planning.", "tools": ["Python", "ARIMA", "Gradient Boosting", "Time Series", "Healthcare"], "links": [["https://www.linkedin.com/posts/varshith-t_datascience-healthcareanalytics-forecasting-share-7459348079977320448-uSpy/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAC0EvpIB_282Bx_gxoFbkgaC924RIPTY7bg", "LinkedIn post"]], "svg": "<svg viewBox=\"0 0 80 50\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n          <polyline points=\"2,40 14,38 26,32 38,24 50,18 62,12 72,8\" stroke=\"#34d399\" stroke-width=\"2\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n          <polyline points=\"50,18 62,10 72,6\" stroke=\"#34d399\" stroke-width=\"1.5\" stroke-dasharray=\"3 2\" fill=\"none\" opacity=\"0.6\"/>\n          <line x1=\"48\" y1=\"4\" x2=\"48\" y2=\"46\" stroke=\"rgba(52,211,153,0.2)\" stroke-width=\"1\" stroke-dasharray=\"2 2\"/>\n          <text x=\"49\" y=\"45\" font-size=\"5.5\" fill=\"rgba(52,211,153,0.5)\" font-family=\"monospace\">forecast →</text>\n          <circle cx=\"38\" cy=\"24\" r=\"2\" fill=\"#34d399\"/><circle cx=\"50\" cy=\"18\" r=\"2\" fill=\"#34d399\"/>\n        </svg>", "bg": "linear-gradient(135deg,#0e1f1a,#081410)"}, {"id": "agent", "name": "Multi-Agent Research System", "badge": "Live", "cat": ["ai"], "signal": "4", "signalLabel": "chained agent stages", "summary": "A four-stage LangChain pipeline that searches, reads, writes and then critiques its own cited report.", "problem": "A research assistant can produce a fluent report while quietly losing track of its sources. The question was whether the steps and the evidence could be made visible instead.", "approach": "Four chained stages: a Search Agent finds candidate sources, a Web Scraper retrieves usable evidence, a Writer Chain synthesizes a structured cited report, and a Critic Chain scores its grounding and attribution before anything is shown. Retrieval failures and model-knowledge fallback are surfaced explicitly rather than hidden.", "result": "A live demo where visitors can run a topic and inspect the resulting report and its critique.", "tools": ["Python", "LangChain", "Multi-Agent", "Tavily", "Streamlit", "Groq"], "links": [["https://multi-agent-research-system-z9ag.onrender.com", "Live demo"], ["https://github.com/warsai0222/Multi_Agent_Research_System", "GitHub"]], "svg": "<svg viewBox=\"0 0 90 55\" fill=\"none\">\n            <circle cx=\"16\" cy=\"27\" r=\"7\" fill=\"rgba(96,165,250,.15)\" stroke=\"#60a5fa\" stroke-width=\"1\"/><text x=\"16\" y=\"30\" font-size=\"4.2\" fill=\"#60a5fa\" text-anchor=\"middle\" font-family=\"monospace\">SRCH</text>\n            <line x1=\"23\" y1=\"27\" x2=\"35\" y2=\"27\" stroke=\"#60a5fa\" stroke-width=\".8\" opacity=\".6\"/>\n            <circle cx=\"42\" cy=\"27\" r=\"7\" fill=\"rgba(52,211,153,.15)\" stroke=\"#34d399\" stroke-width=\"1\"/><text x=\"42\" y=\"30\" font-size=\"4.2\" fill=\"#34d399\" text-anchor=\"middle\" font-family=\"monospace\">SCRP</text>\n            <line x1=\"49\" y1=\"27\" x2=\"61\" y2=\"27\" stroke=\"#34d399\" stroke-width=\".8\" opacity=\".6\"/>\n            <circle cx=\"68\" cy=\"27\" r=\"7\" fill=\"rgba(212,170,125,.15)\" stroke=\"#D4AA7D\" stroke-width=\"1\"/><text x=\"68\" y=\"30\" font-size=\"4.2\" fill=\"#D4AA7D\" text-anchor=\"middle\" font-family=\"monospace\">WRIT</text>\n            <line x1=\"75\" y1=\"27\" x2=\"80\" y2=\"27\" stroke=\"#D4AA7D\" stroke-width=\".8\" opacity=\".6\"/>\n            <circle cx=\"84\" cy=\"27\" r=\"5\" fill=\"rgba(167,139,250,.18)\" stroke=\"#a78bfa\" stroke-width=\"1\"/><text x=\"84\" y=\"29.5\" font-size=\"3.4\" fill=\"#a78bfa\" text-anchor=\"middle\" font-family=\"monospace\">CRIT</text>\n            <text x=\"45\" y=\"48\" font-size=\"4.5\" fill=\"rgba(255,255,255,.25)\" text-anchor=\"middle\" font-family=\"monospace\">search → scrape → write → critique</text>\n          </svg>", "bg": "linear-gradient(135deg,#0f1420,#080a10)"}, {"id": "blinkit", "name": "Blinkit Business Insights Dashboard", "badge": "Completed", "cat": ["bi"], "signal": "Power BI", "signalLabel": "stakeholder reporting", "summary": "SQL extraction paired with Figma-designed UI to make a KPI dashboard non-technical stakeholders would actually open.", "problem": "Regional marketing decisions were being made without a single readable view of the KPIs behind them.", "approach": "Complex SQL data extraction feeding Power BI, with the interface designed in Figma first so the layout served non-technical readers rather than the data model.", "result": "Dashboards tracking KPIs and supporting regional marketing decisions.", "tools": ["Power BI", "SQL", "Figma", "KPI Reporting"], "links": [], "svg": "<svg viewBox=\"0 0 80 50\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n          <rect x=\"5\" y=\"32\" width=\"9\" height=\"14\" rx=\"1\" fill=\"#e8c59a\" opacity=\"0.5\"/>\n          <rect x=\"17\" y=\"24\" width=\"9\" height=\"22\" rx=\"1\" fill=\"#e8c59a\" opacity=\"0.7\"/>\n          <rect x=\"29\" y=\"16\" width=\"9\" height=\"30\" rx=\"1\" fill=\"#e8c59a\" opacity=\"0.9\"/>\n          <rect x=\"41\" y=\"20\" width=\"9\" height=\"26\" rx=\"1\" fill=\"#e8c59a\" opacity=\"0.75\"/>\n          <rect x=\"53\" y=\"28\" width=\"9\" height=\"18\" rx=\"1\" fill=\"#e8c59a\" opacity=\"0.6\"/>\n          <rect x=\"65\" y=\"12\" width=\"9\" height=\"34\" rx=\"1\" fill=\"#e8c59a\" opacity=\"0.85\"/>\n          <polyline points=\"2,46 78,46\" stroke=\"rgba(251,191,36,0.15)\" stroke-width=\"0.8\"/>\n          <text x=\"4\" y=\"10\" font-size=\"5\" fill=\"rgba(251,191,36,0.4)\" font-family=\"monospace\">KPI</text>\n        </svg>", "bg": "linear-gradient(135deg,#1a1e0e,#0d1008)"}];
+const PROJECTS = [{"id": "hybridrag", "name": "HybridRAG Classifier", "badge": "Live", "cat": ["ai"], "signal": "Live", "signalLabel": "in production, maintained", "summary": "A 6-label FDA compliance classifier that fuses dense and sparse retrieval, and routes anything it is unsure about to a human.", "problem": "A single retrieval method misses relevant evidence in compliance text. Dense embeddings catch meaning but miss exact regulatory phrasing; BM25 catches the phrasing but misses paraphrase. Treating a low-confidence label as settled is how a compliance classifier does real damage.", "approach": "Combined BGE dense embeddings (pgvector/HNSW) with BM25 sparse retrieval via Reciprocal Rank Fusion, then used the fused context for six-label classification. Outputs below 70% confidence route to a human review queue instead of being returned. Weekly GitHub Actions scraping pipeline keeps the corpus current, behind an LLM gateway with input sanitization and rate limiting.", "result": "A live classifier serving the full retrieval and review flow, evaluated with RAGAS and still actively maintained.", "tools": ["Python", "RAG", "BGE", "BM25", "pgvector", "RAGAS", "Docker"], "links": [["https://hybridrag.netlify.app/", "Live site"]], "svg": "<svg viewBox=\"0 0 90 55\" fill=\"none\">\n            <rect x=\"6\" y=\"14\" width=\"22\" height=\"14\" rx=\"1.5\" stroke=\"#D4AA7D\" stroke-width=\"1\" fill=\"rgba(212,170,125,.10)\"/>\n            <text x=\"17\" y=\"23\" font-size=\"4.5\" fill=\"#D4AA7D\" text-anchor=\"middle\" font-family=\"monospace\">DENSE</text>\n            <rect x=\"6\" y=\"32\" width=\"22\" height=\"14\" rx=\"1.5\" stroke=\"#a78bfa\" stroke-width=\"1\" fill=\"rgba(167,139,250,.10)\"/>\n            <text x=\"17\" y=\"41\" font-size=\"4.5\" fill=\"#a78bfa\" text-anchor=\"middle\" font-family=\"monospace\">SPARSE</text>\n            <line x1=\"28\" y1=\"22\" x2=\"48\" y2=\"29\" stroke=\"#D4AA7D\" stroke-width=\".7\" opacity=\".7\"/>\n            <line x1=\"28\" y1=\"38\" x2=\"48\" y2=\"29\" stroke=\"#a78bfa\" stroke-width=\".7\" opacity=\".7\"/>\n            <circle cx=\"52\" cy=\"29\" r=\"5\" fill=\"rgba(52,211,153,.18)\" stroke=\"#34d399\" stroke-width=\"1\"/>\n            <text x=\"52\" y=\"32\" font-size=\"5\" fill=\"#34d399\" text-anchor=\"middle\" font-family=\"monospace\">RRF</text>\n            <line x1=\"58\" y1=\"29\" x2=\"76\" y2=\"29\" stroke=\"#34d399\" stroke-width=\".8\" opacity=\".7\"/>\n            <rect x=\"76\" y=\"22\" width=\"10\" height=\"14\" rx=\"1\" fill=\"rgba(52,211,153,.20)\" stroke=\"#34d399\" stroke-width=\".8\"/>\n            <text x=\"81\" y=\"31\" font-size=\"4.5\" fill=\"#34d399\" text-anchor=\"middle\" font-family=\"monospace\">LLM</text>\n          </svg>", "bg": "linear-gradient(135deg,#181107,#0d0a04)"}, {"id": "nmss", "name": "MS Therapy Pathways — NMSS DMT Pipeline", "badge": "Live", "cat": ["hc"], "signal": "100M+", "signalLabel": "longitudinal claims modeled", "summary": "Engineered patient journeys from 100M+ managed-care claims, then modeled therapy choice, switching, and long-term persistence.", "problem": "A research team sponsored by the National MS Society wanted to understand how disease-modifying therapy choices change over time, what happens after a patient switches, and how long patients actually stay on treatment — questions a flat claims table cannot answer.", "approach": "Built longitudinal patient-journey datasets across ~1M patients (18K working cohort), integrating diagnosis, procedure and pharmacy claims into ICD-10 and pharmacy-based cohorts in SQL and Snowflake. Modeled first therapy, the decision to switch, and the next therapy as separate sequential steps, then layered survival modeling — Kaplan-Meier and Cox proportional hazards with quarterly recalibration — to track persistence.", "result": "Therapy-group classification reached 0.95 AUC, a 5.0pp absolute gain over legacy flat-table architectures, and the survival layer gave stakeholders a population-scale view of time-to-treatment and medication persistence.", "tools": ["Python", "SQL", "Snowflake", "Survival Analysis", "ICD-10", "Claims", "RWE"], "links": [["https://msdmtpipeline.netlify.app/#overview", "Project walkthrough"]], "svg": "<svg viewBox=\"0 0 90 55\" fill=\"none\"><circle cx=\"45\" cy=\"27\" r=\"18\" stroke=\"#2dd4bf\" stroke-width=\"8\" stroke-dasharray=\"70 43\" stroke-dashoffset=\"-5\" fill=\"none\" opacity=\".85\"/><circle cx=\"45\" cy=\"27\" r=\"18\" stroke=\"#2dd4bf\" stroke-width=\"8\" stroke-dasharray=\"43 70\" stroke-dashoffset=\"65\" fill=\"none\" opacity=\".3\"/><text x=\"45\" y=\"31\" font-size=\"7\" fill=\"#2dd4bf\" text-anchor=\"middle\" font-family=\"monospace\" opacity=\".9\">50-60%</text></svg>", "bg": "linear-gradient(135deg,#0d1610,#090f0b)"}, {"id": "vehicle", "name": "Q4 Vehicle Sales Forecast", "badge": "Completed", "cat": ["fc"], "signal": "7.16%", "signalLabel": "WAPE vs 15.9% baseline", "summary": "Three-month forecasts for eight vehicle series, built after throwing out a lag-feature design that looked obvious and was badly collinear.", "problem": "Forecast monthly unit sales for 8 vehicle series three months ahead, from 33 months of sales, incentive and macro data — without assuming future incentives or economic inputs are already known.", "approach": "The obvious lag-feature design carried severe multicollinearity, with VIF up to 137. I rebuilt the feature set around independent signals instead: recent level, momentum against a trailing average, and trend slope. A pooled ElasticNet was selected only after true walk-forward backtesting against Ridge, Lasso and Gradient Boosting, with future incentive and macro inputs held flat.", "result": "7.16% average WAPE against 15.9% for naive persistence across four backtest quarters, reported with bootstrapped P10–P90 uncertainty bands on every series rather than a bare point forecast.", "tools": ["Python", "ElasticNet", "Time Series", "Feature Engineering", "Walk-Forward Validation", "WAPE"], "links": [], "svg": "<svg viewBox=\"0 0 90 55\" fill=\"none\">\n            <polyline points=\"4,44 14,40 24,42 34,30 44,33 54,20 64,24 74,14 84,17\" stroke=\"#34d399\" stroke-width=\"2\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n            <polyline points=\"64,24 74,12 84,15\" stroke=\"#34d399\" stroke-width=\"1.5\" stroke-dasharray=\"3 2\" fill=\"none\" opacity=\"0.6\"/>\n            <line x1=\"63\" y1=\"4\" x2=\"63\" y2=\"50\" stroke=\"rgba(52,211,153,0.2)\" stroke-width=\"1\" stroke-dasharray=\"2 2\"/>\n            <text x=\"64\" y=\"49\" font-size=\"5\" fill=\"rgba(52,211,153,0.5)\" font-family=\"monospace\">Q4 →</text>\n            <circle cx=\"34\" cy=\"30\" r=\"2\" fill=\"#34d399\"/><circle cx=\"54\" cy=\"20\" r=\"2\" fill=\"#34d399\"/>\n          </svg>", "bg": "linear-gradient(135deg,#0e1f1a,#081410)"}, {"id": "bike", "name": "Bike Demand Prediction — End-to-End ML System", "badge": "Live", "cat": ["fc"], "signal": "Live", "signalLabel": "dashboard + drift monitor", "summary": "A full production-shaped ML system for hourly demand: versioned pipeline, tracked experiments, automated tests, and drift monitoring with a retrain trigger.", "problem": "Most forecasting projects stop at a validated model. The harder question is what it takes to keep one running: reproducible data, tracked experiments, and something that notices when the model has gone stale.", "approach": "Leakage-safe lag and rolling feature engineering on the UCI Bike Sharing data, walk-forward validated Gradient Boosting, MLflow for experiment tracking, a DVC-versioned pipeline, automated tests, and simulated drift monitoring wired to a retrain trigger.", "result": "Ships as an interactive Streamlit dashboard for on-demand prediction and live model-performance monitoring.", "tools": ["Python", "Gradient Boosting", "MLflow", "DVC", "Streamlit", "Drift Monitoring"], "links": [["https://bike-demand-prediction-project.streamlit.app/", "Live dashboard"]], "svg": "<svg viewBox=\"0 0 90 55\" fill=\"none\">\n          <path d=\"M4,44 Q10,30 16,32 Q22,34 28,20 Q34,10 40,16 Q46,22 52,14 Q58,8 64,18 Q70,26 76,12 Q80,6 84,8\" stroke=\"#34d399\" stroke-width=\"2\" fill=\"none\" stroke-linecap=\"round\"/>\n          <circle cx=\"28\" cy=\"20\" r=\"2\" fill=\"#34d399\"/><circle cx=\"52\" cy=\"14\" r=\"2\" fill=\"#34d399\"/><circle cx=\"76\" cy=\"12\" r=\"2\" fill=\"#34d399\"/>\n          <rect x=\"4\" y=\"46\" width=\"8\" height=\"4\" rx=\"1\" fill=\"rgba(52,211,153,.3)\"/><rect x=\"14\" y=\"44\" width=\"8\" height=\"6\" rx=\"1\" fill=\"rgba(52,211,153,.4)\"/><rect x=\"24\" y=\"40\" width=\"8\" height=\"10\" rx=\"1\" fill=\"rgba(52,211,153,.5)\"/><rect x=\"34\" y=\"38\" width=\"8\" height=\"12\" rx=\"1\" fill=\"rgba(52,211,153,.35)\"/><rect x=\"44\" y=\"42\" width=\"8\" height=\"8\" rx=\"1\" fill=\"rgba(52,211,153,.45)\"/><rect x=\"54\" y=\"36\" width=\"8\" height=\"14\" rx=\"1\" fill=\"rgba(52,211,153,.55)\"/><rect x=\"64\" y=\"40\" width=\"8\" height=\"10\" rx=\"1\" fill=\"rgba(52,211,153,.4)\"/><rect x=\"74\" y=\"44\" width=\"8\" height=\"6\" rx=\"1\" fill=\"rgba(52,211,153,.3)\"/>\n          <text x=\"45\" y=\"8\" font-size=\"4.5\" fill=\"rgba(52,211,153,.5)\" font-family=\"monospace\" text-anchor=\"middle\">hourly demand</text>\n        </svg>", "bg": "linear-gradient(135deg,#0c1a14,#07100c)"}, {"id": "search", "name": "Product Search Relevance — Home Depot Catalog", "badge": "Completed", "cat": ["ai"], "signal": "16.1%", "signalLabel": "lower prediction error", "summary": "A two-stage ranking system for a home-improvement catalog, built to catch the matches that keyword overlap misses.", "problem": "A product can share words with a search query and still be the wrong result. The task was to rank products by how well they matched what the shopper actually meant.", "approach": "Engineered 13 lexical and statistical features — TF-IDF cosine similarity, n-gram overlap, length ratios — and trained a LightGBM ranker on 74K query-product pairs. Then layered in a fine-tuned dual-encoder sentence transformer for semantic matches, keeping inference in milliseconds by pre-caching product embeddings.", "result": "The first stage cut prediction error 11.5% against a naive baseline; the semantic stage brought the total reduction to 16.1%.", "tools": ["Python", "LightGBM", "Sentence Transformers", "TF-IDF", "Search Ranking", "Feature Engineering"], "links": [], "svg": "<svg viewBox=\"0 0 90 55\" fill=\"none\">\n            <rect x=\"6\" y=\"8\" width=\"34\" height=\"8\" rx=\"1.5\" fill=\"rgba(232,197,154,.10)\" stroke=\"#e8c59a\" stroke-width=\".8\"/>\n            <text x=\"23\" y=\"13.5\" font-size=\"4\" fill=\"#e8c59a\" text-anchor=\"middle\" font-family=\"monospace\">\"porch light\"</text>\n            <line x1=\"40\" y1=\"12\" x2=\"58\" y2=\"12\" stroke=\"#e8c59a\" stroke-width=\".7\" opacity=\".6\"/>\n            <circle cx=\"63\" cy=\"12\" r=\"6\" fill=\"rgba(52,211,153,.15)\" stroke=\"#34d399\" stroke-width=\"1\"/>\n            <text x=\"63\" y=\"14.5\" font-size=\"4\" fill=\"#34d399\" text-anchor=\"middle\" font-family=\"monospace\">rank</text>\n            <rect x=\"8\" y=\"30\" width=\"70\" height=\"6\" rx=\"1.5\" fill=\"rgba(212,170,125,.10)\" stroke=\"rgba(212,170,125,.3)\" stroke-width=\".5\"/>\n            <rect x=\"8\" y=\"30\" width=\"59\" height=\"6\" rx=\"1.5\" fill=\"rgba(212,170,125,.5)\"/>\n            <text x=\"80\" y=\"35\" font-size=\"3.6\" fill=\"#D4AA7D\" font-family=\"monospace\">−16.1%</text>\n            <text x=\"10\" y=\"28\" font-size=\"3.4\" fill=\"rgba(212,170,125,.6)\" font-family=\"monospace\">prediction error ↓</text>\n            <text x=\"8\" y=\"47\" font-size=\"3.6\" fill=\"rgba(167,139,250,.55)\" font-family=\"monospace\">LightGBM + dual-encoder</text>\n          </svg>", "bg": "linear-gradient(135deg,#1a1005,#0d0803)"}, {"id": "labcorp", "name": "Healthcare Demand Forecasting — Labcorp", "badge": "Completed", "cat": ["hc", "fc"], "signal": "<5%", "signalLabel": "mean forecast error", "summary": "Hybrid ML and time-series forecasting of diagnostic-test demand across specialties, with calendar effects separated from real demand.", "problem": "Early-stage adoption data biases demand forecasts upward, producing spikes that are artifacts rather than signal — a costly thing to plan capacity around.", "approach": "Combined Gradient Boosting with ARIMA and modeled adoption, timing and repeat-utilization separately to correct the early-stage bias. Engineered a working-days adjustment so calendar variation could not be mistaken for genuine movement in demand.", "result": "Held mean forecast error under 5% across specialties, projecting diagnostic-test demand through 2026 in a form usable for capacity planning.", "tools": ["Python", "ARIMA", "Gradient Boosting", "Time Series", "Healthcare"], "links": [["https://www.linkedin.com/posts/varshith-t_datascience-healthcareanalytics-forecasting-share-7459348079977320448-uSpy/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAC0EvpIB_282Bx_gxoFbkgaC924RIPTY7bg", "LinkedIn post"]], "svg": "<svg viewBox=\"0 0 80 50\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n          <polyline points=\"2,40 14,38 26,32 38,24 50,18 62,12 72,8\" stroke=\"#34d399\" stroke-width=\"2\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n          <polyline points=\"50,18 62,10 72,6\" stroke=\"#34d399\" stroke-width=\"1.5\" stroke-dasharray=\"3 2\" fill=\"none\" opacity=\"0.6\"/>\n          <line x1=\"48\" y1=\"4\" x2=\"48\" y2=\"46\" stroke=\"rgba(52,211,153,0.2)\" stroke-width=\"1\" stroke-dasharray=\"2 2\"/>\n          <text x=\"49\" y=\"45\" font-size=\"5.5\" fill=\"rgba(52,211,153,0.5)\" font-family=\"monospace\">forecast →</text>\n          <circle cx=\"38\" cy=\"24\" r=\"2\" fill=\"#34d399\"/><circle cx=\"50\" cy=\"18\" r=\"2\" fill=\"#34d399\"/>\n        </svg>", "bg": "linear-gradient(135deg,#0e1f1a,#081410)"}, {"id": "agent", "name": "Multi-Agent Research System", "badge": "Live", "cat": ["ai"], "signal": "4", "signalLabel": "chained agent stages", "summary": "A four-stage LangChain pipeline that searches, reads, writes and then critiques its own cited report.", "problem": "A research assistant can produce a fluent report while quietly losing track of its sources. The question was whether the steps and the evidence could be made visible instead.", "approach": "Four chained stages: a Search Agent finds candidate sources, a Web Scraper retrieves usable evidence, a Writer Chain synthesizes a structured cited report, and a Critic Chain scores its grounding and attribution before anything is shown. Retrieval failures and model-knowledge fallback are surfaced explicitly rather than hidden.", "result": "A live demo where visitors can run a topic and inspect the resulting report and its critique.", "tools": ["Python", "LangChain", "Multi-Agent", "Tavily", "Streamlit", "Groq"], "links": [["https://multi-agent-research-system-z9ag.onrender.com", "Live demo"], ["https://github.com/warsai0222/Multi_Agent_Research_System", "GitHub"]], "svg": "<svg viewBox=\"0 0 90 55\" fill=\"none\">\n            <circle cx=\"16\" cy=\"27\" r=\"7\" fill=\"rgba(96,165,250,.15)\" stroke=\"#60a5fa\" stroke-width=\"1\"/><text x=\"16\" y=\"30\" font-size=\"4.2\" fill=\"#60a5fa\" text-anchor=\"middle\" font-family=\"monospace\">SRCH</text>\n            <line x1=\"23\" y1=\"27\" x2=\"35\" y2=\"27\" stroke=\"#60a5fa\" stroke-width=\".8\" opacity=\".6\"/>\n            <circle cx=\"42\" cy=\"27\" r=\"7\" fill=\"rgba(52,211,153,.15)\" stroke=\"#34d399\" stroke-width=\"1\"/><text x=\"42\" y=\"30\" font-size=\"4.2\" fill=\"#34d399\" text-anchor=\"middle\" font-family=\"monospace\">SCRP</text>\n            <line x1=\"49\" y1=\"27\" x2=\"61\" y2=\"27\" stroke=\"#34d399\" stroke-width=\".8\" opacity=\".6\"/>\n            <circle cx=\"68\" cy=\"27\" r=\"7\" fill=\"rgba(212,170,125,.15)\" stroke=\"#D4AA7D\" stroke-width=\"1\"/><text x=\"68\" y=\"30\" font-size=\"4.2\" fill=\"#D4AA7D\" text-anchor=\"middle\" font-family=\"monospace\">WRIT</text>\n            <line x1=\"75\" y1=\"27\" x2=\"80\" y2=\"27\" stroke=\"#D4AA7D\" stroke-width=\".8\" opacity=\".6\"/>\n            <circle cx=\"84\" cy=\"27\" r=\"5\" fill=\"rgba(167,139,250,.18)\" stroke=\"#a78bfa\" stroke-width=\"1\"/><text x=\"84\" y=\"29.5\" font-size=\"3.4\" fill=\"#a78bfa\" text-anchor=\"middle\" font-family=\"monospace\">CRIT</text>\n            <text x=\"45\" y=\"48\" font-size=\"4.5\" fill=\"rgba(255,255,255,.25)\" text-anchor=\"middle\" font-family=\"monospace\">search → scrape → write → critique</text>\n          </svg>", "bg": "linear-gradient(135deg,#0f1420,#080a10)"}, {"id": "blinkit", "name": "Blinkit Business Insights Dashboard", "badge": "Completed", "cat": ["bi"], "signal": "Power BI", "signalLabel": "stakeholder reporting", "summary": "SQL extraction paired with Figma-designed UI to make a KPI dashboard non-technical stakeholders would actually open.", "problem": "Regional marketing decisions were being made without a single readable view of the KPIs behind them.", "approach": "Complex SQL data extraction feeding Power BI, with the interface designed in Figma first so the layout served non-technical readers rather than the data model.", "result": "Dashboards tracking KPIs and supporting regional marketing decisions.", "tools": ["Power BI", "SQL", "Figma", "KPI Reporting"], "links": [], "svg": "<svg viewBox=\"0 0 80 50\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n          <rect x=\"5\" y=\"32\" width=\"9\" height=\"14\" rx=\"1\" fill=\"#e8c59a\" opacity=\"0.5\"/>\n          <rect x=\"17\" y=\"24\" width=\"9\" height=\"22\" rx=\"1\" fill=\"#e8c59a\" opacity=\"0.7\"/>\n          <rect x=\"29\" y=\"16\" width=\"9\" height=\"30\" rx=\"1\" fill=\"#e8c59a\" opacity=\"0.9\"/>\n          <rect x=\"41\" y=\"20\" width=\"9\" height=\"26\" rx=\"1\" fill=\"#e8c59a\" opacity=\"0.75\"/>\n          <rect x=\"53\" y=\"28\" width=\"9\" height=\"18\" rx=\"1\" fill=\"#e8c59a\" opacity=\"0.6\"/>\n          <rect x=\"65\" y=\"12\" width=\"9\" height=\"34\" rx=\"1\" fill=\"#e8c59a\" opacity=\"0.85\"/>\n          <polyline points=\"2,46 78,46\" stroke=\"rgba(251,191,36,0.15)\" stroke-width=\"0.8\"/>\n          <text x=\"4\" y=\"10\" font-size=\"5\" fill=\"rgba(251,191,36,0.4)\" font-family=\"monospace\">KPI</text>\n        </svg>", "bg": "linear-gradient(135deg,#1a1e0e,#0d1008)"}];
 const PFILTERS = [["all", "All"], ["hc", "Healthcare"], ["fc", "Forecasting & Time Series"], ["ai", "ML & AI Systems"], ["bi", "Analytics & BI"]];
 (function(){
   const grid = document.getElementById('proj-main-grid');
@@ -2559,10 +2695,12 @@ const PFILTERS = [["all", "All"], ["hc", "Healthcare"], ["fc", "Forecasting & Ti
       '<div class="pc-card anim d'+Math.min(i,4)+'" role="button" tabindex="0" data-p="'+p.id+'" aria-label="Open case study: '+esc(p.name)+'">'
       + '<div class="pc-thumb" style="background:'+esc(p.bg)+'">'+p.svg+'</div>'
       + '<div class="pc-body">'
+      +   '<div class="pc-tags">'+(KEYSTACK[p.id]||p.tools.slice(0,3)).map(t=>'<div class="pc-tag">'+esc(t)+'</div>').join('')
+      +     '<span class="pc-more">+'+Math.max(0,p.tools.length-(KEYSTACK[p.id]||p.tools.slice(0,3)).length)+'</span></div>'
       +   '<div class="pc-head"><div class="pc-name">'+esc(p.name)+'</div><div class="pc-badge badge-prod">'+esc(p.badge)+'</div></div>'
       +   '<div class="pc-sum">'+esc(p.summary)+'</div>'
-      +   '<div class="pc-signal"><b>'+esc(p.signal)+'</b><i>'+esc(p.signalLabel)+'</i></div>'
-      +   '<div class="pc-tags">'+p.tools.slice(0,3).map(t=>'<div class="pc-tag">'+esc(t)+'</div>').join('')+'</div>'
+      +   (DELTAS[p.id] ? deltaHTML(DELTAS[p.id])
+            : '<div class="pc-signal"><b>'+esc(p.signal)+'</b><i>'+esc(p.signalLabel)+'</i></div>')
       +   '<div class="pc-cta"><span>View case study</span><span class="arw">&rarr;</span></div>'
       + '</div></div>').join('');
   }
@@ -2601,6 +2739,86 @@ const PFILTERS = [["all", "All"], ["hc", "Healthcare"], ["fc", "Forecasting & Ti
   });
   dlg.addEventListener('click', e=>{ if(e.target===dlg||e.target.closest('[data-x]')) dlg.close(); });
   renderFilters(); renderCards();
+})();
+</script>
+
+
+<script>
+/* ── ported from v5: deltas, periodic table, publications list,
+     ID-card flip, philosophy rail, SVG theme toggle ── */
+(function(){
+  const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+
+  /* periodic table — 32 elements, Airflow/dbt and the rest dropped */
+  const SKILLS=[['Py','Python',1],['Sq','SQL',1],['R','R',1],['Sk','scikit-learn',1],
+   ['Xg','XGBoost',1],['St','statsmodels',1],['Pt','PyTorch',1],['Ts','Time Series',1],
+   ['Sa','Survival',1],['Fe','Feature Eng.',1],['Lc','LangChain',1],['Gr','LangGraph',1],
+   ['Rg','RAG',1],['Bg','BGE',1],['Bm','BM25',1],['Pv','pgvector',1],['Ra','RAGAS',1],
+   ['Sn','Snowflake',2],['Db','Databricks',2],['Sp','Spark',2],['Pg','PostgreSQL',2],
+   ['Ax','Alteryx',2],['Et','ETL',2],['Fa','FastAPI',2],['Aw','AWS',2],['K8','Kubernetes',2],
+   ['Pb','Power BI',2],['Mf','MLflow',2],['Dv','DVC',2],['Dk','Docker',2],
+   ['Ga','GH Actions',2],['Sl','Streamlit',2]];
+  const pt=document.getElementById('ptable');
+  if(pt) pt.innerHTML=SKILLS.map(([s,f,g],i)=>
+    '<div class="el'+(g===2?' g2':'')+'"><div class="n">'+String(i+1).padStart(2,'0')+'</div>'
+    +'<div class="s">'+s+'</div><div class="f">'+esc(f)+'</div></div>').join('');
+
+  /* publications list */
+  const PUBS=[
+   ['I Thought MCP Was Just Another Name for Function Calling. I Was Wrong.','Why the Model Context Protocol is architecturally distinct from plain function calling — server-side state, bi-directional control, and what that means for real agent systems.','https://medium.com/towards-artificial-intelligence/i-thought-mcp-was-just-another-name-for-function-calling-i-was-wrong-44e45c0e9bdb'],
+   ['Why HybridRAG Changed The Way I Think About AI Systems','Building a production RAG classifier forced a rethink of retrieval — why neither dense nor sparse alone is enough, and how RRF fusion changes the outcome.','https://medium.com/towards-artificial-intelligence/why-hybridrag-changed-the-way-i-think-about-ai-systems-372ac00ea199'],
+   ['How Chemical Engineering Made Data Pipelines Feel Familiar','Process control, mass balances and unit operations as mental models for ETL, streaming pipelines and data quality at scale.','https://medium.com/generative-ai/how-chemical-engineering-made-data-pipelines-feel-familiar-a35a5b820b5d'],
+   ['AI Kept Forgetting My Notes — Fixing That Taught Me How It Actually Works','A first-principles walkthrough of how LLM context windows and retrieval behave past trivial demos: what fails, why, and how to design around it.','https://medium.com/towards-artificial-intelligence/ai-kept-forgetting-my-notes-fixing-that-taught-me-how-it-actually-works-e08ff209403d'],
+   ['Linear Regression Rarely Fails. It Drifts.','Production ML fails less from the wrong model than from drift — covariate, concept, label. Monitoring patterns (PSI, KS, calibration) and retraining triggers that do not oscillate.','https://medium.com/towards-artificial-intelligence/linear-regression-rarely-fails-it-drifts-6c6c1134c2f3']];
+  const pl=document.getElementById('publist');
+  if(pl) pl.innerHTML=PUBS.map(([t,d,u],i)=>
+    '<a class="pubrow" href="'+u+'" target="_blank" rel="noopener"><span class="pn">0'+(i+1)+'</span>'
+    +'<span><h3>'+esc(t)+'</h3><p>'+esc(d)+'</p></span><span class="go">Read ↗</span></a>').join('');
+
+  /* ID card flip */
+  const card=document.getElementById('idcard');
+  if(card){
+    const flip=()=>card.classList.toggle('flip');
+    card.addEventListener('click',flip);
+    card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();flip();}});
+  }
+
+  /* philosophy rail: wheel scrolls it horizontally, but never steals
+     the page scroll at either end */
+  const rail=document.getElementById('philoRail');
+  if(rail) rail.addEventListener('wheel',e=>{
+    if(Math.abs(e.deltaY)<=Math.abs(e.deltaX))return;
+    const max=rail.scrollWidth-rail.clientWidth;
+    if((rail.scrollLeft<=0&&e.deltaY<0)||(rail.scrollLeft>=max&&e.deltaY>0))return;
+    e.preventDefault(); rail.scrollLeft+=e.deltaY;
+  },{passive:false});
+
+  /* SVG sun/moon on the theme toggle */
+  const tb=document.querySelector('[data-v5]');
+  if(tb){
+    const SUN='<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="5"/><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 1v3M12 20v3M1 12h3M20 12h3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M19.8 4.2l-2.1 2.1M6.3 17.7l-2.1 2.1"/></g></svg>';
+    const MOON='<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
+    const paint=()=>{tb.innerHTML=document.documentElement.getAttribute('data-theme')==='dark'?SUN:MOON;};
+    paint(); tb.addEventListener('click',()=>setTimeout(paint,20));
+    new MutationObserver(paint).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+  }
+
+  /* bars draw themselves when they scroll into view */
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const arm=root=>{
+    const ds=(root||document).querySelectorAll('.delta:not(.go)');
+    if(reduce){ ds.forEach(d=>d.classList.add('go')); return; }
+    const io=new IntersectionObserver(es=>es.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('go'); io.unobserve(e.target); }}),{threshold:.4});
+    ds.forEach(d=>io.observe(d));
+  };
+  arm();
+  const grid=document.getElementById('proj-main-grid');
+  if(grid) new MutationObserver(()=>arm(grid)).observe(grid,{childList:true});
+  const dlg=document.getElementById('pcm');
+  if(dlg) new MutationObserver(()=>dlg.querySelectorAll('.delta:not(.go)')
+      .forEach(d=>requestAnimationFrame(()=>d.classList.add('go')))).observe(dlg,{childList:true});
 })();
 </script>
 
