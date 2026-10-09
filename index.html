@@ -1313,6 +1313,28 @@ nav,.nav-links,.nav-logo,.btn-resume,.btn-ask,.theme-toggle,.fb,
   .pc-card::before{ transition:none }
   .pc-card .pc-thumb svg{ transition:none }
 }
+
+/* ── chat panel: the log fills the bento cell instead of capping short ── */
+.b-ask-msgs{ max-height:none !important; min-height:150px }
+.b-ask-qchips,.b-ask-input{ flex:0 0 auto }
+
+/* ── philosophy rail runs the full width of the viewport ──────────────── */
+.philo-rail{
+  max-width:none !important;
+  margin-inline:calc(50% - 50vw);
+  /* first card lines up with the content edge, the last runs off-screen */
+  padding-inline:max(1.25rem,calc(50vw - 50% + .2rem)) !important;
+  padding-bottom:1.2rem !important;
+  /* snapping and scroll anchoring both nudged the row off its start position */
+  scroll-snap-type:none !important;
+  overflow-anchor:none;
+  scrollbar-width:none;
+  /* fades the row out at the viewport edge so it reads as continuing */
+  -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 88px),transparent);
+          mask-image:linear-gradient(90deg,#000 calc(100% - 88px),transparent);
+}
+.philo-rail::-webkit-scrollbar{height:0}
+.philo-rail .pc{scroll-snap-align:none}
 </style>
 </head>
 <body>
@@ -1618,12 +1640,12 @@ window.deltaHTML=function(d){
     </div>
   </div>
   <div class="sec-h anim d0">Data Science <em>Philosophy</em></div>
-  <div class="philo-grid philo-rail" id="philoRail">
+  <div class="philo-wrap"><div class="philo-grid philo-rail" id="philoRail">
     <div class="pc anim d1"><div class="pc-num">01</div><div class="pc-icon">🔍</div><div class="pc-title">Evidence Before the Model</div><div class="pc-text">Every column I keep, drop, or transform gets checked first - missingness, seasonality, collinearity - <strong>the evidence comes before the decision</strong>, not after.</div></div>
     <div class="pc anim d2"><div class="pc-num">02</div><div class="pc-icon">📏</div><div class="pc-title">Beat a Real Baseline</div><div class="pc-text">A model is only as good as what it's compared against. I backtest against naive and seasonal baselines, not just a train/test split, and I report the worst case too.</div></div>
     <div class="pc anim d3"><div class="pc-num">03</div><div class="pc-icon">⚙️</div><div class="pc-title">Production-Minded Pipelines</div><div class="pc-text">Good analytics needs reliable data paths. I design pipelines from ingestion through features, validation, deployment, and monitoring - not just a one-off notebook.</div></div>
     <div class="pc anim d4"><div class="pc-num">04</div><div class="pc-icon">🤝</div><div class="pc-title">Insight Delivery</div><div class="pc-text">The best analysis still has to land with humans. I translate models and numbers into clear workflows for operators, leaders, and product teams.</div></div>
-  </div>
+  </div></div>
   <div class="philo-note anim d2">Scroll the row &rarr;</div>
   <div class="sec-h anim d0" style="margin-top:3rem"><em>Professional</em> Trust</div>
   <div class="testi-grid">
@@ -2787,6 +2809,12 @@ const PFILTERS = [["all", "All"], ["hc", "Healthcare"], ["fc", "Forecasting & Ti
   /* philosophy rail: wheel scrolls it horizontally, but never steals
      the page scroll at either end */
   const rail=document.getElementById('philoRail');
+  // the row must start at its first card; layout shifts were leaving it mid-scroll
+  if(rail){
+    const home=()=>{ rail.scrollLeft=0; };
+    home(); window.addEventListener('load',home);
+    window.addEventListener('resize',home,{passive:true});
+  }
   if(rail) rail.addEventListener('wheel',e=>{
     if(Math.abs(e.deltaY)<=Math.abs(e.deltaX))return;
     const max=rail.scrollWidth-rail.clientWidth;
