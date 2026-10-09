@@ -37,7 +37,7 @@ const KNOWLEDGE = [
     category: "contact",
     keywords: ["email", "contact", "phone", "linkedin", "where", "location", "from", "based", "availability", "start"],
     text:
-      "Varshith is based in St. Augustine, FL. Email: tipirnenivarshith@gmail.com. LinkedIn: linkedin.com/in/varshith-t/. Phone: 984-356-3633. He graduated from UNC Chapel Hill in May 2026 and is available to start immediately. He is open to remote, hybrid, or on-site work and will relocate for the right data science or analytics role."
+      "Varshith is based in Chapel Hill, NC. Email: tipirnenivarshith@gmail.com. LinkedIn: linkedin.com/in/varshith-t/. Phone: 984-356-3633. He can start full-time from June 15, 2026 after graduating in May 2026. He is open to remote, hybrid, onsite, and relocation for the right data science or analytics role."
   },
   {
     id: "education",
@@ -53,7 +53,7 @@ const KNOWLEDGE = [
     category: "experience",
     keywords: ["viatris", "data analyst", "supply", "chain", "pharma", "alteryx", "po", "markets", "stockout", "assumptions dashboard", "oos", "poos", "erp"],
     text:
-      "At Viatris, Varshith was a Supply Chain Analyst (May 2025 - May 2026) working across a $15B pharmaceutical supply-chain portfolio spanning 165+ markets. He cut total supply gap value 10% - $12.9M - over 8 months by building and maintaining weekly OOS/POOS analytical pipelines and a daily Assumptions Dashboard, and drove an 88% reduction in stale ERP metrics through daily supply chain dashboards and an automated weekly Inactive PO pipeline. He collaborated directly with global supply planners to scope technical requirements behind those builds, and built automated Alteryx workflows to ingest, clean, and map multi-source procurement data, cutting manual prep time for weekly reporting."
+      "At Viatris, Varshith is a Supply Chain Analyst working across a $15B pharmaceutical supply-chain portfolio. He cut total supply gap value 25% over 8 months by building and maintaining weekly OOS/POOS analytical pipelines and a daily Assumptions Dashboard, and drove an 88% reduction in stale ERP metrics through daily supply chain dashboards and an automated weekly Inactive PO pipeline. He collaborated directly with global supply planners to scope technical requirements behind those builds, and built automated Alteryx workflows to ingest, clean, and map multi-source procurement data, cutting manual prep time for weekly reporting."
   },
   {
     id: "dashboards-bi",
@@ -69,7 +69,7 @@ const KNOWLEDGE = [
     category: "experience",
     keywords: ["nmss", "ms", "multiple sclerosis", "healthcare", "claims", "patient", "therapy", "switch", "dmt", "survival analysis", "kaplan-meier", "cox", "snowflake"],
     text:
-      "At the National MS Society, Varshith worked as Solutions Architect on a Data Science Practicum covering healthcare claims ML for therapy selection and medication switching. He built a sequential ML pipeline that reached 0.95 AUC predicting clinical medication switches, a 5.0pp absolute accuracy gain over legacy flat-table architectures, across roughly 1M patients (18K working cohort). He assessed long-term medication persistence across patient cohorts using survival models (Kaplan-Meier, Cox proportional hazards) with quarterly recalibration, and queried and joined 100M+ longitudinal medical claims in SQL and Snowflake to build cohort datasets and engineer training features. He also implemented MLflow and DVC for reproducible, auditable experiment tracking."
+      "At the National MS Society, Varshith works on healthcare claims ML for therapy selection and medication switching. He built a sequential ML pipeline that improved therapy-group classification accuracy to 57.8%, a 5% lift over flat-table baselines. He assessed long-term medication persistence across patient cohorts using survival models (Kaplan-Meier, Cox proportional hazards) with quarterly recalibration, and queried and joined 100M+ longitudinal medical claims in SQL and Snowflake to build cohort datasets and engineer training features. He also implemented MLflow and DVC for reproducible, auditable experiment tracking."
   },
   {
     id: "hybridrag",
@@ -128,14 +128,6 @@ const KNOWLEDGE = [
       "The Multi-Agent Research System is a live four-stage LangChain agent pipeline. A Search Agent finds candidate sources, a Web Scraper retrieves usable evidence, a Writer Chain synthesizes a structured cited report, and a Critic Chain scores grounding and attribution before the report is shown. It makes retrieval failures and model-knowledge fallback explicit. Live demo: https://multi-agent-research-system-z9ag.onrender.com. GitHub: https://github.com/warsai0222/Multi_Agent_Research_System."
   },
   {
-    id: "labcorp",
-    title: "Healthcare Demand Forecasting - Labcorp",
-    category: "project",
-    keywords: ["labcorp", "diagnostic", "diagnostics", "test demand", "specialty", "specialties", "arima", "capacity planning", "healthcare forecasting", "working days"],
-    text:
-      "For Labcorp, Varshith forecast diagnostic-test demand across specialties through 2026 using a hybrid of Gradient Boosting and ARIMA. Early-stage adoption data biases demand forecasts upward, so he modeled adoption, timing, and repeat utilization as separate components to correct it, and engineered a working-days adjustment so calendar variation could not be mistaken for real movement in demand. The result held mean forecast error under 5% across specialties, in a form usable for capacity planning."
-  },
-  {
     id: "bike-demand",
     title: "Bike Demand Prediction",
     category: "project",
@@ -149,7 +141,7 @@ const KNOWLEDGE = [
     category: "skill",
     keywords: ["skills", "stack", "tools", "python", "sql", "langchain", "langgraph", "fastapi", "docker", "mlops", "spark", "databricks", "pytorch", "tensorflow"],
     text:
-      "Core stack: Python (Pandas, NumPy, scikit-learn, TensorFlow, PyTorch, HuggingFace), SQL, Spark, XGBoost, LightGBM, time series and demand forecasting, classification, survival analysis (Kaplan-Meier, Cox), NLP, RAG, LangGraph, LangChain, pgvector, BM25, BGE embeddings, RAGAS, FastAPI, Docker, MLflow, DVC, Databricks, Power BI, Alteryx, GitHub Actions, Claude, and ChatGPT. Currently deepening Databricks (lakehouse MLOps) and LangGraph/LangSmith for agentic AI tooling."
+      "Core stack: Python (Pandas, NumPy, scikit-learn, TensorFlow, PyTorch, HuggingFace), SQL, Spark, XGBoost, LightGBM, time series and demand forecasting, classification, survival analysis (Kaplan-Meier, Cox), NLP, RAG, LangGraph, LangChain, pgvector, BM25, BGE embeddings, RAGAS, FastAPI, Docker, MLflow, DVC, Databricks, Power BI, Alteryx, GitHub Actions, Claude, and ChatGPT. Currently deepening Airflow and dbt."
   },
   {
     id: "writing-personal",
@@ -395,7 +387,7 @@ exports.handler = async event => {
 
   if (isRateLimited(event)) {
     return json(event, 429, {
-      answer: "Duta is getting a lot of questions right now. Please try again in about a minute.",
+      answer: "AskVarshith is getting a lot of questions right now. Please try again in about a minute.",
       sourceIds: [],
       rateLimited: true
     });
@@ -446,7 +438,7 @@ exports.handler = async event => {
           {
             role: "system",
             content:
-              `You are Duta, the portfolio assistant for Varshith Tipirneni.\n` +
+              `You are AskVarshith, the portfolio assistant for Varshith Tipirneni.\n` +
               `Answer only from the provided context. If the answer is not clearly present, reply exactly: "${FALLBACK}"\n` +
               `If the user asks for Varshith's best skill, answer the skill directly; do not answer with his best project. If the user asks for best project or best work, answer HybridRAG.\n` +
               `Use the conversation history only to understand follow-up references, never as factual source material.\n` +
