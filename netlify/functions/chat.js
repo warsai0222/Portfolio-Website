@@ -37,7 +37,7 @@ const KNOWLEDGE = [
     category: "contact",
     keywords: ["email", "contact", "phone", "linkedin", "where", "location", "from", "based", "availability", "start"],
     text:
-      "Varshith is based in St. Augustine, FL. Email: tipirnenivarshith@gmail.com. LinkedIn: linkedin.com/in/varshith-t/. Phone: 984-356-3633. He graduated from UNC Chapel Hill in May 2026 and is available to start immediately. He is open to remote, hybrid, or on-site work and will relocate for the right data science or analytics role."
+      "Varshith is based in St. Augustine, FL. Email: tipirnenivarshith@gmail.com. LinkedIn: linkedin.com/in/varshith-t/. Phone: 984-356-3633. He graduated from UNC Chapel Hill in May 2026 and is available to start immediately. He is open to on-site, hybrid, or remote work and will relocate for the right data science or analytics role."
   },
   {
     id: "education",
