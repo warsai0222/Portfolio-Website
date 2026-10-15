@@ -2,6 +2,11 @@
   directory = "netlify/functions"
 
 [[redirects]]
+  from = "/api/now-playing"
+  to = "/.netlify/functions/now-playing"
+  status = 200
+
+[[redirects]]
   from = "/api/chat"
   to = "/.netlify/functions/chat"
   status = 200

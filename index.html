@@ -1311,8 +1311,45 @@ nav,.nav-links,.nav-logo,.btn-resume,.btn-ask,.theme-toggle,.fb,
 }
 
 /* ── chat panel: the log fills the bento cell instead of capping short ── */
-.b-ask-msgs{ max-height:none !important; min-height:150px }
-.b-ask-qchips,.b-ask-input{ flex:0 0 auto }
+.home-sidebar{grid-column:3;grid-row:1/4;display:flex;flex-direction:column;gap:.75rem;min-width:0;min-height:0}
+.home-sidebar .b-ask{flex:1 1 0;height:0;min-height:340px;max-height:none}
+.b-ask-msgs{flex:1 1 0;min-height:0;max-height:none}
+.b-ask-hdr,.b-ask-qchips,.b-ask-input,.ask-win-hdr,.ask-win-inp-row,.ask-fallback{flex-shrink:0}
+.m-bot,.m-user,.aw{flex-shrink:0;overflow-wrap:anywhere;min-width:0}
+.ai-inp,.ask-win-inp{min-width:0}
+.ask-win-msgs{flex:1 1 0;max-height:none}
+.music-card{flex:0 0 auto;border:1px solid var(--border2);background:var(--bg2);border-radius:16px;padding:1rem;min-width:0}
+.music-heading{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.9rem}
+.music-label{font-family:var(--brig);font-size:.78rem;font-weight:600;display:flex;align-items:center;gap:.5rem}
+.music-label svg{width:18px;height:18px;color:var(--teal)}
+.music-eq{display:flex;align-items:flex-end;gap:3px;height:18px;color:var(--teal)}
+.music-eq i{display:block;width:3px;height:5px;background:currentColor;border-radius:1px}
+.music-eq i:nth-child(2){height:10px}.music-eq i:nth-child(3){height:7px}.music-eq i:nth-child(4){height:13px}
+.music-card.is-playing .music-eq i{animation:musicPulse .9s ease-in-out infinite alternate}
+.music-card.is-playing .music-eq i:nth-child(2){animation-delay:-.4s}.music-card.is-playing .music-eq i:nth-child(3){animation-delay:-.7s}
+.music-track{display:flex;align-items:center;gap:.85rem;min-width:0;text-decoration:none;color:var(--text)}
+.music-track:hover .music-title{text-decoration:underline;text-underline-offset:3px}
+.music-record{width:56px;height:56px;flex:0 0 56px;border-radius:50%;position:relative;overflow:hidden;background:repeating-radial-gradient(circle,#10241c 0 2px,#060e0a 3px 4px)}
+.music-record::after{content:'';position:absolute;inset:21px;border-radius:50%;background:var(--teal)}
+.music-record img{width:100%;height:100%;object-fit:cover;position:relative;z-index:1}
+.music-details{flex:1;min-width:0}.music-title{font-family:var(--brig);font-size:.86rem;line-height:1.35;font-weight:600;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.music-artist{display:block;color:var(--muted2);font-size:.62rem;line-height:1.5;margin-top:.2rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.music-progress{display:block;width:100%;height:4px;accent-color:var(--teal);margin-top:.65rem;border:none;border-radius:8px;overflow:hidden;background:var(--bg3)}
+.music-progress::-webkit-progress-bar{background:var(--bg3)}.music-progress::-webkit-progress-value{background:var(--teal);border-radius:8px}.music-progress::-moz-progress-bar{background:var(--teal)}
+.music-times{display:flex;justify-content:space-between;color:var(--muted2);font-size:.56rem;margin-top:.3rem}
+.music-brand{display:flex;align-items:center;justify-content:flex-end;gap:.3rem;margin-top:.7rem;color:var(--muted2);font-size:.55rem;text-decoration:none}
+.music-brand svg{width:14px;height:14px;fill:currentColor}
+@keyframes musicPulse{to{height:17px}}
+@media(max-width:960px){
+  .home-sidebar{grid-column:1/-1;grid-row:auto}
+  .home-sidebar .b-ask{flex:none;height:400px;min-height:0;max-height:400px}
+}
+@media(max-width:620px){
+  .home-sidebar .b-ask{height:390px;max-height:390px}
+  .ask-win{height:480px;height:min(480px,calc(100svh - 100px));min-height:0;max-height:480px}
+  .b-ask-msgs,.ask-win-msgs{height:0;min-height:0;max-height:none;flex:1 1 0}
+}
+@media(prefers-reduced-motion:reduce){.music-card.is-playing .music-eq i{animation:none}}
 
 /* ── philosophy rail runs the full width of the viewport ──────────────── */
 .philo-rail{
@@ -1478,6 +1515,7 @@ window.deltaHTML=function(d){
   </div>
 
   <!-- Ask mini -->
+  <div class="home-sidebar">
   <div class="b-ask anim d2">
     <div class="b-ask-hdr"><div class="b-ask-title"><div class="pdot"></div>Duta</div><button class="b-ask-expand" onclick="go('ask')">⤢</button></div>
     <div class="b-ask-msgs" id="home-msgs"><div class="m-bot">Hi, I'm <b>Duta</b> — Sanskrit for messenger. Ask me for the strongest project, a walkthrough of the data, technical stack, or the fastest way to contact Varshith.</div></div>
@@ -1487,6 +1525,23 @@ window.deltaHTML=function(d){
       <span class="qc" onclick="hAsk('Open to work?')">Open to work?</span>
     </div>
     <div class="b-ask-input"><input class="ai-inp" id="home-inp" placeholder="Ask anything..." onkeydown="if(event.key==='Enter')hSend()"><button class="ai-snd" onclick="hSend()">➤</button></div>
+  </div>
+  <section class="music-card anim d3" id="now-playing" aria-label="Varshith's Spotify listening">
+    <div class="music-heading">
+      <div class="music-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 18V5l12-2v13M9 8l12-2"/><ellipse cx="6" cy="18" rx="3" ry="3"/><ellipse cx="18" cy="16" rx="3" ry="3"/></svg><span id="music-status">Listening corner</span></div>
+      <span class="music-eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+    </div>
+    <a class="music-track" id="music-link" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer">
+      <span class="music-record"><img id="music-art" alt="" hidden referrerpolicy="no-referrer"></span>
+      <span class="music-details">
+        <span class="music-title" id="music-title">Music, between the work.</span>
+        <span class="music-artist" id="music-artist">Live listening coming soon</span>
+        <progress class="music-progress" id="music-progress" value="0" max="1" aria-label="Track progress"></progress>
+        <span class="music-times"><span id="music-elapsed">--:--</span><span id="music-duration">--:--</span></span>
+      </span>
+    </a>
+    <a class="music-brand" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24zm5.5 17.3a.75.75 0 0 1-1 .3c-2.8-1.7-6.3-2.1-10.4-1.1a.75.75 0 0 1-.4-1.5c4.5-1 8.4-.6 11.5 1.3.4.2.5.7.3 1zm1.5-3.3a.94.94 0 0 1-1.3.3c-3.2-2-8-2.6-11.8-1.4a.94.94 0 1 1-.6-1.8c4.4-1.3 9.7-.7 13.4 1.6.4.3.6.9.3 1.3zm.1-3.5C15.3 8.3 9 8 5.4 9.1a1.13 1.13 0 1 1-.7-2.1c4.2-1.3 11.2-1 15.6 1.6a1.13 1.13 0 0 1-1.2 1.9z"/></svg>Spotify</a>
+  </section>
   </div>
 
   <!-- Stack -->
@@ -1767,6 +1822,7 @@ window.deltaHTML=function(d){
   </div>
 </div>
 
+<script src="assets/now-playing.js" defer></script>
 <script>
 
 // ── ROUTING & ANIMATIONS - single-page scroll ──
