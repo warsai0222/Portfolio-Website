@@ -1,69 +1,115 @@
-let accessToken = '';
-let tokenExpiresAt = 0;
-let cached = null;
-let cacheExpiresAt = 0;
-let inFlight = null;
+/**
+ * /api/now-playing
+ *
+ * Holds the Spotify credentials server-side and returns a small, safe payload.
+ * Needs three environment variables in Netlify:
+ *   SPOTIFY_CLIENT_ID
+ *   SPOTIFY_CLIENT_SECRET
+ *   SPOTIFY_REFRESH_TOKEN
+ * With any of them missing the endpoint answers {configured:false} and the
+ * card on the page simply keeps its default copy.
+ */
 
-async function spotifyFetch(url, options = {}) {
-  return fetch(url, { ...options, signal: AbortSignal.timeout(4000) });
+const TOKEN_URL   = 'https://accounts.spotify.com/api/token';
+const NOW_URL     = 'https://api.spotify.com/v1/me/player/currently-playing';
+const RECENT_URL  = 'https://api.spotify.com/v1/me/player/recently-played?limit=10';
+
+const CACHE_MS      = 25_000;   // one upstream call per 25s no matter how many visitors
+const HIDE_EXPLICIT = true;     // explicit track playing -> show the last clean one instead
+
+let cache = { at: 0, body: null };
+let token = { value: null, expiresAt: 0 };
+
+async function accessToken(id, secret, refresh) {
+  if (token.value && Date.now() < token.expiresAt - 60_000) return token.value;
+  const res = await fetch(TOKEN_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: 'Basic ' + Buffer.from(`${id}:${secret}`).toString('base64')
+    },
+    body: new URLSearchParams({ grant_type: 'refresh_token', refresh_token: refresh })
+  });
+  if (!res.ok) throw new Error('token ' + res.status);
+  const j = await res.json();
+  token = { value: j.access_token, expiresAt: Date.now() + (j.expires_in || 3600) * 1000 };
+  return token.value;
 }
 
-async function getPlayback() {
-  const clientId = process.env.SPOTIFY_CLIENT_ID;
-  const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
-  const refreshToken = process.env.SPOTIFY_REFRESH_TOKEN;
-  if (!clientId || !clientSecret || !refreshToken) return { state: 'unconfigured' };
+const artOf = item =>
+  (item && item.album && item.album.images || [])
+    .slice().sort((a, b) => a.width - b.width)
+    .find(i => i.width >= 120)?.url || null;
 
-  if (!accessToken || Date.now() >= tokenExpiresAt) {
-    const response = await spotifyFetch('https://accounts.spotify.com/api/token', {
-      method: 'POST',
-      headers: {
-        Authorization: `Basic ${Buffer.from(`${clientId}:${clientSecret}`).toString('base64')}`,
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: new URLSearchParams({ grant_type: 'refresh_token', refresh_token: refreshToken }).toString()
-    });
-    if (!response.ok) throw new Error('spotify_auth_failed');
-    const token = await response.json();
-    if (!token.access_token || !Number.isFinite(token.expires_in)) throw new Error('spotify_invalid_token');
-    accessToken = token.access_token;
-    tokenExpiresAt = Date.now() + Math.max(0, token.expires_in - 60) * 1000;
-  }
-
-  const response = await spotifyFetch('https://api.spotify.com/v1/me/player/currently-playing', {
-    headers: { Authorization: `Bearer ${accessToken}` }
-  });
-  if (response.status === 204) return { state: 'idle' };
-  if (response.status === 401) { accessToken = ''; tokenExpiresAt = 0; }
-  if (!response.ok) throw new Error('spotify_playback_failed');
-  const playback = await response.json();
-  const track = playback.item;
-  if (!track || track.type !== 'track' || !Number.isFinite(track.duration_ms) || track.duration_ms <= 0) return { state: 'idle' };
+function shape(item, { isPlaying, progressMs, playedAt }) {
   return {
-    state: playback.is_playing ? 'playing' : 'paused',
-    title: String(track.name || '').slice(0, 300),
-    artist: (track.artists || []).map(artist => artist.name).join(', ').slice(0, 300),
-    albumArt: track.album?.images?.[0]?.url || '',
-    url: track.external_urls?.spotify || '',
-    progressMs: Math.min(track.duration_ms, Math.max(0, playback.progress_ms || 0)),
-    durationMs: track.duration_ms,
-    updatedAt: Date.now()
+    configured: true,
+    isPlaying,
+    title:    item.name,
+    artist:   (item.artists || []).map(a => a.name).join(', '),
+    album:    item.album && item.album.name || '',
+    art:      artOf(item),
+    url:      item.external_urls && item.external_urls.spotify || 'https://open.spotify.com/',
+    progressMs: progressMs || 0,
+    durationMs: item.duration_ms || 0,
+    playedAt: playedAt || null
   };
 }
 
-exports.handler = async event => {
-  const headers = { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' };
-  if (event.httpMethod !== 'GET') {
-    return { statusCode: 405, headers: { ...headers, Allow: 'GET' }, body: JSON.stringify({ state: 'unavailable' }) };
+async function recent(bearer) {
+  const res = await fetch(RECENT_URL, { headers: { Authorization: 'Bearer ' + bearer } });
+  if (!res.ok) return null;
+  const j = await res.json();
+  const items = (j.items || []).filter(x => x && x.track);
+  const pick = (HIDE_EXPLICIT ? items.find(x => !x.track.explicit) : items[0]) || items[0];
+  if (!pick) return null;
+  return shape(pick.track, { isPlaying: false, progressMs: 0, playedAt: pick.played_at });
+}
+
+exports.handler = async () => {
+  const headers = {
+    'Content-Type': 'application/json',
+    'Cache-Control': 'public, max-age=20'
+  };
+
+  const { SPOTIFY_CLIENT_ID: id, SPOTIFY_CLIENT_SECRET: secret,
+          SPOTIFY_REFRESH_TOKEN: refresh } = process.env;
+  if (!id || !secret || !refresh) {
+    return { statusCode: 200, headers, body: JSON.stringify({ configured: false }) };
   }
-  if (!cached || Date.now() >= cacheExpiresAt) {
-    if (!inFlight) {
-      inFlight = getPlayback().catch(() => ({ state: 'unavailable' })).then(data => {
-        cached = data;
-        cacheExpiresAt = Date.now() + (['playing', 'paused'].includes(data.state) ? 15000 : 60000);
-      }).finally(() => { inFlight = null; });
+
+  if (cache.body && Date.now() - cache.at < CACHE_MS) {
+    return { statusCode: 200, headers, body: cache.body };
+  }
+
+  try {
+    const bearer = await accessToken(id, secret, refresh);
+
+    const res = await fetch(NOW_URL + '?market=from_token',
+      { headers: { Authorization: 'Bearer ' + bearer } });
+
+    let payload = null;
+
+    if (res.status === 200) {
+      const j = await res.json().catch(() => null);
+      const item = j && j.item;
+      if (item && item.type === 'track') {
+        // an explicit track is swapped for the most recent clean one
+        if (HIDE_EXPLICIT && item.explicit) payload = await recent(bearer);
+        else payload = shape(item, { isPlaying: !!j.is_playing, progressMs: j.progress_ms });
+      }
     }
-    await inFlight;
+    // 204 means nothing is playing; anything else unexpected falls through the same way
+    if (!payload) payload = await recent(bearer);
+    if (!payload) payload = { configured: true, isPlaying: false, idle: true };
+
+    cache = { at: Date.now(), body: JSON.stringify(payload) };
+    return { statusCode: 200, headers, body: cache.body };
+
+  } catch (err) {
+    // never surface an error into the page; the card keeps whatever it last had
+    if (cache.body) return { statusCode: 200, headers, body: cache.body };
+    return { statusCode: 200, headers,
+             body: JSON.stringify({ configured: true, isPlaying: false, idle: true }) };
   }
-  return { statusCode: 200, headers, body: JSON.stringify(cached) };
 };

@@ -11,15 +11,16 @@ const outputFile = path.join(__dirname, '..', '.env.spotify');
 
 function prompt(label, hidden = false) {
   return new Promise((resolve, reject) => {
-    const output = new Writable({ write(chunk, encoding, done) { if (!hidden) process.stdout.write(chunk); done(); } });
+    let muted = false;
+    const output = new Writable({ write(chunk, encoding, done) { if (!muted) process.stdout.write(chunk); done(); } });
     const input = readline.createInterface({ input: process.stdin, output, terminal: true });
-    process.stdout.write(label);
     input.on('SIGINT', () => { input.close(); reject(new Error('Setup cancelled.')); });
-    input.question('', answer => {
+    input.question(label, answer => {
       input.close();
       if (hidden) process.stdout.write('\n');
       resolve(answer.trim());
     });
+    muted = hidden;
   });
 }
 
@@ -77,7 +78,19 @@ async function exchangeCode(clientId, clientSecret, code) {
     body: new URLSearchParams({ grant_type: 'authorization_code', code, redirect_uri: redirectURI }).toString(),
     signal: AbortSignal.timeout(15000)
   });
-  if (!response.ok) throw new Error(`Spotify could not complete authorization (HTTP ${response.status}). Check the client ID, client secret, and exact redirect URI, then run setup again.`);
+  if (!response.ok) {
+    const details = await response.json().catch(() => ({}));
+    const explanations = {
+      invalid_client: 'Spotify rejected the app credentials. Copy the Client ID and current Client Secret from the same Spotify app, without quotes, and run setup again.',
+      invalid_grant: `Spotify rejected the authorization code. Run setup again and approve the newly opened Spotify tab promptly. Confirm the saved redirect URI is exactly ${redirectURI}.`,
+      invalid_request: 'Spotify rejected the token request. Run setup again and report this error category if it repeats.',
+      unauthorized_client: 'Spotify has not permitted this app to use the authorization flow. Check that the app has Web API access.',
+      unsupported_grant_type: 'Spotify did not accept the authorization flow. Report this error category so the helper can be checked.',
+      invalid_scope: 'Spotify did not accept the listening permission. Run setup again and approve the requested permission.'
+    };
+    const category = Object.hasOwn(explanations, details.error) ? details.error : 'unknown_error';
+    throw new Error(`Spotify authorization failed (HTTP ${response.status}; ${category}). ${explanations[category] || 'Run setup again. If this repeats, report the HTTP status and error category.'}`);
+  }
   const token = await response.json();
   if (!token.refresh_token || !String(token.scope || '').split(' ').includes('user-read-currently-playing')) {
     throw new Error('Spotify did not return the required refresh token and permission. Run setup again and approve the listening permission.');

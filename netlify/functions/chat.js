@@ -96,6 +96,14 @@ const KNOWLEDGE = [
       "Why hire Varshith: he combines statistical rigor, machine-learning judgment, and stakeholder delivery. He backs decisions with evidence and real baselines rather than a single train/test split, has a 4.0 M.S. in Statistics for model evaluation and failure-mode thinking, and has delivered enterprise tools used by VP/Sr. Director audiences with top-5% company-wide adoption."
   },
   {
+    id: "sales-ai-platform",
+    title: "Retail Demand Forecasting Platform",
+    category: "project",
+    keywords: ["sales ai", "retail demand", "forecasting platform", "azure", "databricks", "medallion", "bronze silver gold", "unity catalog", "lightgbm", "mlflow", "retrain", "container apps", "fastapi", "react dashboard", "asset bundles", "9.58%", "test wape", "self-service retraining"],
+    text:
+      "The Retail Demand Forecasting Platform is an end-to-end system Varshith shipped and deployed on Azure. It uses Bronze/Silver/Gold ingestion on Databricks, LightGBM tracked in MLflow and registered in Unity Catalog, 30-day batch inference behind FastAPI, and a React dashboard. Azure Container Apps, Azure DevOps CI/CD, and Databricks Asset Bundles handle deployment. Test WAPE is 9.58% against a seasonal-naive lag-7 benchmark; validation WAPE is 9.22%. Model promotion is gated on test WAPE so a regression cannot replace the incumbent. Forecast statistics are computed in Python and passed as structured context to the GenAI layer; free-text analytics questions use SQL-backed tool calling. The platform supports self-service retraining.",
+  },
+  {
     id: "sales-forecast",
     title: "Q4 Vehicle Sales Forecast",
     category: "project",
@@ -173,6 +181,7 @@ const INTENT_BOOSTS = {
   dashboard: ["project", "experience", "skill"],
   nmss: ["experience"],
   "sales-forecast": ["project"],
+  "sales-ai-platform": ["project", "skill"],
   "home-depot-search": ["project"],
   hallucinationbenchmark: ["project", "skill"],
   "multi-agent-research": ["project", "skill"],
@@ -194,6 +203,7 @@ const SOURCE_LABELS = {
   "best-skill": "Strongest skill",
   "hiring-strengths": "Hiring strengths",
   "sales-forecast": "Vehicle Sales Forecast",
+  "sales-ai-platform": "Retail Demand Forecasting Platform",
   "home-depot-search": "Search Relevance",
   hallucinationbenchmark: "HallucinationBenchmark",
   "multi-agent-research": "Multi-Agent Research System",
@@ -282,6 +292,7 @@ function scoreChunk(question, chunk) {
 
 function queryIntent(question) {
   const q = normalize(question);
+  if (/\b(sales ai|retail demand|forecasting platform|bronze silver gold|unity catalog|azure container|self-service retraining)\b/.test(q)) return "sales-ai-platform";
   if (/\b(hybridrag|hybrid rag|fda|compliance classifier)\b/.test(q)) return "hybridrag";
   if (/\b(multi[-\s]?agent|research system|tavily|search agent|web scraper|writer chain|critic chain|agentic ai)\b/.test(q)) return "multi-agent-research";
   if (/\b(bike demand|bike sharing|bike-share|hourly demand|gradient boosting|dvc|drift monitoring|retrain)\b/.test(q)) return "bike-demand";
